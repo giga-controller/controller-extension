@@ -6,8 +6,8 @@ export default defineConfig({
     default_locale: "en",
     description: "__MSG_extension_description__",
     name: "__MSG_extension_name__",
-    permissions: [],
+    permissions: ["tabs", "activeTab"],
   },
   modules: ["@wxt-dev/module-react", "@wxt-dev/i18n/module"],
-  srcDir: "src",
+  srcDir: "src"
 });

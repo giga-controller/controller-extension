@@ -2,8 +2,9 @@ import { Button } from "@/components/ui/button";
 
 interface BaseIntegrationProps {
   name: string;
+  url: string;
 }
-export default function BaseIntegration({ name }: BaseIntegrationProps) {
+export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
 
   const toggleIsClicked = () => {
@@ -11,7 +12,14 @@ export default function BaseIntegration({ name }: BaseIntegrationProps) {
   };
 
   const confirmCreation = () => {
-    console.log("happy");
+    // Send a message to the background script to open a new tab
+    chrome.runtime.sendMessage({ action: "navigateToUrl", url }, (response) => {
+      if (chrome.runtime.lastError) {
+        console.error('Error:', chrome.runtime.lastError);
+      } else {
+        console.log('Response:', response);
+      }
+    });
   };
 
   return (

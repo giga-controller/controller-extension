@@ -6,6 +6,7 @@ export default function LinearIntegration() {
   return (
     <BaseIntegration
       name={capitaliseFirstLetter(integrationEnum.Values.linear)}
+      url="https://console.cloud.google.com"
     />
   );
 }

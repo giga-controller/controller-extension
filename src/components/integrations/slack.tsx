@@ -6,6 +6,7 @@ export default function SlackIntegration() {
   return (
     <BaseIntegration
       name={capitaliseFirstLetter(integrationEnum.Values.slack)}
+      url="https://console.cloud.google.com"
     />
   );
 }
