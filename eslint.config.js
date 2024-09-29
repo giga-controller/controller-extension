@@ -1,6 +1,5 @@
 import antfu from "@antfu/eslint-config";
 import { FlatCompat } from "@eslint/eslintrc";
-import perfectionist from "eslint-plugin-perfectionist";
 
 const compat = new FlatCompat();
 
@@ -9,6 +8,9 @@ export default antfu(
     rules: {
       "tailwindcss/migration-from-tailwind-2": "off",
       "tailwindcss/no-custom-classname": "off",
+      "@typescript-eslint/consistent-type-imports": "off",
+      "antfu/top-level-function": "off",
+      "eslintperfectionist/sort-named-imports": "off",
     },
   },
   ...compat.config({
@@ -18,14 +20,6 @@ export default antfu(
     ],
     ignorePatterns: ["tsconfig.*"],
   }),
-
-  // perfectionist
-  {
-    rules: {
-      "import/order": "off",
-      ...perfectionist.configs["recommended-natural"].rules,
-    },
-  },
 
   // shadcn/ui
   ...compat.config({

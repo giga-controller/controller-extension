@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import googleFlow from "@/scripts/google";
 
 interface BaseIntegrationProps {
   name: string;
@@ -12,14 +13,7 @@ export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
   };
 
   const confirmCreation = () => {
-    // Send a message to the background script to open a new tab
-    chrome.runtime.sendMessage({ action: "navigateToUrl", url }, (response) => {
-      if (chrome.runtime.lastError) {
-        console.error('Error:', chrome.runtime.lastError);
-      } else {
-        console.log('Response:', response);
-      }
-    });
+    googleFlow({ url });
   };
 
   return (
