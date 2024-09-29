@@ -1,4 +1,4 @@
-# WXT Starter
+# Controller Extension
 
 Build upon amazing [wxt](wxt.dev) framework.
 
