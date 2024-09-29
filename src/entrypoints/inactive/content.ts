@@ -5,19 +5,19 @@ export default defineContentScript({
     const ui = createIntegratedUi(ctx, {
       onMount: (container) => {
         // Edit dom: Append children to the container
-        const app = document.createElement('p')
-        app.textContent = 'content script'
-        container.append(app)
+        const app = document.createElement("p");
+        app.textContent = "content script";
+        container.append(app);
 
         // Run js
         // eslint-disable-next-line no-console
-        console.log('content script')
+        console.log("content script");
       },
-      position: 'inline',
-    })
+      position: "inline",
+    });
 
-    ui.mount()
+    ui.mount();
   },
 
-  matches: ['<all_urls>'],
-})
+  matches: ["<all_urls>"],
+});

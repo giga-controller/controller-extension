@@ -1,21 +1,17 @@
-import type { AppRouter } from '@/entrypoints/background'
+import type { AppRouter } from "@/entrypoints/background";
 
-import { createTRPCReact } from '@trpc/react-query'
+import { createTRPCReact } from "@trpc/react-query";
 
-const trpcReact = createTRPCReact<AppRouter>()
+const trpcReact = createTRPCReact<AppRouter>();
 
 function App() {
-  const { data } = trpcReact.greeting.useQuery({ name: 'tRPC' })
+  const { data } = trpcReact.greeting.useQuery({ name: "tRPC" });
 
   if (!data) {
-    return null
+    return null;
   }
 
-  return (
-    <div data-testid="greeting">
-      {data.text}
-    </div>
-  )
+  return <div data-testid="greeting">{data.text}</div>;
 }
 
-export default App
+export default App;

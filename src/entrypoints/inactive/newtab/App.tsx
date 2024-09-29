@@ -1,9 +1,5 @@
 function App() {
-  return (
-    <>
-      newtab
-    </>
-  )
+  return <>newtab</>;
 }
 
-export default App
+export default App;
