@@ -1,3 +1,5 @@
-import z from "zod";
+import z from 'zod'
 
-export const backgroundScriptsEnum = z.enum(["navigateToUrl"]);
+export const backgroundScriptsEnumSchema = z.enum(['navigateToUrl', 'fillInput'])
+
+export type BackgroundScriptsEnum = z.infer<typeof backgroundScriptsEnumSchema>
