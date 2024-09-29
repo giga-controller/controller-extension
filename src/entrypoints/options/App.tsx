@@ -51,7 +51,7 @@ function App() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="w-full" type="submit">Login</Button>
+            <Button className="w-full" type="submit">Confirm</Button>
           </CardFooter>
         </form>
       </Card>
