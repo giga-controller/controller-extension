@@ -1,3 +1,3 @@
 import z from "zod";
 
-export const backgroundScriptsEnum = z.enum(["navigateToUrl"]);
+export const backgroundScriptsEnum = z.enum(["navigateToUrl", "fillInput"]);

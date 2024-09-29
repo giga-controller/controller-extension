@@ -11,12 +11,8 @@ function App() {
   const [password, setPassword] = useState(detailsState.password);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Update the persisted store
-    setDetailsState({ email, password });
-    
-    console.log('Submitted and stored:', { email, password });
+    e.preventDefault();    
+    setDetailsState({ email, password });    
   }
 
   return (
