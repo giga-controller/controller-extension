@@ -11,6 +11,7 @@ export default antfu(
       "@typescript-eslint/consistent-type-imports": "off",
       "antfu/top-level-function": "off",
       "eslintperfectionist/sort-named-imports": "off",
+      "perfectionist/sort-imports": "off",
     },
   },
   ...compat.config({
