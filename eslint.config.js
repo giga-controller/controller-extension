@@ -12,6 +12,7 @@ export default antfu(
       "antfu/top-level-function": "off",
       "eslintperfectionist/sort-named-imports": "off",
       "perfectionist/sort-imports": "off",
+      "object-shorthand": "off",
     },
   },
   ...compat.config({

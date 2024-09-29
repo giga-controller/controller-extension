@@ -4,21 +4,16 @@ export default defineContentScript({
   matches: ['<all_urls>'],
   runAt: 'document_end', // Run the content script after the page has finished loading
   main() {
-    browser.runtime.onMessage.addListener((request) => {
-      if (request.action === backgroundScriptsEnumSchema.Values.fillInput) {
+    browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+      if (message.type === backgroundScriptsEnumSchema.Values.fillInput) {
         try {
-          const { xpath, value } = request.input
+          const { classQuery, value } = message.input
 
-          // Find the element using XPath
-          const element = document.evaluate(
-            xpath,
-            document,
-            null,
-            XPathResult.FIRST_ORDERED_NODE_TYPE,
-            null,
-          ).singleNodeValue as HTMLInputElement | null
+          const element = document.querySelectorAll(classQuery)[0] as HTMLElement
 
-          if (element && (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA')) {
+          sendResponse({ class: classQuery, value: value })
+
+          if (element && element instanceof HTMLInputElement) {
             // Fill the input with the provided value
             element.value = value
 
@@ -30,7 +25,7 @@ export default defineContentScript({
             const changeEvent = new Event('change', { bubbles: true })
             element.dispatchEvent(changeEvent)
 
-            return Promise.resolve(true)
+            sendResponse({ success: true })
           }
           else {
             console.error('No matching input field found')
@@ -41,7 +36,22 @@ export default defineContentScript({
           console.error(`Error filling input: ${(error as Error).message}`)
           throw new Error(`Error filling input: ${(error as Error).message}`)
         }
+      } else if (message.type === backgroundScriptsEnumSchema.Values.clickButton) {
+        try {
+          const element = document.querySelectorAll(message.input)[0] as HTMLElement
+
+          if (element) {
+            element.click()
+          }
+
+          sendResponse({ success: true })
+        }
+        catch (error) {
+          console.error(`Error clicking button: ${(error as Error).message}`)
+          throw new Error(`Error clicking button: ${(error as Error).message}`)
+        }   
       }
-    })
+      return true
+    });
   },
 })

@@ -7,13 +7,15 @@ interface BaseIntegrationProps {
 }
 export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
+  const HARDCODED_PROJECT_NAME = "Zapier";
 
   const toggleIsClicked = () => {
     setIsClicked(!isClicked);
   };
 
   const confirmCreation = () => {
-    googleFlow({ url });
+    // AARON getProjectName();
+    googleFlow({ url: url, projectName: HARDCODED_PROJECT_NAME });
   };
 
   return (
