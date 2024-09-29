@@ -4,8 +4,8 @@ export default defineContentScript({
     matches: ['<all_urls>'],
     runAt: 'document_end', // Run the content script after the page has finished loading
     main() {
-      chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-        if (request.action === "fillInput") {
+      browser.runtime.onMessage.addListener((request) => {
+        if (request.action === backgroundScriptsEnum.Values.fillInput) {
           try {
             const { xpath, value } = request.input;
             
@@ -30,16 +30,16 @@ export default defineContentScript({
               const changeEvent = new Event('change', { bubbles: true });
               element.dispatchEvent(changeEvent);
               
-              sendResponse({ success: true, message: "Input filled successfully" });
+              return Promise.resolve(true);
             } else {
-              sendResponse({ success: false, message: "No matching input field found" });
+              console.error('No matching input field found');
+              throw new Error("No matching input field found");
             }
           } catch (error) {
-            sendResponse({ success: false, message: `Error filling input: ${(error as Error).message}` });
+            console.error(`Error filling input: ${(error as Error).message}`);
+            throw new Error(`Error filling input: ${(error as Error).message}`);
           }
         }
-        
-        return true;
       });
     },
   });
