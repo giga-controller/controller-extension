@@ -1,6 +1,6 @@
 # Controller Extension
 
-Build upon amazing [wxt](wxt.dev) framework.
+Build upon amazing [wxt](wxt.dev) framework
 
 ## Requirements
 
