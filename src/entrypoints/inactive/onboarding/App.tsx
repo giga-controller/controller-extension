@@ -1,9 +1,5 @@
 function App() {
-  return (
-    <>
-      onboarding
-    </>
-  )
+  return <>onboarding</>;
 }
 
-export default App
+export default App;

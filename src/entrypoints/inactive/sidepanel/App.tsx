@@ -1,9 +1,5 @@
 function App() {
-  return (
-    <>
-      sidepanel
-    </>
-  )
+  return <>sidepanel</>;
 }
 
-export default App
+export default App;
