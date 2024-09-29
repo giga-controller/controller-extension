@@ -5,6 +5,8 @@ interface NavigateToUrlProps {
   url: string
 }
 
+// AARON export async function getProjectName(): Promise<string> {
+
 export async function navigateToUrl({ messageType, url }: NavigateToUrlProps): Promise<boolean> {
   try {
     await browser.runtime.sendMessage({ type: messageType, input: url })
@@ -18,15 +20,31 @@ export async function navigateToUrl({ messageType, url }: NavigateToUrlProps): P
 
 interface ClickButtonProps {
     messageType: BackgroundScriptsEnum
-    xpath: string
+    classQuery: string
 }
 
-export async function clickButton({ messageType, xpath }: ClickButtonProps): Promise<boolean> {
+export async function clickButton({ messageType, classQuery }: ClickButtonProps): Promise<boolean> {
     try {
-        await browser.runtime.sendMessage({ type: messageType, input: xpath })
+        await browser.runtime.sendMessage({ type: messageType, input: classQuery })
         return true
     } catch (err: any) {
         console.error('Error clicking button:', err)
         return false
     }
+}
+
+interface FillInputProps {
+  messageType: BackgroundScriptsEnum
+  classQuery: string
+  value: string
+}
+
+export async function fillInput({ messageType, classQuery, value}: FillInputProps): Promise<boolean> {
+  try {
+    await browser.runtime.sendMessage({ type: messageType, input: { classQuery, value }});
+    return true; 
+  } catch (err: any) {
+    console.error('Error navigating to URL:', err);
+    return false;
+  }
 }

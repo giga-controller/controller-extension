@@ -8,3 +8,5 @@ export function cn(...inputs: ClassValue[]) {
 export function capitaliseFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+// AARON export function projectNameConstructor(url: string) {
