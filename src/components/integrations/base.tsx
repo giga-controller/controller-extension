@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
+import googleFlow from "@/scripts/google";
 
 interface BaseIntegrationProps {
   name: string;
+  url: string;
 }
-export default function BaseIntegration({ name }: BaseIntegrationProps) {
+export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
 
   const toggleIsClicked = () => {
@@ -11,7 +13,7 @@ export default function BaseIntegration({ name }: BaseIntegrationProps) {
   };
 
   const confirmCreation = () => {
-    console.log("happy");
+    googleFlow({ url });
   };
 
   return (

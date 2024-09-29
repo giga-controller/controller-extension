@@ -6,6 +6,7 @@ export default function GoogleIntegration() {
   return (
     <BaseIntegration
       name={capitaliseFirstLetter(integrationEnum.Values.google)}
+      url="https://console.cloud.google.com"
     />
   );
 }
