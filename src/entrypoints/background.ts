@@ -22,7 +22,6 @@ export default defineBackground(() => {
       })
     }
     else if (message.type === backgroundScriptsEnumSchema.Values.fillInput) {
-      console.log(message)
       return browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
         if (tabs[0]) {
           return browser.tabs.sendMessage(tabs[0].id!, message).then((response) => {
