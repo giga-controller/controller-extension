@@ -11,7 +11,7 @@ export type NavigateToUrlRequest = z.infer<typeof navigateToUrlRequestSchema>;
 export const clickButtonRequestSchema = z.object({
   messageType: backgroundScriptsEnumSchema,
   id: z.string().nullable().optional().default(null),
-  classQuery: z.string().nullable().optional().default(null)
+  classQuery: z.string().nullable().optional().default(null),
 });
 
 export type ClickButtonRequest = z.infer<typeof clickButtonRequestSchema>;

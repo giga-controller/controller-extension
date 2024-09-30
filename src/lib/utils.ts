@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -18,22 +18,21 @@ export function lowercaseFirstLetter(string: string) {
 
 export function constructClassQuery(classQuery: string) {
   // replace all empty spaces with a . and add a . at the beginning
-  return '.' + classQuery.replaceAll(' ', '.')
+  return "." + classQuery.replaceAll(" ", ".");
 }
 
-
 export function getProjectId(projectName: string): string {
-  let uuid = uuidv4().replace(/-/g, '');
+  let uuid = uuidv4().replace(/-/g, "");
   /**
    * Project id must start with a lowercase letter and ends with a letter or number, and be between 6 and 30 characters long.
-   * Project ID can have lowercase letters, digits or 
+   * Project ID can have lowercase letters, digits or
    **/
   const generateUuid = (): string => {
-    let uuid = uuidv4().replace(/-/g, '');
+    let uuid = uuidv4().replace(/-/g, "");
     // Ensure the first character is a lowercase letter
-    uuid = 'a' + uuid.slice(1);
+    uuid = "a" + uuid.slice(1);
     // Ensure the last character is a lowercase letter or digit
-    uuid = uuid.slice(0, -1) + 'z';
+    uuid = uuid.slice(0, -1) + "z";
     // Ensure the length is between 6 and 30 characters
     return uuid.slice(0, 30);
   };

@@ -37,11 +37,8 @@ export default defineContentScript({
           if (id) {
             element = document.getElementById(id) as HTMLElement;
           } else if (classQuery) {
-            element = document.querySelectorAll(
-              classQuery,
-            )[0] as HTMLElement;
+            element = document.querySelectorAll(classQuery)[0] as HTMLElement;
           }
-          
 
           if (element) {
             element.click();
