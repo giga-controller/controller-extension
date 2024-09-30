@@ -9,5 +9,5 @@ export default defineConfig({
     permissions: ["tabs", "activeTab"],
   },
   modules: ["@wxt-dev/module-react", "@wxt-dev/i18n/module"],
-  srcDir: "src"
+  srcDir: "src",
 });

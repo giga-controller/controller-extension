@@ -1,50 +1,51 @@
-import { backgroundScriptsEnumSchema } from '@/types/background'
+import { backgroundScriptsEnumSchema } from "@/types/background";
 
 export default defineContentScript({
-  matches: ['<all_urls>'],
-  runAt: 'document_end', // Run the content script after the page has finished loading
+  matches: ["<all_urls>"],
+  runAt: "document_end", // Run the content script after the page has finished loading
   main() {
     browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (message.type === backgroundScriptsEnumSchema.Values.fillInput) {
         try {
-          const { id, value } = message.input
+          const { id, value } = message.input;
 
-          const element = document.getElementById(id)        
+          const element = document.getElementById(id);
 
           if (element && element instanceof HTMLInputElement) {
-            element.value = value
-            const inputEvent = new Event('input', { bubbles: true })
-            element.dispatchEvent(inputEvent)
-            const changeEvent = new Event('change', { bubbles: true })
-            element.dispatchEvent(changeEvent)
+            element.value = value;
+            const inputEvent = new Event("input", { bubbles: true });
+            element.dispatchEvent(inputEvent);
+            const changeEvent = new Event("change", { bubbles: true });
+            element.dispatchEvent(changeEvent);
 
-            sendResponse({ success: true })
+            sendResponse({ success: true });
+          } else {
+            console.error("No matching input field found");
+            throw new Error("No matching input field found");
           }
-          else {
-            console.error('No matching input field found')
-            throw new Error('No matching input field found')
-          }
+        } catch (error) {
+          console.error(`Error filling input: ${(error as Error).message}`);
+          throw new Error(`Error filling input: ${(error as Error).message}`);
         }
-        catch (error) {
-          console.error(`Error filling input: ${(error as Error).message}`)
-          throw new Error(`Error filling input: ${(error as Error).message}`)
-        }
-      } else if (message.type === backgroundScriptsEnumSchema.Values.clickButton) {
+      } else if (
+        message.type === backgroundScriptsEnumSchema.Values.clickButton
+      ) {
         try {
-          const element = document.querySelectorAll(message.input)[0] as HTMLElement
+          const element = document.querySelectorAll(
+            message.input,
+          )[0] as HTMLElement;
 
           if (element) {
-            element.click()
+            element.click();
           }
 
-          sendResponse({ success: true })
+          sendResponse({ success: true });
+        } catch (error) {
+          console.error(`Error clicking button: ${(error as Error).message}`);
+          throw new Error(`Error clicking button: ${(error as Error).message}`);
         }
-        catch (error) {
-          console.error(`Error clicking button: ${(error as Error).message}`)
-          throw new Error(`Error clicking button: ${(error as Error).message}`)
-        }   
       }
-      return true
+      return true;
     });
   },
-})
+});

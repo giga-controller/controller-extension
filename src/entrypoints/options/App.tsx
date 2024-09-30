@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useDetailsStore } from '@/types/store/details';
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useDetailsStore } from "@/types/store/details";
 
 function App() {
   const { detailsState, setDetailsState } = useDetailsStore();
@@ -11,9 +17,9 @@ function App() {
   const [password, setPassword] = useState(detailsState.password);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();    
-    setDetailsState({ email, password });    
-  }
+    e.preventDefault();
+    setDetailsState({ email, password });
+  };
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -47,12 +53,14 @@ function App() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="w-full" type="submit">Confirm</Button>
+            <Button className="w-full" type="submit">
+              Confirm
+            </Button>
           </CardFooter>
         </form>
       </Card>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
