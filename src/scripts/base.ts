@@ -1,13 +1,9 @@
-import { BackgroundScriptsEnum } from '@/types/background'
+import { ClickButtonRequest, FillInputRequest, NavigateToUrlRequest } from '@/types/scripts/base'
 
-interface NavigateToUrlProps {
-  messageType: BackgroundScriptsEnum
-  url: string
-}
 
 // AARON export async function getProjectName(): Promise<string> {
 
-export async function navigateToUrl({ messageType, url }: NavigateToUrlProps): Promise<boolean> {
+export async function navigateToUrl({ messageType, url }: NavigateToUrlRequest): Promise<boolean> {
   try {
     await browser.runtime.sendMessage({ type: messageType, input: url })
     return true
@@ -18,33 +14,24 @@ export async function navigateToUrl({ messageType, url }: NavigateToUrlProps): P
   }
 }
 
-interface ClickButtonProps {
-    messageType: BackgroundScriptsEnum
-    classQuery: string
-}
-
-export async function clickButton({ messageType, classQuery }: ClickButtonProps): Promise<boolean> {
-    try {
-        await browser.runtime.sendMessage({ type: messageType, input: classQuery })
-        return true
-    } catch (err: any) {
-        console.error('Error clicking button:', err)
-        return false
-    }
-}
-
-interface FillInputProps {
-  messageType: BackgroundScriptsEnum
-  classQuery: string
-  value: string
-}
-
-export async function fillInput({ messageType, classQuery, value}: FillInputProps): Promise<boolean> {
+export async function clickButton({ messageType, classQuery }: ClickButtonRequest): Promise<boolean> {
   try {
-    await browser.runtime.sendMessage({ type: messageType, input: { classQuery, value }});
-    return true; 
-  } catch (err: any) {
-    console.error('Error navigating to URL:', err);
-    return false;
+    await browser.runtime.sendMessage({ type: messageType, input: classQuery })
+    return true
+  }
+  catch (err: any) {
+    console.error('Error clicking button:', err)
+    return false
+  }
+}
+
+export async function fillInput({ messageType, id, value }: FillInputRequest): Promise<boolean> {
+  try {
+    await browser.runtime.sendMessage({ type: messageType, input: { id, value } })
+    return true
+  }
+  catch (err: any) {
+    console.error('Error navigating to URL:', err)
+    return false
   }
 }

@@ -7,21 +7,14 @@ export default defineContentScript({
     browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (message.type === backgroundScriptsEnumSchema.Values.fillInput) {
         try {
-          const { classQuery, value } = message.input
+          const { id, value } = message.input
 
-          const element = document.querySelectorAll(classQuery)[0] as HTMLElement
-
-          sendResponse({ class: classQuery, value: value })
+          const element = document.getElementById(id)        
 
           if (element && element instanceof HTMLInputElement) {
-            // Fill the input with the provided value
             element.value = value
-
-            // Trigger input event to simulate user input
             const inputEvent = new Event('input', { bubbles: true })
             element.dispatchEvent(inputEvent)
-
-            // Trigger change event
             const changeEvent = new Event('change', { bubbles: true })
             element.dispatchEvent(changeEvent)
 
