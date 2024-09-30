@@ -18,13 +18,13 @@ export default async function googleFlow({
 }: GoogleFlowProps) {
   const projectId: string = getProjectId(projectName);
 
-  const navigateToUrlRequest = navigateToUrlRequestSchema.parse({
+  const navigateToGoogleConsoleRequest = navigateToUrlRequestSchema.parse({
     messageType: backgroundScriptsEnumSchema.Values.navigateToUrl,
     url: url,
   });
-  const navigateToUrlResponse = await navigateToUrl(navigateToUrlRequest);
+  const navigateToGoogleConsoleResponse = await navigateToUrl(navigateToGoogleConsoleRequest);
 
-  if (!navigateToUrlResponse) {
+  if (!navigateToGoogleConsoleResponse) {
     console.error("Error navigating to URL");
   }
 
@@ -129,7 +129,16 @@ export default async function googleFlow({
 
   await new Promise((resolve) => setTimeout(resolve, 2000));
 
-  // const OAUTH_CONSENT_SCREEN_BASE_LINK: string = "https://console.cloud.google.com/apis/credentials/consent/edit;newAppInternalUser=false?project="
+  const OAUTH_CONSENT_SCREEN_BASE_LINK: string = `https://console.cloud.google.com/apis/credentials/consent/edit;newAppInternalUser=false?project=${projectId}`
+  const navigateToOauthConsentScreenRequest = navigateToUrlRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.navigateToUrl,
+    url: OAUTH_CONSENT_SCREEN_BASE_LINK,
+  });
+  const navigateToOauthConsentScreenResponse = await navigateToUrl(navigateToOauthConsentScreenRequest);
+
+  if (!navigateToOauthConsentScreenResponse) {
+    console.error("Error navigating to URL");
+  }
 }
 
 async function getCurrentTabUrl(): Promise<string> {

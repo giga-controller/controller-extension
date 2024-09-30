@@ -34,8 +34,7 @@ export function getProjectId(projectName: string): string {
     // Ensure the last character is a lowercase letter or digit
     uuid = uuid.slice(0, -1) + "z";
     // Ensure the length is between 6 and 30 characters
-    return uuid.slice(0, 30);
+    return uuid
   };
 
-  return `${lowercaseFirstLetter(projectName)}-${generateUuid()}`;
-}
+  return `${lowercaseFirstLetter(projectName)}-${generateUuid()}`.substring(0, 30);}
