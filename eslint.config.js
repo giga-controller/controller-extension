@@ -13,6 +13,7 @@ export default antfu(
       "eslintperfectionist/sort-named-imports": "off",
       "perfectionist/sort-imports": "off",
       "object-shorthand": "off",
+      "no-console": "off",
     },
   },
   ...compat.config({

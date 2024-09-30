@@ -30,16 +30,20 @@ export default defineContentScript({
       } else if (
         message.type === backgroundScriptsEnumSchema.Values.clickButton
       ) {
+        const { id, classQuery } = message.input;
+
         try {
-          const element = document.querySelectorAll(
-            message.input,
-          )[0] as HTMLElement;
+          let element;
+          if (id) {
+            element = document.getElementById(id) as HTMLElement;
+          } else if (classQuery) {
+            element = document.querySelectorAll(classQuery)[0] as HTMLElement;
+          }
 
           if (element) {
             element.click();
+            sendResponse({ success: true, class: element.className });
           }
-
-          sendResponse({ success: true });
         } catch (error) {
           console.error(`Error clicking button: ${(error as Error).message}`);
           throw new Error(`Error clicking button: ${(error as Error).message}`);

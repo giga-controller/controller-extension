@@ -19,12 +19,16 @@ export async function navigateToUrl({
   }
 }
 
-export async function clickButton({
+export async function click({
   messageType,
+  id,
   classQuery,
 }: ClickButtonRequest): Promise<boolean> {
   try {
-    await browser.runtime.sendMessage({ type: messageType, input: classQuery });
+    await browser.runtime.sendMessage({
+      type: messageType,
+      input: { id, classQuery },
+    });
     return true;
   } catch (err: any) {
     console.error("Error clicking button:", err);
