@@ -7,7 +7,7 @@ interface BaseIntegrationProps {
 }
 export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
-  const HARDCODED_PROJECT_NAME = "Zapier";
+  const HARDCODED_PROJECT_NAME = "Aaron";
 
   const toggleIsClicked = () => {
     setIsClicked(!isClicked);

@@ -1,15 +1,19 @@
 import z from 'zod'
 import { backgroundScriptsEnumSchema } from '@/types/background'
 
-export const navigateToUrlSchema = z.object({
+export const navigateToUrlRequestSchema = z.object({
   messageType: backgroundScriptsEnumSchema,
   url: z.string(),
 })
 
-export const clickButtonSchema = z.object({
+export type NavigateToUrlRequest = z.infer<typeof navigateToUrlRequestSchema>
+
+export const clickButtonRequestSchema = z.object({
   messageType: backgroundScriptsEnumSchema,
   classQuery: z.string(),
 })
+
+export type ClickButtonRequest = z.infer<typeof clickButtonRequestSchema>
 
 export const fillInputRequestSchema = z.object({
   messageType: backgroundScriptsEnumSchema,

@@ -1,14 +1,9 @@
-import { BackgroundScriptsEnum } from '@/types/background'
-import { FillInputRequest } from '@/types/scripts/base'
+import { ClickButtonRequest, FillInputRequest, NavigateToUrlRequest } from '@/types/scripts/base'
 
-interface NavigateToUrlProps {
-  messageType: BackgroundScriptsEnum
-  url: string
-}
 
 // AARON export async function getProjectName(): Promise<string> {
 
-export async function navigateToUrl({ messageType, url }: NavigateToUrlProps): Promise<boolean> {
+export async function navigateToUrl({ messageType, url }: NavigateToUrlRequest): Promise<boolean> {
   try {
     await browser.runtime.sendMessage({ type: messageType, input: url })
     return true
@@ -19,12 +14,7 @@ export async function navigateToUrl({ messageType, url }: NavigateToUrlProps): P
   }
 }
 
-interface ClickButtonProps {
-  messageType: BackgroundScriptsEnum
-  classQuery: string
-}
-
-export async function clickButton({ messageType, classQuery }: ClickButtonProps): Promise<boolean> {
+export async function clickButton({ messageType, classQuery }: ClickButtonRequest): Promise<boolean> {
   try {
     await browser.runtime.sendMessage({ type: messageType, input: classQuery })
     return true
