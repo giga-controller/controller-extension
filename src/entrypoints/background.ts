@@ -57,10 +57,12 @@ export default defineBackground(() => {
       return browser.tabs
         .query({ active: true, currentWindow: true })
         .then((tabs) => {
+          console.log('Click request:', message)
           if (tabs[0]) {
             return browser.tabs
               .sendMessage(tabs[0].id!, message)
               .then((response) => {
+                console.log('Click response:', response)
                 return response;
               })
               .catch((error) => {
