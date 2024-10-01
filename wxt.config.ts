@@ -11,6 +11,7 @@ export default defineConfig({
       service_worker: "background.ts",
       persistent: true
     },
+    host_permissions: ["https://console.cloud.google.com/*", "http://localhost:3000/*"],
   },
   modules: ["@wxt-dev/module-react", "@wxt-dev/i18n/module"],
   srcDir: "src",
