@@ -29,152 +29,152 @@ export default async function googleFlow({
   });
   await navigateToUrl(navigateToGoogleConsoleRequest);
 
-  // const PROJECT_DROPDOWN_BUTTON_CLASS_QUERY: string = constructClassQuery(
-  //   "mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button",
-  // );
+  const PROJECT_DROPDOWN_BUTTON_CLASS_QUERY: string = constructClassQuery(
+    "mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button",
+  );
   
-  // const clickProjectDropdownButtonRequest = clickButtonRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.clickButton,
-  //   classQuery: PROJECT_DROPDOWN_BUTTON_CLASS_QUERY,
-  // });
-  // await click(clickProjectDropdownButtonRequest);
+  const clickProjectDropdownButtonRequest = clickButtonRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.clickButton,
+    classQuery: PROJECT_DROPDOWN_BUTTON_CLASS_QUERY,
+  });
+  await click(clickProjectDropdownButtonRequest);
 
-  // const NEW_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
-  //   "mdc-button mat-mdc-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
-  // );
-  // const clickNewProjectButtonRequest = clickButtonRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.clickButton,
-  //   id: null,
-  //   classQuery: NEW_PROJECT_BUTTON_CLASS_QUERY,
-  // });
-  // await click(clickNewProjectButtonRequest);
+  const NEW_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
+    "mdc-button mat-mdc-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
+  );
+  const clickNewProjectButtonRequest = clickButtonRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.clickButton,
+    id: null,
+    classQuery: NEW_PROJECT_BUTTON_CLASS_QUERY,
+  });
+  await click(clickNewProjectButtonRequest);
 
-  // const PROJECT_NAME_INPUT_ID: string = "p6ntest-name-input";
-  // const fillProjectNameInputRequest = fillInputRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.fillInput,
-  //   id: PROJECT_NAME_INPUT_ID,
-  //   classQuery: null,
-  //   value: projectName,
-  // });
-  // await fillInput(fillProjectNameInputRequest);
+  const PROJECT_NAME_INPUT_ID: string = "p6ntest-name-input";
+  const fillProjectNameInputRequest = fillInputRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.fillInput,
+    id: PROJECT_NAME_INPUT_ID,
+    classQuery: null,
+    value: projectName,
+  });
+  await fillInput(fillProjectNameInputRequest);
 
 
-  // const EDIT_PROJECT_ID_BUTTON_ID: string = "p6ntest-show-edit-proj-id";
-  // const editProjectIdButtonRequest = clickButtonRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.clickButton,
-  //   id: EDIT_PROJECT_ID_BUTTON_ID,
-  //   classQuery: null,
-  // });
-  // await click(editProjectIdButtonRequest);
+  const EDIT_PROJECT_ID_BUTTON_ID: string = "p6ntest-show-edit-proj-id";
+  const editProjectIdButtonRequest = clickButtonRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.clickButton,
+    id: EDIT_PROJECT_ID_BUTTON_ID,
+    classQuery: null,
+  });
+  await click(editProjectIdButtonRequest);
 
-  // const PROJECT_ID_INPUT_ID: string = "p6ntest-id-input";
-  // const fillProjectIdInputRequest = fillInputRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.fillInput,
-  //   id: PROJECT_ID_INPUT_ID,
-  //   classQuery: null,
-  //   value: projectId,
-  // });
-  // await fillInput(fillProjectIdInputRequest);
+  const PROJECT_ID_INPUT_ID: string = "p6ntest-id-input";
+  const fillProjectIdInputRequest = fillInputRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.fillInput,
+    id: PROJECT_ID_INPUT_ID,
+    classQuery: null,
+    value: projectId,
+  });
+  await fillInput(fillProjectIdInputRequest);
 
-  // const CREATE_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
-  //   "projtest-create-form-submit mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
-  // );
-  // const clickCreateProjectButtonRequest = clickButtonRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.clickButton,
-  //   id: null,
-  //   classQuery: CREATE_PROJECT_BUTTON_CLASS_QUERY,
-  // });
-  // await click(clickCreateProjectButtonRequest);
+  const CREATE_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
+    "projtest-create-form-submit mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
+  );
+  const clickCreateProjectButtonRequest = clickButtonRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.clickButton,
+    id: null,
+    classQuery: CREATE_PROJECT_BUTTON_CLASS_QUERY,
+  });
+  await click(clickCreateProjectButtonRequest);
 
-  // const OAUTH_CONSENT_SCREEN_LINK: string = `https://console.cloud.google.com/apis/credentials/consent/edit;newAppInternalUser=false?project=${projectId}`
-  // const navigateToOauthConsentScreenRequest = navigateToUrlRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.navigateToUrl,
-  //   url: OAUTH_CONSENT_SCREEN_LINK,
-  // });
-  // await navigateToUrl(navigateToOauthConsentScreenRequest);
+  const OAUTH_CONSENT_SCREEN_LINK: string = `https://console.cloud.google.com/apis/credentials/consent/edit;newAppInternalUser=false?project=${projectId}`
+  const navigateToOauthConsentScreenRequest = navigateToUrlRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.navigateToUrl,
+    url: OAUTH_CONSENT_SCREEN_LINK,
+  });
+  await navigateToUrl(navigateToOauthConsentScreenRequest);
 
-  // const APP_NAME_INPUT_CLASS_QUERY: string = constructClassQuery("cm-input mat-mdc-input-element ng-pristine gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input");
-  // const fillAppNameInputRequest = fillInputRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.fillInput,
-  //   id: null,
-  //   classQuery: APP_NAME_INPUT_CLASS_QUERY,
-  //   value: projectName,
-  // });
-  // await fillInput(fillAppNameInputRequest);
+  const APP_NAME_INPUT_CLASS_QUERY: string = constructClassQuery("cm-input mat-mdc-input-element ng-pristine gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input");
+  const fillAppNameInputRequest = fillInputRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.fillInput,
+    id: null,
+    classQuery: APP_NAME_INPUT_CLASS_QUERY,
+    value: projectName,
+  });
+  await fillInput(fillAppNameInputRequest);
 
-  // const USER_SUPPORT_EMAIL_DROPDOWN_ID: string = "_0rif_mat-mdc-form-field-label-2"
-  // const clickUserSupportEmailDropdownRequest = clickButtonRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.clickButton,
-  //   id: USER_SUPPORT_EMAIL_DROPDOWN_ID,
-  //   classQuery: null,
-  // });
-  // await click(clickUserSupportEmailDropdownRequest);
+  const USER_SUPPORT_EMAIL_DROPDOWN_ID: string = "_0rif_mat-mdc-form-field-label-2"
+  const clickUserSupportEmailDropdownRequest = clickButtonRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.clickButton,
+    id: USER_SUPPORT_EMAIL_DROPDOWN_ID,
+    classQuery: null,
+  });
+  await click(clickUserSupportEmailDropdownRequest);
 
-  // const USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY: string = constructClassQuery("mat-mdc-option mdc-list-item ng-star-inserted")
-  // const clickUserSupportEmailSelectionRequest = clickButtonRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.clickButton,
-  //   id: null,
-  //   classQuery: USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY,
-  // });
-  // await click(clickUserSupportEmailSelectionRequest);
+  const USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY: string = constructClassQuery("mat-mdc-option mdc-list-item ng-star-inserted")
+  const clickUserSupportEmailSelectionRequest = clickButtonRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.clickButton,
+    id: null,
+    classQuery: USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY,
+  });
+  await click(clickUserSupportEmailSelectionRequest);
 
-  // const USER_SUPPORT_EMAIL_ID: string = "_0rif_cfc-select-0-select-value"
-  // const retrieveUserSupportEmailSelectionRequest = retrieveRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.retrieve,
-  //   id: USER_SUPPORT_EMAIL_ID,
-  //   classQuery: null,
-  // })
-  // const email: string = await retrieve(retrieveUserSupportEmailSelectionRequest);
+  const USER_SUPPORT_EMAIL_ID: string = "_0rif_cfc-select-0-select-value"
+  const retrieveUserSupportEmailSelectionRequest = retrieveRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.retrieve,
+    id: USER_SUPPORT_EMAIL_ID,
+    classQuery: null,
+  })
+  const email: string = await retrieve(retrieveUserSupportEmailSelectionRequest);
 
-  // const DEVELOPER_CONTACT_EMAIL_CLASS_QUERY: string = constructClassQuery("mat-mdc-chip-input mat-mdc-input-element mdc-text-field__input mat-input-element mat-mdc-form-field-input-control")
-  // const fillDeveloperContactEmailInputRequest = fillInputRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.fillInput,
-  //   id: null,
-  //   classQuery: DEVELOPER_CONTACT_EMAIL_CLASS_QUERY,
-  //   value: email,
-  // });
-  // await fillInput(fillDeveloperContactEmailInputRequest);
+  const DEVELOPER_CONTACT_EMAIL_CLASS_QUERY: string = constructClassQuery("mat-mdc-chip-input mat-mdc-input-element mdc-text-field__input mat-input-element mat-mdc-form-field-input-control")
+  const fillDeveloperContactEmailInputRequest = fillInputRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.fillInput,
+    id: null,
+    classQuery: DEVELOPER_CONTACT_EMAIL_CLASS_QUERY,
+    value: email,
+  });
+  await fillInput(fillDeveloperContactEmailInputRequest);
 
-  // const SAVE_AND_CONTINUE_BUTTON_CLASS_QUERY: string = constructClassQuery("cfc-stepper-step-button cfc-stepper-step-continue-button mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted")
-  // const clickSaveAndContinueButtonRequest = clickButtonRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.clickButton,
-  //   id: null,
-  //   classQuery: SAVE_AND_CONTINUE_BUTTON_CLASS_QUERY,
-  // });
-  // await click(clickSaveAndContinueButtonRequest);
+  const SAVE_AND_CONTINUE_BUTTON_CLASS_QUERY: string = constructClassQuery("cfc-stepper-step-button cfc-stepper-step-continue-button mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted")
+  const clickSaveAndContinueButtonRequest = clickButtonRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.clickButton,
+    id: null,
+    classQuery: SAVE_AND_CONTINUE_BUTTON_CLASS_QUERY,
+  });
+  await click(clickSaveAndContinueButtonRequest);
 
-  // // Skip Scopes section
-  // await click(clickSaveAndContinueButtonRequest);
+  // Skip Scopes section
+  await click(clickSaveAndContinueButtonRequest);
 
-  // const ADD_USERS_BUTTON_CLASS_QUERY: string = constructClassQuery("cfc-space-above-minus-3 cfc-space-below-plus-2 mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted")
-  // const clickAddUsersButtonRequest = clickButtonRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.clickButton,
-  //   id: null,
-  //   classQuery: ADD_USERS_BUTTON_CLASS_QUERY
-  // });
-  // await click(clickAddUsersButtonRequest);
+  const ADD_USERS_BUTTON_CLASS_QUERY: string = constructClassQuery("cfc-space-above-minus-3 cfc-space-below-plus-2 mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted")
+  const clickAddUsersButtonRequest = clickButtonRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.clickButton,
+    id: null,
+    classQuery: ADD_USERS_BUTTON_CLASS_QUERY
+  });
+  await click(clickAddUsersButtonRequest);
 
-  // const ADD_USERS_INPUT_ID: string = "_0rif_mat-mdc-chip-list-input-1"
-  // const fillAddUsersInputRequest = fillInputRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.fillInput,
-  //   // value: "aarontanzb@gmail.com",
-  //   value: email,
-  //   id: ADD_USERS_INPUT_ID,
-  //   classQuery: null,
-  //   ariaLabel: null,
-  //   index: 0
-  // });
-  // await fillInput(fillAddUsersInputRequest);
+  const ADD_USERS_INPUT_ID: string = "_0rif_mat-mdc-chip-list-input-1"
+  const fillAddUsersInputRequest = fillInputRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.fillInput,
+    // value: "aarontanzb@gmail.com",
+    value: email,
+    id: ADD_USERS_INPUT_ID,
+    classQuery: null,
+    ariaLabel: null,
+    index: 0
+  });
+  await fillInput(fillAddUsersInputRequest);
 
-  // const ADD_TESTING_USERS_BUTTON_CLASS_QUERY: string = constructClassQuery("mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button")
-  // const clickAddTestingUsersButtonRequest = clickButtonRequestSchema.parse({
-  //   messageType: backgroundScriptsEnumSchema.Values.clickButton,
-  //   id: null,
-  //   classQuery: ADD_TESTING_USERS_BUTTON_CLASS_QUERY
-  // });
-  // await click(clickAddTestingUsersButtonRequest);
+  const ADD_TESTING_USERS_BUTTON_CLASS_QUERY: string = constructClassQuery("mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button")
+  const clickAddTestingUsersButtonRequest = clickButtonRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.clickButton,
+    id: null,
+    classQuery: ADD_TESTING_USERS_BUTTON_CLASS_QUERY
+  });
+  await click(clickAddTestingUsersButtonRequest);
 
-  // await click(clickSaveAndContinueButtonRequest);
+  await click(clickSaveAndContinueButtonRequest);
 
   const OAUTH_CLIENT_ID_LINK: string = `https://console.cloud.google.com/apis/credentials/oauthclient?previousPage=%2Fapis%2Fcredentials%3Fproject%3D${projectId}&project=${projectId}`
   const navigateToOauthClientIdRequest = navigateToUrlRequestSchema.parse({
