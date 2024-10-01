@@ -7,9 +7,10 @@ export default defineBackground(() => {
         .query({ active: true, currentWindow: true })
         .then((tabs) => {
           if (tabs[0]) {
-            browser.tabs
+            return browser.tabs
               .update(tabs[0].id!, { url: message.input })
               .then((response) => {
+                console.log("Navigate to URL response:", response);
                 return response;
               })
               .catch((error) => {
@@ -33,6 +34,7 @@ export default defineBackground(() => {
             return browser.tabs
               .sendMessage(tabs[0].id!, message)
               .then((response) => {
+                console.log("Fill input response:", response);
                 return response;
               })
               .catch((error) => {
@@ -50,6 +52,33 @@ export default defineBackground(() => {
         .catch((error) => {
           console.error("Error invoking fillInput:", error);
           throw new Error("Error invoking fillInput");
+        });
+    } else if (message.type === backgroundScriptsEnumSchema.Values.retrieve) {
+      return browser.tabs
+        .query({ active: true, currentWindow: true })
+        .then((tabs) => {
+          if (tabs[0]) {
+            return browser.tabs
+              .sendMessage(tabs[0].id!, message)
+              .then((response) => {
+                console.log("Retrieve response:", response);
+                return response.value;
+              })
+              .catch((error) => {
+                console.error(
+                  "Error sending message to content script:",
+                  error,
+                );
+                throw new Error("Error sending message to content script");
+              });
+          } else {
+            console.error("No active tab found");
+            throw new Error("No active tab found");
+          }
+        })
+        .catch((error) => {
+          console.error("Error invoking retrieve:", error);
+          throw new Error("Error invoking retrieve");
         });
     } else if (
       message.type === backgroundScriptsEnumSchema.Values.clickButton

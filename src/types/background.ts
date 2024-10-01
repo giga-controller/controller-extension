@@ -4,6 +4,7 @@ export const backgroundScriptsEnumSchema = z.enum([
   "navigateToUrl",
   "fillInput",
   "clickButton",
+  "retrieve",
   "getProjectName",
 ]);
 

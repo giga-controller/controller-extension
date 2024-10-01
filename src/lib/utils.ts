@@ -37,4 +37,4 @@ export function getProjectId(projectName: string): string {
     return uuid
   };
 
-  return `${lowercaseFirstLetter(projectName)}-${generateUuid()}`.substring(0, 30);}
+  return `${projectName.toLowerCase()}-${generateUuid()}`.substring(0, 30);}

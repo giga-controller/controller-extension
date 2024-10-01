@@ -7,7 +7,9 @@ interface BaseIntegrationProps {
 }
 export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
-  const HARDCODED_PROJECT_NAME = "Aaron";
+  const HARDCODED_PROJECT_NAME = "UseController";
+  const HARDCODED_ORIGIN_URI = "http://localhost:3000";
+  const HARDCODED_REDIRECT_URI = "http://localhost:3000/callback";
 
   const toggleIsClicked = () => {
     setIsClicked(!isClicked);
@@ -15,7 +17,7 @@ export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
 
   const confirmCreation = () => {
     // AARON getProjectName();
-    googleFlow({ url: url, projectName: HARDCODED_PROJECT_NAME });
+    googleFlow({ url: url, projectName: HARDCODED_PROJECT_NAME, originUri: HARDCODED_ORIGIN_URI, redirectUri: HARDCODED_REDIRECT_URI });
   };
 
   return (

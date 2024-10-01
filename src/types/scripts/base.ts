@@ -12,15 +12,26 @@ export const clickButtonRequestSchema = z.object({
   messageType: backgroundScriptsEnumSchema,
   id: z.string().nullable().optional().default(null),
   classQuery: z.string().nullable().optional().default(null),
+  index: z.number().nullable().optional().default(0),
 });
 
 export type ClickButtonRequest = z.infer<typeof clickButtonRequestSchema>;
 
 export const fillInputRequestSchema = z.object({
   messageType: backgroundScriptsEnumSchema,
+  value: z.string(),
   id: z.string().nullable().optional().default(null),
   classQuery: z.string().nullable().optional().default(null),
-  value: z.string(),
+  ariaLabel: z.string().nullable().optional().default(null),
+  index: z.number().nullable().optional().default(0),
 });
 
 export type FillInputRequest = z.infer<typeof fillInputRequestSchema>;
+
+export const retrieveRequestSchema = z.object({
+  messageType: backgroundScriptsEnumSchema,
+  id: z.string().nullable().optional().default(null),
+  classQuery: z.string().nullable().optional().default(null),
+});
+
+export type RetrieveRequest = z.infer<typeof retrieveRequestSchema>;

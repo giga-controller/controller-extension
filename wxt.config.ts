@@ -4,9 +4,13 @@ import { defineConfig } from "wxt";
 export default defineConfig({
   manifest: {
     default_locale: "en",
-    description: "__MSG_extension_description__",
-    name: "__MSG_extension_name__",
+    description: "Automates the creation of OAuth2.0 applications",
+    name: "Controller",
     permissions: ["tabs", "activeTab"],
+    background: {
+      service_worker: "background.ts",
+      persistent: true
+    },
   },
   modules: ["@wxt-dev/module-react", "@wxt-dev/i18n/module"],
   srcDir: "src",
