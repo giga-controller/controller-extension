@@ -7,9 +7,13 @@ export default defineContentScript({
     browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (message.type === backgroundScriptsEnumSchema.Values.fillInput) {
         try {
-          const { id, value } = message.input;
-
-          const element = document.getElementById(id);
+          const { id, classQuery, value } = message.input;
+          let element;
+          if (id) {
+            element = document.getElementById(id);
+          } else if (classQuery) {
+            element = document.querySelectorAll(classQuery)[0];
+          }
 
           if (element && element instanceof HTMLInputElement) {
             element.value = value;

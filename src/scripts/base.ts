@@ -39,12 +39,13 @@ export async function click({
 export async function fillInput({
   messageType,
   id,
+  classQuery,
   value,
 }: FillInputRequest): Promise<boolean> {
   try {
     await browser.runtime.sendMessage({
       type: messageType,
-      input: { id, value },
+      input: { id, classQuery,value },
     });
     return true;
   } catch (err: any) {

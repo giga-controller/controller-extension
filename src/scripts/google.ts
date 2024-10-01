@@ -75,6 +75,7 @@ export default async function googleFlow({
   const fillProjectNameInputRequest = fillInputRequestSchema.parse({
     messageType: backgroundScriptsEnumSchema.Values.fillInput,
     id: PROJECT_NAME_INPUT_ID,
+    classQuery: null,
     value: projectName,
   });
   const fillProjectNameInputResponse = await fillInput(
@@ -103,6 +104,7 @@ export default async function googleFlow({
   const fillProjectIdInputRequest = fillInputRequestSchema.parse({
     messageType: backgroundScriptsEnumSchema.Values.fillInput,
     id: PROJECT_ID_INPUT_ID,
+    classQuery: null,
     value: projectId,
   });
   const fillProjectIdInputResponse = await fillInput(fillProjectIdInputRequest);
@@ -138,6 +140,58 @@ export default async function googleFlow({
 
   if (!navigateToOauthConsentScreenResponse) {
     console.error("Error navigating to URL");
+  }
+
+  const APP_NAME_INPUT_CLASS_QUERY: string = constructClassQuery("cm-input mat-mdc-input-element ng-tns-c3713537167-8 ng-pristine gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input");
+  const fillAppNameInputRequest = fillInputRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.fillInput,
+    id: null,
+    classQuery: APP_NAME_INPUT_CLASS_QUERY,
+    value: projectName,
+  });
+  const fillAppNameInputResponse = await fillInput(fillAppNameInputRequest);
+  if (!fillAppNameInputResponse) {
+    console.error("Error filling app name input");
+  }
+
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
+  const USER_SUPPORT_EMAIL_DROPDOWN_ID: string = "_0rif_mat-mdc-form-field-label-2"
+  const clickUserSupportEmailDropdownRequest = clickButtonRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.clickButton,
+    id: USER_SUPPORT_EMAIL_DROPDOWN_ID,
+    classQuery: null,
+  });
+  const clickUserSupportEmailDropdownResponse = await click(clickUserSupportEmailDropdownRequest);
+  if (!clickUserSupportEmailDropdownResponse) {
+    console.error("Error clicking user support email dropdown");
+  }
+
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
+  const USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY: string = constructClassQuery("mat-mdc-option mdc-list-item ng-star-inserted")
+  const clickUserSupportEmailSelectionRequest = clickButtonRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.clickButton,
+    id: null,
+    classQuery: USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY,
+  });
+  const clickUserSupportEmailSelectionResponse = await click(clickUserSupportEmailSelectionRequest);
+  if (!clickUserSupportEmailSelectionResponse) {
+    console.error("Error clicking user support email selection");
+  }
+
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
+  const DEVELOPER_CONTACT_EMAIL_INPUT_ID: string = "_0rif_mat-mdc-form-field-label-4"
+  const fillDeveloperContactEmailInputRequest = fillInputRequestSchema.parse({
+    messageType: backgroundScriptsEnumSchema.Values.fillInput,
+    id: DEVELOPER_CONTACT_EMAIL_INPUT_ID,
+    classQuery: null,
+    value: "TEST",
+  });
+  const fillDeveloperContactEmailInputResponse = await fillInput(fillDeveloperContactEmailInputRequest);
+  if (!fillDeveloperContactEmailInputResponse) {
+    console.error("Error filling developer contact email input");
   }
 }
 

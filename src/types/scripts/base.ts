@@ -18,7 +18,8 @@ export type ClickButtonRequest = z.infer<typeof clickButtonRequestSchema>;
 
 export const fillInputRequestSchema = z.object({
   messageType: backgroundScriptsEnumSchema,
-  id: z.string(),
+  id: z.string().nullable().optional().default(null),
+  classQuery: z.string().nullable().optional().default(null),
   value: z.string(),
 });
 
