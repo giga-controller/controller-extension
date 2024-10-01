@@ -13,8 +13,9 @@ export default defineContentScript({
           if (id) {
             element = document.getElementById(id);
           } else if (classQuery) {
-            sendResponse({ length: document.querySelectorAll(classQuery).length });
-            element = document.querySelectorAll(classQuery)[index];
+            const all_matching_elements = document.querySelectorAll(classQuery);
+            console.log(`${all_matching_elements.length} elements found`)
+            element = all_matching_elements[index];
           } else if (ariaLabel) {
             element = document.querySelectorAll(`[aria-label="${ariaLabel}"]`);
           }
@@ -56,7 +57,9 @@ export default defineContentScript({
           if (id) {
             element = document.getElementById(id) as HTMLElement;
           } else if (classQuery) {
-            element = document.querySelectorAll(classQuery)[index] as HTMLElement;
+            const all_matching_elements = document.querySelectorAll(classQuery);
+            console.log(`${all_matching_elements.length} elements found`)
+            element = all_matching_elements[index] as HTMLElement;
           }
 
           if (element) {
