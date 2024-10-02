@@ -3,9 +3,12 @@ import { backgroundScriptsEnumSchema } from "@/types/background";
 export default defineContentScript({
   matches: ["<all_urls>"],
   cssInjectionMode: 'ui',
-  runAt: "document_end", // Run the content script after the page has finished loading
-  main() {
-    browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  runAt: "document_end",
+  async main() {
+    await injectCustomScript("/injected.js", {
+      keepInDom: true,
+    });
+    browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
       if (message.type === backgroundScriptsEnumSchema.Values.fillInput) {
         try {
           const { value, id, classQuery, ariaLabel, index} = message.input;
@@ -17,7 +20,7 @@ export default defineContentScript({
             console.log(`${all_matching_elements.length} elements found`)
             element = all_matching_elements[index];
           } else if (ariaLabel) {
-            element = document.querySelectorAll(`[aria-label="${ariaLabel}"]`);
+            element = document.querySelector(`[aria-label="${ariaLabel}"]`);
           }
 
           if (element && element instanceof HTMLInputElement) {
@@ -37,10 +40,11 @@ export default defineContentScript({
               which: 13,
             });
             element.dispatchEvent(enterEvent);
-
+            console.log("Input successfully filled");
             sendResponse({ success: true });
           } else {
             console.error("No matching input field found");
+            sendResponse({ success: false });
             throw new Error("No matching input field found");
           }
         } catch (error) {
@@ -64,7 +68,8 @@ export default defineContentScript({
 
           if (element) {
             element.click();
-            sendResponse({ success: true, class: element.className });
+            console.log("Element successfully clicked");
+            sendResponse({ success: true });
           }
         } catch (error) {
           console.error(`Error clicking button: ${(error as Error).message}`);
@@ -82,8 +87,10 @@ export default defineContentScript({
             }
 
             if (element) {
+              console.log("Value successfully retrieved");
               sendResponse({ success: true, value: element.textContent });
             } else {
+              console.log("Failed to retrieve value");
               sendResponse({ success: false, value: "" });
             }
           } catch (error) {
