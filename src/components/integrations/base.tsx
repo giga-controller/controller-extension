@@ -1,5 +1,8 @@
 import { Button } from "@/components/ui/button";
-import googleFlow from "@/scripts/google";
+import { messageTypeEnumSchema } from "@/types/background";
+import { navigateToUrlRequestSchema } from "@/types/scripts/base";
+import { navigateToUrl } from "@/scripts/base";
+import { getProjectId } from "@/lib/utils";
 
 interface BaseIntegrationProps {
   name: string;
@@ -17,12 +20,18 @@ export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
 
   const confirmCreation = () => {
     // AARON getProjectName();
-    googleFlow({
+    const projectId: string = getProjectId(HARDCODED_PROJECT_NAME);
+
+    localStorage.setItem("AuthMavenProjectName", HARDCODED_PROJECT_NAME);
+    localStorage.setItem("AuthMavenOriginUri", HARDCODED_ORIGIN_URI);
+    localStorage.setItem("AuthMavenRedirectUri", HARDCODED_REDIRECT_URI);
+    localStorage.setItem("AuthMavenProjectId", projectId);
+
+    const navigateToGoogleConsoleRequest = navigateToUrlRequestSchema.parse({
+      type: messageTypeEnumSchema.Values.navigateToUrl,
       url: url,
-      projectName: HARDCODED_PROJECT_NAME,
-      originUri: HARDCODED_ORIGIN_URI,
-      redirectUri: HARDCODED_REDIRECT_URI,
     });
+    navigateToUrl(navigateToGoogleConsoleRequest);
   };
 
   return (
