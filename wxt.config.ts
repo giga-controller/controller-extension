@@ -17,6 +17,12 @@ export default defineConfig({
         js: ["/content-scripts/content.js"],
       }
     ],
+    web_accessible_resources: [
+      {
+        resources: ["injected.js"],
+        matches: ["*://*/*"],
+      },
+    ],
     host_permissions: ["https://console.cloud.google.com/*", "http://localhost:3000/*"],
   },
   modules: ["@wxt-dev/module-react", "@wxt-dev/i18n/module"],

@@ -40,7 +40,7 @@ export default async function googleFlow({
   await click(clickProjectDropdownButtonRequest);
 
   const NEW_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
-    "mdc-button mat-mdc-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
+    "purview-picker-create-project-button mdc-button mat-mdc-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
   );
   const clickNewProjectButtonRequest = clickButtonRequestSchema.parse({
     messageType: backgroundScriptsEnumSchema.Values.clickButton,
