@@ -19,7 +19,7 @@ export default defineConfig({
     ],
     web_accessible_resources: [
       {
-        resources: ["injected.js"],
+        resources: ["wxt.svg", "injected.js"],
         matches: ["*://*/*"],
       },
     ],

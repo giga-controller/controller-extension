@@ -4,10 +4,9 @@ export default defineContentScript({
   matches: ["<all_urls>"],
   cssInjectionMode: 'ui',
   runAt: "document_end",
-  async main() {
-    await injectCustomScript("/injected.js", {
-      keepInDom: true,
-    });
+  async main() {   
+    await injectCustomScript("/injected.js", { keepInDom: true });
+
     browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
       if (message.type === backgroundScriptsEnumSchema.Values.fillInput) {
         try {
@@ -97,7 +96,7 @@ export default defineContentScript({
             console.error(`Error retrieving value: ${(error as Error).message}`);
             throw new Error(`Error retrieving value: ${(error as Error).message}`);
           }
-        }
+      }
       return true;
     });
   },

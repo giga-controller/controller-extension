@@ -11,7 +11,7 @@ export default defineBackground(() => {
               .update(tabs[0].id!, { url: message.input })
               .then((response) => {
                 console.log("Navigate to URL response:", response);
-                return response;
+                return browser.tabs.sendMessage(tabs[0].id!, message);
               })
               .catch((error) => {
                 console.error("Error navigating to URL:", error);
