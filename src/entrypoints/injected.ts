@@ -1,7 +1,7 @@
 import { constructClassQuery } from "@/lib/utils";
 import { click, fillInput, navigateToUrl, retrieve } from "@/scripts/base";
 import { backgroundScriptsEnumSchema } from "@/types/background";
-import { clickButtonRequestSchema, fillInputRequestSchema, navigateToUrlRequestSchema, retrieveRequestSchema } from "@/types/scripts/base";
+import { clickButtonRequestSchema, fillInputRequestSchema, navigateToUrlRequestSchema, querySelectorSchema, retrieveRequestSchema } from "@/types/scripts/base";
 
 const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com"
 // const GOOGLE_CLOUD_BASE_URL = "https://www.google.com"
@@ -13,15 +13,12 @@ export default defineUnlistedScript(() => {
         "mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button",
         );
 
-        const clickProjectDropdownButtonRequest = {
+        const clickProjectDropdownButtonRequest = clickButtonRequestSchema.parse({
             type: backgroundScriptsEnumSchema.Values.clickButton,
-            input: {
-                id: null,
+            input: querySelectorSchema.parse({
                 classQuery: PROJECT_DROPDOWN_BUTTON_CLASS_QUERY,
-                index: 0,
-            }
-        };
-
+            }),
+        });
         window.postMessage(clickProjectDropdownButtonRequest, "*");
     }
 

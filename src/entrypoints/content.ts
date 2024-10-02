@@ -12,12 +12,27 @@ export default defineContentScript({
         if (!event.data.type) return;
     
         if (event.data.type === backgroundScriptsEnumSchema.Values.clickButton) { 
-            console.log("Click button event received");
-            const { id, classQuery, index } = event.data.input;
-            await browser.runtime.sendMessage({
-                type: backgroundScriptsEnumSchema.Values.clickButton,
-                input: event.data.input
-            });
+            console.log("Click button event received:", event.data.input);
+            const { id, classQuery, ariaLabel, index } = event.data.input;
+
+            try {
+              let element;
+              if (id) {
+                element = document.getElementById(id) as HTMLElement;
+              } else if (classQuery) {
+                const all_matching_elements = document.querySelectorAll(classQuery);
+                console.log(`${all_matching_elements.length} elements found`)
+                element = all_matching_elements[index] as HTMLElement;
+              }
+
+              if (element) {
+                element.click();
+                console.log("Element successfully clicked");
+              }
+            } catch (error) {
+              console.error(`Error clicking button: ${(error as Error).message}`);
+              throw new Error(`Error clicking button: ${(error as Error).message}`);
+            }
         }
     });
 
