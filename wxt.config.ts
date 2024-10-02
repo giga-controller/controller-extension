@@ -6,7 +6,14 @@ export default defineConfig({
     default_locale: "en",
     description: "Automates the creation of OAuth2.0 applications",
     name: "Controller",
-    permissions: ["tabs", "activeTab"],
+    permissions: [
+      "tabs", 
+      "activeTab",
+      "background",
+      "webNavigation",
+      "webRequest",
+      "webRequestBlocking"
+    ],
     background: {
       service_worker: "background.js",
       persistent: true

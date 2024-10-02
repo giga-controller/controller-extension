@@ -7,6 +7,20 @@ export default defineContentScript({
   async main() {   
     await injectCustomScript("/injected.js", { keepInDom: true });
 
+    window.addEventListener("message", async (event) => {
+        if (event.source !== window) return;
+        if (!event.data.type) return;
+    
+        if (event.data.type === backgroundScriptsEnumSchema.Values.clickButton) { 
+            console.log("Click button event received");
+            const { id, classQuery, index } = event.data.input;
+            await browser.runtime.sendMessage({
+                type: backgroundScriptsEnumSchema.Values.clickButton,
+                input: event.data.input
+            });
+        }
+    });
+
     browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
       if (message.type === backgroundScriptsEnumSchema.Values.fillInput) {
         try {
