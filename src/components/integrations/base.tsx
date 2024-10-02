@@ -1,7 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { messageTypeEnumSchema } from "@/types/background";
-import { navigateToUrlRequestSchema } from "@/types/scripts/base";
-import { navigateToUrl } from "@/scripts/base";
 import { getProjectId } from "@/lib/utils";
 
 interface BaseIntegrationProps {
@@ -28,11 +25,29 @@ export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
     localStorage.setItem("AuthMavenRedirectUri", HARDCODED_REDIRECT_URI);
     localStorage.setItem("AuthMavenProjectId", projectId);
 
-    const navigateToGoogleConsoleRequest = navigateToUrlRequestSchema.parse({
-      type: messageTypeEnumSchema.Values.navigateToUrl,
-      url: url,
+    browser.tabs
+    .query({ active: true, currentWindow: true })
+    .then(async (tabs) => {
+      if (tabs[0]) {
+        return browser.tabs
+          .update(tabs[0].id!, { url: url })
+          .then((response) => {
+            console.log("Navigate to URL response:", response);
+            return browser.tabs.sendMessage(tabs[0].id!, { input: url });
+          })
+          .catch((error) => {
+            console.error("Error navigating to URL:", error);
+            throw new Error("Error navigating to URL");
+          });
+      } else {
+        console.error("No active tab found");
+        throw new Error("No active tab found");
+      }
+    })
+    .catch((error) => {
+      console.error("Error invoking navigateToUrl:", error);
+      throw new Error("Error invoking navigateToUrl");
     });
-    navigateToUrl(navigateToGoogleConsoleRequest);
   };
 
   return (
