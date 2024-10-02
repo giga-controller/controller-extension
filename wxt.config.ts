@@ -7,22 +7,22 @@ export default defineConfig({
     description: "Automates the creation of OAuth2.0 applications",
     name: "Controller",
     permissions: [
-      "tabs", 
+      "tabs",
       "activeTab",
       "background",
       "webNavigation",
       "webRequest",
-      "webRequestBlocking"
+      "webRequestBlocking",
     ],
     background: {
       service_worker: "background.js",
-      persistent: true
+      persistent: true,
     },
     content_scripts: [
       {
         matches: ["<all_urls>"],
         js: ["/content-scripts/content.js"],
-      }
+      },
     ],
     web_accessible_resources: [
       {
@@ -30,7 +30,10 @@ export default defineConfig({
         matches: ["*://*/*"],
       },
     ],
-    host_permissions: ["https://console.cloud.google.com/*", "http://localhost:3000/*"],
+    host_permissions: [
+      "https://console.cloud.google.com/*",
+      "http://localhost:3000/*",
+    ],
   },
   modules: ["@wxt-dev/module-react", "@wxt-dev/i18n/module"],
   srcDir: "src",

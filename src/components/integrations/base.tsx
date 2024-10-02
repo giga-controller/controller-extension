@@ -17,7 +17,12 @@ export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
 
   const confirmCreation = () => {
     // AARON getProjectName();
-    googleFlow({ url: url, projectName: HARDCODED_PROJECT_NAME, originUri: HARDCODED_ORIGIN_URI, redirectUri: HARDCODED_REDIRECT_URI });
+    googleFlow({
+      url: url,
+      projectName: HARDCODED_PROJECT_NAME,
+      originUri: HARDCODED_ORIGIN_URI,
+      redirectUri: HARDCODED_REDIRECT_URI,
+    });
   };
 
   return (

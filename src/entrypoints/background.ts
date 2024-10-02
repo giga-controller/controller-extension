@@ -80,9 +80,7 @@ export default defineBackground(() => {
           console.error("Error invoking retrieve:", error);
           throw new Error("Error invoking retrieve");
         });
-    } else if (
-      message.type === messageTypeEnumSchema.Values.clickButton
-    ) {
+    } else if (message.type === messageTypeEnumSchema.Values.clickButton) {
       return browser.tabs
         .query({ active: true, currentWindow: true })
         .then((tabs) => {
@@ -110,9 +108,7 @@ export default defineBackground(() => {
           console.error("Error invoking clickButton:", error);
           throw new Error("Error invoking clickButton");
         });
-    } else if (
-      message.type === messageTypeEnumSchema.Values.getProjectName
-    ) {
+    } else if (message.type === messageTypeEnumSchema.Values.getProjectName) {
       // AARON
     }
   });

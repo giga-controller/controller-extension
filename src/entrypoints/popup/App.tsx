@@ -4,7 +4,6 @@ import SlackIntegration from "@/components/integrations/slack";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 function App() {
-  
   return (
     <ScrollArea className="min-w-[400px] max-w-[600px] flex flex-col gap-4">
       <h1 className="text-center font-bold text-2xl py-5">

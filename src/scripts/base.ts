@@ -13,7 +13,7 @@ export async function navigateToUrl({
 }: NavigateToUrlRequest) {
   try {
     await browser.runtime.sendMessage({ type: messageType, input: url });
-  
+
     while (true) {
       const currentUrl = await getCurrentTabUrl();
       if (currentUrl.startsWith(url)) {
@@ -21,7 +21,7 @@ export async function navigateToUrl({
       }
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Check every second
     }
-  
+
     await new Promise((resolve) => setTimeout(resolve, 5000));
   } catch (err: any) {
     console.error("Error navigating to URL:", err);
@@ -32,7 +32,7 @@ export async function click({
   type: messageType,
   id,
   classQuery,
-  index
+  index,
 }: ClickRequest) {
   try {
     await browser.runtime.sendMessage({
