@@ -1,5 +1,5 @@
 import {
-  ClickButtonRequest,
+  ClickRequest,
   FillInputRequest,
   NavigateToUrlRequest,
   RetrieveRequest,
@@ -8,7 +8,7 @@ import {
 // AARON export async function getProjectName(): Promise<string> {
 
 export async function navigateToUrl({
-  messageType,
+  type: messageType,
   url,
 }: NavigateToUrlRequest) {
   try {
@@ -29,11 +29,11 @@ export async function navigateToUrl({
 }
 
 export async function click({
-  messageType,
+  type: messageType,
   id,
   classQuery,
   index
-}: ClickButtonRequest) {
+}: ClickRequest) {
   try {
     await browser.runtime.sendMessage({
       type: messageType,
@@ -46,7 +46,7 @@ export async function click({
 }
 
 export async function fillInput({
-  messageType,
+  type: messageType,
   value,
   id,
   classQuery,
@@ -65,7 +65,7 @@ export async function fillInput({
 }
 
 export async function retrieve({
-  messageType,
+  type: messageType,
   id,
   classQuery,
 }: RetrieveRequest): Promise<string> {
