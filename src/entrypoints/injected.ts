@@ -1,7 +1,6 @@
 import { constructClassQuery } from '@/lib/utils'
-import { click, fillInput, navigateToUrl, retrieve } from '@/scripts/base'
 import { messageTypeEnumSchema } from '@/types/background'
-import { clickRequestSchema, fillInputRequestSchema, navigateToUrlRequestSchema, querySelectorSchema, retrieveRequestSchema } from '@/types/scripts/base'
+import { clickRequestSchema, fillInputRequestSchema, querySelectorSchema, retrieveRequestSchema } from '@/types/scripts/base'
 
 const GOOGLE_CLOUD_BASE_URL = 'https://console.cloud.google.com'
 // const GOOGLE_CLOUD_BASE_URL = "https://www.google.com"
@@ -13,167 +12,167 @@ export default defineUnlistedScript(() => {
     const redirectUri: string = localStorage.getItem('AuthMavenRedirectUri') || 'test'
     const projectName: string = localStorage.getItem('AuthMavenProjectName') || 'test'
 
-    // const PROJECT_DROPDOWN_BUTTON_CLASS_QUERY: string = constructClassQuery(
-    //   'mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button',
-    // )
+    const PROJECT_DROPDOWN_BUTTON_CLASS_QUERY: string = constructClassQuery(
+      'mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button',
+    )
 
-    // const clickProjectDropdownButtonRequest = clickRequestSchema.parse({
-    //   type: backgroundScriptsEnumSchema.Values.click,
-    //   query: querySelectorSchema.parse({
-    //     class: PROJECT_DROPDOWN_BUTTON_CLASS_QUERY,
-    //   }),
-    // })
-    // window.postMessage(clickProjectDropdownButtonRequest, '*')
+    const clickProjectDropdownButtonRequest = clickRequestSchema.parse({
+      type: messageTypeEnumSchema.Values.click,
+      query: querySelectorSchema.parse({
+        class: PROJECT_DROPDOWN_BUTTON_CLASS_QUERY,
+      }),
+    })
+    window.postMessage(clickProjectDropdownButtonRequest, '*')
 
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    // const NEW_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
-    //     "purview-picker-create-project-button mdc-button mat-mdc-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
-    // );
-    // const clickNewProjectButtonRequest = clickRequestSchema.parse({
-    //     type: backgroundScriptsEnumSchema.Values.click,
-    //     query: querySelectorSchema.parse({
-    //         class: NEW_PROJECT_BUTTON_CLASS_QUERY,
-    //     }),
-    // });
-    // window.postMessage(clickNewProjectButtonRequest, '*')
+    const NEW_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
+        "purview-picker-create-project-button mdc-button mat-mdc-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
+    );
+    const clickNewProjectButtonRequest = clickRequestSchema.parse({
+        type: messageTypeEnumSchema.Values.click,
+        query: querySelectorSchema.parse({
+            class: NEW_PROJECT_BUTTON_CLASS_QUERY,
+        }),
+    });
+    window.postMessage(clickNewProjectButtonRequest, '*')
 
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    // const PROJECT_NAME_INPUT_ID: string = "p6ntest-name-input";
+    const PROJECT_NAME_INPUT_ID: string = "p6ntest-name-input";
 
-    // const clickProjectNameInputRequest = clickRequestSchema.parse({
-    //     type: backgroundScriptsEnumSchema.Values.fillInput,
-    //     query: querySelectorSchema.parse({
-    //         id: PROJECT_NAME_INPUT_ID,
-    //     }),
-    // });
-    // window.postMessage(clickProjectNameInputRequest, '*');
+    const clickProjectNameInputRequest = clickRequestSchema.parse({
+        type: messageTypeEnumSchema.Values.fillInput,
+        query: querySelectorSchema.parse({
+            id: PROJECT_NAME_INPUT_ID,
+        }),
+    });
+    window.postMessage(clickProjectNameInputRequest, '*');
 
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    // const fillProjectNameInputRequest = fillInputRequestSchema.parse({
-    //     type: backgroundScriptsEnumSchema.Values.fillInput,
-    //     value: projectName,
-    //     query: querySelectorSchema.parse({
-    //         id: PROJECT_NAME_INPUT_ID,
-    //     }),
-    // });
-    // window.postMessage(fillProjectNameInputRequest, '*');
+    const fillProjectNameInputRequest = fillInputRequestSchema.parse({
+        type: messageTypeEnumSchema.Values.fillInput,
+        value: projectName,
+        query: querySelectorSchema.parse({
+            id: PROJECT_NAME_INPUT_ID,
+        }),
+    });
+    window.postMessage(fillProjectNameInputRequest, '*');
 
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    // const EDIT_PROJECT_ID_BUTTON_ID: string = "p6ntest-show-edit-proj-id";
-    // const editProjectIdButtonRequest = clickRequestSchema.parse({
-    //     type: backgroundScriptsEnumSchema.Values.click,
-    //     query: querySelectorSchema.parse({
-    //         id: EDIT_PROJECT_ID_BUTTON_ID,
-    //     }),
-    // });
-    // window.postMessage(editProjectIdButtonRequest, '*');
+    const EDIT_PROJECT_ID_BUTTON_ID: string = "p6ntest-show-edit-proj-id";
+    const editProjectIdButtonRequest = clickRequestSchema.parse({
+        type: messageTypeEnumSchema.Values.click,
+        query: querySelectorSchema.parse({
+            id: EDIT_PROJECT_ID_BUTTON_ID,
+        }),
+    });
+    window.postMessage(editProjectIdButtonRequest, '*');
 
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    // const PROJECT_ID_INPUT_ID: string = "p6ntest-id-input";
-    // const fillProjectIdInputRequest = fillInputRequestSchema.parse({
-    //     type: backgroundScriptsEnumSchema.Values.fillInput,
-    //     query: querySelectorSchema.parse({
-    //         id: PROJECT_ID_INPUT_ID,
-    //     }),
-    //     value: projectId,
-    // });
-    // window.postMessage(fillProjectIdInputRequest, '*');
+    const PROJECT_ID_INPUT_ID: string = "p6ntest-id-input";
+    const fillProjectIdInputRequest = fillInputRequestSchema.parse({
+        type: messageTypeEnumSchema.Values.fillInput,
+        query: querySelectorSchema.parse({
+            id: PROJECT_ID_INPUT_ID,
+        }),
+        value: projectId,
+    });
+    window.postMessage(fillProjectIdInputRequest, '*');
 
-    // await new Promise((resolve) => setTimeout(resolve, 2000)); // Check every second
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // Check every second
 
-    // const CREATE_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
-    // "projtest-create-form-submit mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
-    // );
-    // const clickCreateProjectButtonRequest = clickRequestSchema.parse({
-    // type: backgroundScriptsEnumSchema.Values.click,
-    // query: querySelectorSchema.parse({
-    //     class: CREATE_PROJECT_BUTTON_CLASS_QUERY,
-    // })
-    // });
-    // window.postMessage(clickCreateProjectButtonRequest, '*');
+    const CREATE_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
+    "projtest-create-form-submit mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
+    );
+    const clickCreateProjectButtonRequest = clickRequestSchema.parse({
+    type: messageTypeEnumSchema.Values.click,
+    query: querySelectorSchema.parse({
+        class: CREATE_PROJECT_BUTTON_CLASS_QUERY,
+    })
+    });
+    window.postMessage(clickCreateProjectButtonRequest, '*');
 
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    // const OAUTH_CONSENT_SCREEN_LINK: string = `https://console.cloud.google.com/apis/credentials/consent/edit;newAppInternalUser=false?project=${projectId}`
-    // window.location.href = OAUTH_CONSENT_SCREEN_LINK
+    const OAUTH_CONSENT_SCREEN_LINK: string = `https://console.cloud.google.com/apis/credentials/consent/edit;newAppInternalUser=false?project=${projectId}`
+    window.location.href = OAUTH_CONSENT_SCREEN_LINK
 
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    // const APP_NAME_INPUT_CLASS_QUERY: string = constructClassQuery('cm-input mat-mdc-input-element ng-pristine gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input')
-    // const fillAppNameInputRequest = fillInputRequestSchema.parse({
-    //   type: messageTypeEnumSchema.Values.fillInput,
-    //   value: projectName,
-    //   query: querySelectorSchema.parse({
-    //     class: APP_NAME_INPUT_CLASS_QUERY,
-    //   }),
-    // })
-    // window.postMessage(fillAppNameInputRequest, '*')
+    const APP_NAME_INPUT_CLASS_QUERY: string = constructClassQuery('cm-input mat-mdc-input-element ng-pristine gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input')
+    const fillAppNameInputRequest = fillInputRequestSchema.parse({
+      type: messageTypeEnumSchema.Values.fillInput,
+      value: projectName,
+      query: querySelectorSchema.parse({
+        class: APP_NAME_INPUT_CLASS_QUERY,
+      }),
+    })
+    window.postMessage(fillAppNameInputRequest, '*')
 
-    // await new Promise(resolve => setTimeout(resolve, 2000))
+    await new Promise(resolve => setTimeout(resolve, 2000))
 
-    // const USER_SUPPORT_EMAIL_DROPDOWN_ID: string = '_0rif_mat-mdc-form-field-label-2'
-    // const clickUserSupportEmailDropdownRequest = clickRequestSchema.parse({
-    //   type: messageTypeEnumSchema.Values.click,
-    //   query: querySelectorSchema.parse({
-    //     id: USER_SUPPORT_EMAIL_DROPDOWN_ID,
-    //   }),
-    // })
-    // window.postMessage(clickUserSupportEmailDropdownRequest, '*')
+    const USER_SUPPORT_EMAIL_DROPDOWN_ID: string = '_0rif_mat-mdc-form-field-label-2'
+    const clickUserSupportEmailDropdownRequest = clickRequestSchema.parse({
+      type: messageTypeEnumSchema.Values.click,
+      query: querySelectorSchema.parse({
+        id: USER_SUPPORT_EMAIL_DROPDOWN_ID,
+      }),
+    })
+    window.postMessage(clickUserSupportEmailDropdownRequest, '*')
 
-    // await new Promise(resolve => setTimeout(resolve, 2000))
+    await new Promise(resolve => setTimeout(resolve, 2000))
 
-    // const USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY: string = constructClassQuery('mat-mdc-option mdc-list-item ng-star-inserted')
-    // const clickUserSupportEmailSelectionRequest = clickRequestSchema.parse({
-    //   type: messageTypeEnumSchema.Values.click,
-    //   query: querySelectorSchema.parse({
-    //     class: USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY,
-    //   }),
-    // })
-    // window.postMessage(clickUserSupportEmailSelectionRequest, '*')
+    const USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY: string = constructClassQuery('mat-mdc-option mdc-list-item ng-star-inserted')
+    const clickUserSupportEmailSelectionRequest = clickRequestSchema.parse({
+      type: messageTypeEnumSchema.Values.click,
+      query: querySelectorSchema.parse({
+        class: USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY,
+      }),
+    })
+    window.postMessage(clickUserSupportEmailSelectionRequest, '*')
 
-    // await new Promise(resolve => setTimeout(resolve, 2000))
+    await new Promise(resolve => setTimeout(resolve, 2000))
 
-    // const USER_SUPPORT_EMAIL_ID: string = '_0rif_cfc-select-0-select-value'
-    // const retrieveUserSupportEmailSelectionRequest = retrieveRequestSchema.parse({
-    //   type: messageTypeEnumSchema.Values.retrieve,
-    //   query: querySelectorSchema.parse({
-    //     id: USER_SUPPORT_EMAIL_ID,
-    //   }),
-    // })
-    // window.postMessage(retrieveUserSupportEmailSelectionRequest, '*')
+    const USER_SUPPORT_EMAIL_ID: string = '_0rif_cfc-select-0-select-value'
+    const retrieveUserSupportEmailSelectionRequest = retrieveRequestSchema.parse({
+      type: messageTypeEnumSchema.Values.retrieve,
+      query: querySelectorSchema.parse({
+        id: USER_SUPPORT_EMAIL_ID,
+      }),
+    })
+    window.postMessage(retrieveUserSupportEmailSelectionRequest, '*')
 
-    // let email: string = "";
-    // window.addEventListener('message', (event) => {
-    //   if (event.source !== window) return
-    //   if (event.data.type === messageTypeEnumSchema.Values.retrieveResponse) {
-    //     email = event.data.value
-    //   }
-    // })
-    // await new Promise<void>(resolve => {
-    //   const interval = setInterval(() => {
-    //     if (email.length > 0) {
-    //       clearInterval(interval);
-    //       resolve();
-    //     }
-    //   }, 1000);
-    // });
+    let email: string = "";
+    window.addEventListener('message', (event) => {
+      if (event.source !== window) return
+      if (event.data.type === messageTypeEnumSchema.Values.retrieveResponse) {
+        email = event.data.value
+      }
+    })
+    await new Promise<void>(resolve => {
+      const interval = setInterval(() => {
+        if (email.length > 0) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 1000);
+    });
 
-    // const DEVELOPER_CONTACT_EMAIL_CLASS_QUERY: string = constructClassQuery('mat-mdc-chip-input mat-mdc-input-element mdc-text-field__input mat-input-element mat-mdc-form-field-input-control')
-    // const fillDeveloperContactEmailInputRequest = fillInputRequestSchema.parse({
-    //   type: messageTypeEnumSchema.Values.fillInput,
-    //   value: email,
-    //   query: querySelectorSchema.parse({
-    //     class: DEVELOPER_CONTACT_EMAIL_CLASS_QUERY,
-    //   }),
-    // })
-    // window.postMessage(fillDeveloperContactEmailInputRequest, '*')
+    const DEVELOPER_CONTACT_EMAIL_CLASS_QUERY: string = constructClassQuery('mat-mdc-chip-input mat-mdc-input-element mdc-text-field__input mat-input-element mat-mdc-form-field-input-control')
+    const fillDeveloperContactEmailInputRequest = fillInputRequestSchema.parse({
+      type: messageTypeEnumSchema.Values.fillInput,
+      value: email,
+      query: querySelectorSchema.parse({
+        class: DEVELOPER_CONTACT_EMAIL_CLASS_QUERY,
+      }),
+    })
+    window.postMessage(fillDeveloperContactEmailInputRequest, '*')
   
-    // await new Promise(resolve => setTimeout(resolve, 2000))
+    await new Promise(resolve => setTimeout(resolve, 2000))
 
     const SAVE_AND_CONTINUE_BUTTON_CLASS_QUERY: string = constructClassQuery('cfc-stepper-step-button cfc-stepper-step-continue-button mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted')
     const clickSaveAndContinueButtonRequest = clickRequestSchema.parse({
@@ -182,14 +181,14 @@ export default defineUnlistedScript(() => {
         class: SAVE_AND_CONTINUE_BUTTON_CLASS_QUERY,
       }),
     })
-    // window.postMessage(clickSaveAndContinueButtonRequest, '*')
+    window.postMessage(clickSaveAndContinueButtonRequest, '*')
   
-    // await new Promise(resolve => setTimeout(resolve, 2000))
+    await new Promise(resolve => setTimeout(resolve, 2000))
   
-    // // Skip Scopes section
-    // window.postMessage(clickSaveAndContinueButtonRequest, '*')
+    // Skip Scopes section
+    window.postMessage(clickSaveAndContinueButtonRequest, '*')
   
-    // await new Promise(resolve => setTimeout(resolve, 2000))
+    await new Promise(resolve => setTimeout(resolve, 2000))
 
 
     const ADD_USERS_BUTTON_CLASS_QUERY: string = constructClassQuery('cfc-space-above-minus-3 cfc-space-below-plus-2 mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted')
@@ -206,8 +205,7 @@ export default defineUnlistedScript(() => {
     const ADD_USERS_INPUT_ID: string = '_0rif_mat-mdc-chip-list-input-1'
     const fillAddUsersInputRequest = fillInputRequestSchema.parse({
         type: messageTypeEnumSchema.Values.fillInput,
-        // value: email,
-        value: "aarontanzb@gmail.com",
+        value: email,
         query: querySelectorSchema.parse({
         id: ADD_USERS_INPUT_ID,
         }),
