@@ -1,132 +1,130 @@
-import { backgroundScriptsEnumSchema } from "@/types/background";
+import { MessageTypeEnum, messageTypeEnumSchema } from '@/types/background'
+import { QuerySelector } from '@/types/scripts/base'
 
 export default defineContentScript({
-  matches: ["<all_urls>"],
+  matches: ['<all_urls>'],
   cssInjectionMode: 'ui',
-  runAt: "document_end",
-  async main() {   
-    await injectCustomScript("/injected.js", { keepInDom: true });
+  runAt: 'document_end',
+  async main() {
+    if ((window as any).__contentScriptInjected) return
+    (window as any).__contentScriptInjected = true
 
-    window.addEventListener("message", async (event) => {
-        if (event.source !== window) return;
-        if (!event.data.type) return;
-    
-        if (event.data.type === backgroundScriptsEnumSchema.Values.clickButton) { 
-            console.log("Click button event received:", event.data.input);
-            const { id, classQuery, ariaLabel, index } = event.data.input;
+    await injectCustomScript('/injected.js', { keepInDom: true })
 
-            try {
-              let element;
-              if (id) {
-                element = document.getElementById(id) as HTMLElement;
-              } else if (classQuery) {
-                const all_matching_elements = document.querySelectorAll(classQuery);
-                console.log(`${all_matching_elements.length} elements found`)
-                element = all_matching_elements[index] as HTMLElement;
-              }
+    window.addEventListener('message', async (event) => {
+      if (event.source !== window)
+        return
+      if (!event.data.type)
+        return
 
-              if (element) {
-                element.click();
-                console.log("Element successfully clicked");
-              }
-            } catch (error) {
-              console.error(`Error clicking button: ${(error as Error).message}`);
-              throw new Error(`Error clicking button: ${(error as Error).message}`);
-            }
-        }
-    });
+      const type: MessageTypeEnum = event.data.type
+      const query: QuerySelector = event.data.query
 
-    browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-      if (message.type === backgroundScriptsEnumSchema.Values.fillInput) {
-        try {
-          const { value, id, classQuery, ariaLabel, index} = message.input;
-          let element;
-          if (id) {
-            element = document.getElementById(id);
-          } else if (classQuery) {
-            const all_matching_elements = document.querySelectorAll(classQuery);
-            console.log(`${all_matching_elements.length} elements found`)
-            element = all_matching_elements[index];
-          } else if (ariaLabel) {
-            element = document.querySelector(`[aria-label="${ariaLabel}"]`);
-          }
-
-          if (element && element instanceof HTMLInputElement) {
-            element.value = value;
-            const inputEvent = new Event("input", { bubbles: true });
-            element.dispatchEvent(inputEvent);
-            const changeEvent = new Event("change", { bubbles: true });
-            element.dispatchEvent(changeEvent);
-
-            // Necessary for quite a few inputs
-            const enterEvent = new KeyboardEvent("keydown", {
-              bubbles: true,
-              cancelable: true,
-              key: "Enter",
-              code: "Enter",
-              keyCode: 13,
-              which: 13,
-            });
-            element.dispatchEvent(enterEvent);
-            console.log("Input successfully filled");
-            sendResponse({ success: true });
-          } else {
-            console.error("No matching input field found");
-            sendResponse({ success: false });
-            throw new Error("No matching input field found");
-          }
-        } catch (error) {
-          console.error(`Error filling input: ${(error as Error).message}`);
-          throw new Error(`Error filling input: ${(error as Error).message}`);
-        }
-      } else if (
-        message.type === backgroundScriptsEnumSchema.Values.clickButton
-      ) {
-        const { id, classQuery, index } = message.input;
+      if (type === messageTypeEnumSchema.Values.click) {
+        console.log('Click event received:', query)
 
         try {
-          let element;
-          if (id) {
-            element = document.getElementById(id) as HTMLElement;
-          } else if (classQuery) {
-            const all_matching_elements = document.querySelectorAll(classQuery);
+          let element
+          if (query.id) {
+            element = document.getElementById(query.id) as HTMLElement
+          }
+          else if (query.class) {
+            const all_matching_elements = document.querySelectorAll(query.class)
             console.log(`${all_matching_elements.length} elements found`)
-            element = all_matching_elements[index] as HTMLElement;
+            element = all_matching_elements[query.index || 0] as HTMLElement
+          }
+          else if (query.ariaLabel) {
+            element = document.querySelector(`[aria-label="${query.ariaLabel}"]`) as HTMLElement
           }
 
           if (element) {
-            element.click();
-            console.log("Element successfully clicked");
-            sendResponse({ success: true });
+            element.click()
+            console.log('Element successfully clicked')
           }
-        } catch (error) {
-          console.error(`Error clicking button: ${(error as Error).message}`);
-          throw new Error(`Error clicking button: ${(error as Error).message}`);
         }
-      } else if (message.type === backgroundScriptsEnumSchema.Values.retrieve) {
-          const { id, classQuery } = message.input;
-
-          try {
-            let element;
-            if (id) {
-              element = document.getElementById(id) as HTMLElement;
-            } else if (classQuery) {
-              element = document.querySelectorAll(classQuery)[0] as HTMLElement;
-            }
-
-            if (element) {
-              console.log("Value successfully retrieved");
-              sendResponse({ success: true, value: element.textContent });
-            } else {
-              console.log("Failed to retrieve value");
-              sendResponse({ success: false, value: "" });
-            }
-          } catch (error) {
-            console.error(`Error retrieving value: ${(error as Error).message}`);
-            throw new Error(`Error retrieving value: ${(error as Error).message}`);
-          }
+        catch (error) {
+          console.error(`Error clicking: ${(error as Error).message}`)
+          throw new Error(`Error clicking: ${(error as Error).message}`)
+        }
       }
-      return true;
-    });
+      else if (type === messageTypeEnumSchema.Values.fillInput) {
+        console.log('Fill input event received:', query)
+
+        const value: string = event.data.value
+        console.log('Value to fill:', value)
+
+        try {
+          let element
+          if (query.id) {
+            element = document.getElementById(query.id)
+          }
+          else if (query.class) {
+            const all_matching_elements = document.querySelectorAll(query.class)
+            console.log(`${all_matching_elements.length} elements found`)
+            element = all_matching_elements[query.index || 0]
+          }
+          else if (query.ariaLabel) {
+            element = document.querySelector(`[aria-label="${query.ariaLabel}"]`)
+          }
+
+          if (element && element instanceof HTMLInputElement) {
+            element.value = value
+            const inputEvent = new Event('input', { bubbles: true })
+            element.dispatchEvent(inputEvent)
+            const changeEvent = new Event('change', { bubbles: true })
+            element.dispatchEvent(changeEvent)
+
+            // Necessary for quite a few inputs
+            const enterEvent = new KeyboardEvent('keydown', {
+              bubbles: true,
+              cancelable: true,
+              key: 'Enter',
+              code: 'Enter',
+              keyCode: 13,
+              which: 13,
+            })
+            element.dispatchEvent(enterEvent)
+            console.log('Input successfully filled')
+          }
+          else {
+            console.error('No matching input field found')
+            throw new Error('No matching input field found')
+          }
+        }
+        catch (error) {
+          console.error(`Error filling input: ${(error as Error).message}`)
+          throw new Error(`Error filling input: ${(error as Error).message}`)
+        }
+      }
+      else if (type === messageTypeEnumSchema.Values.retrieve) {
+        console.log('Retrieve event received:', query)
+
+        try {
+          let element
+          if (query.id) {
+            element = document.getElementById(query.id) as HTMLElement
+          }
+          else if (query.class) {
+            element = document.querySelectorAll(query.class)[0] as HTMLElement
+          }
+          else if (query.ariaLabel) {
+            element = document.querySelector(`[aria-label="${query.ariaLabel}"]`) as HTMLElement
+          }
+
+          if (element) {
+            const value = element.textContent || (element as HTMLInputElement).value
+            console.log('Value successfully retrieved:', value)
+            window.postMessage({ type: messageTypeEnumSchema.Values.retrieveResponse, value }, '*')
+          }
+          else {
+            console.error('Failed to retrieve value')
+          }
+        }
+        catch (error) {
+          console.error(`Error retrieving value: ${(error as Error).message}`)
+          throw new Error(`Error retrieving value: ${(error as Error).message}`)
+        }
+      }
+    })
   },
-});
+})

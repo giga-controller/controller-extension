@@ -8,3 +8,4 @@ export const useDetailsStore = createPersistedStore(
   "detailsState",
   "setDetailsState",
 );
+

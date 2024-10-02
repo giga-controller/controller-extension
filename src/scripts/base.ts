@@ -1,5 +1,5 @@
 import {
-  ClickButtonRequest,
+  ClickRequest,
   FillInputRequest,
   NavigateToUrlRequest,
   RetrieveRequest,
@@ -33,7 +33,7 @@ export async function click({
   id,
   classQuery,
   index
-}: ClickButtonRequest) {
+}: ClickRequest) {
   try {
     await browser.runtime.sendMessage({
       type: messageType,

@@ -1,8 +1,8 @@
 import z from 'zod'
-import { backgroundScriptsEnumSchema } from '@/types/background'
+import { messageTypeEnumSchema } from '@/types/background'
 
 export const navigateToUrlRequestSchema = z.object({
-  type: backgroundScriptsEnumSchema,
+  type: messageTypeEnumSchema,
   url: z.string(),
 })
 
@@ -10,33 +10,31 @@ export type NavigateToUrlRequest = z.infer<typeof navigateToUrlRequestSchema>
 
 export const querySelectorSchema = z.object({
   id: z.string().nullable().optional().default(null),
-  classQuery: z.string().nullable().optional().default(null),
+  class: z.string().nullable().optional().default(null),
   ariaLabel: z.string().nullable().optional().default(null),
   index: z.number().nullable().optional().default(0),
 })
 
-export const clickButtonRequestSchema = z.object({
-  type: backgroundScriptsEnumSchema,
-  input: querySelectorSchema,
+export type QuerySelector = z.infer<typeof querySelectorSchema>
+
+export const clickRequestSchema = z.object({
+  type: messageTypeEnumSchema,
+  query: querySelectorSchema,
 })
 
-export type ClickButtonRequest = z.infer<typeof clickButtonRequestSchema>
+export type ClickRequest = z.infer<typeof clickRequestSchema>
 
 export const fillInputRequestSchema = z.object({
-  type: backgroundScriptsEnumSchema,
+  type: messageTypeEnumSchema,
   value: z.string(),
-  id: z.string().nullable().optional().default(null),
-  classQuery: z.string().nullable().optional().default(null),
-  ariaLabel: z.string().nullable().optional().default(null),
-  index: z.number().nullable().optional().default(0),
+  query: querySelectorSchema,
 })
 
 export type FillInputRequest = z.infer<typeof fillInputRequestSchema>
 
 export const retrieveRequestSchema = z.object({
-  type: backgroundScriptsEnumSchema,
-  id: z.string().nullable().optional().default(null),
-  classQuery: z.string().nullable().optional().default(null),
+  type: messageTypeEnumSchema,
+  query: querySelectorSchema,
 })
 
 export type RetrieveRequest = z.infer<typeof retrieveRequestSchema>

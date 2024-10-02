@@ -1,8 +1,8 @@
-import { backgroundScriptsEnumSchema } from "@/types/background";
+import { messageTypeEnumSchema } from "@/types/background";
 
 export default defineBackground(() => {
   browser.runtime.onMessage.addListener((message) => {
-    if (message.type === backgroundScriptsEnumSchema.Values.navigateToUrl) {
+    if (message.type === messageTypeEnumSchema.Values.navigateToUrl) {
       return browser.tabs
         .query({ active: true, currentWindow: true })
         .then((tabs) => {
@@ -26,7 +26,7 @@ export default defineBackground(() => {
           console.error("Error invoking navigateToUrl:", error);
           throw new Error("Error invoking navigateToUrl");
         });
-    } else if (message.type === backgroundScriptsEnumSchema.Values.fillInput) {
+    } else if (message.type === messageTypeEnumSchema.Values.fillInput) {
       return browser.tabs
         .query({ active: true, currentWindow: true })
         .then((tabs) => {
@@ -53,7 +53,7 @@ export default defineBackground(() => {
           console.error("Error invoking fillInput:", error);
           throw new Error("Error invoking fillInput");
         });
-    } else if (message.type === backgroundScriptsEnumSchema.Values.retrieve) {
+    } else if (message.type === messageTypeEnumSchema.Values.retrieve) {
       return browser.tabs
         .query({ active: true, currentWindow: true })
         .then((tabs) => {
@@ -81,7 +81,7 @@ export default defineBackground(() => {
           throw new Error("Error invoking retrieve");
         });
     } else if (
-      message.type === backgroundScriptsEnumSchema.Values.clickButton
+      message.type === messageTypeEnumSchema.Values.clickButton
     ) {
       return browser.tabs
         .query({ active: true, currentWindow: true })
@@ -111,7 +111,7 @@ export default defineBackground(() => {
           throw new Error("Error invoking clickButton");
         });
     } else if (
-      message.type === backgroundScriptsEnumSchema.Values.getProjectName
+      message.type === messageTypeEnumSchema.Values.getProjectName
     ) {
       // AARON
     }
