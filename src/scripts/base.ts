@@ -1,84 +1,17 @@
 import {
-  ClickRequest,
-  FillInputRequest,
   NavigateToUrlRequest,
-  RetrieveRequest,
 } from "@/types/scripts/base";
 
 // AARON export async function getProjectName(): Promise<string> {
 
 export async function navigateToUrl({
-  type: messageType,
+  type,
   url,
 }: NavigateToUrlRequest) {
   try {
-    await browser.runtime.sendMessage({ type: messageType, input: url });
-
-    while (true) {
-      const currentUrl = await getCurrentTabUrl();
-      if (currentUrl.startsWith(url)) {
-        break;
-      }
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Check every second
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await browser.runtime.sendMessage({ type: type, input: url });
   } catch (err: any) {
     console.error("Error navigating to URL:", err);
-  }
-}
-
-export async function click({
-  type: messageType,
-  id,
-  classQuery,
-  index,
-}: ClickRequest) {
-  try {
-    await browser.runtime.sendMessage({
-      type: messageType,
-      input: { id, classQuery, index },
-    });
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-  } catch (err: any) {
-    console.error("Error clicking button:", err);
-  }
-}
-
-export async function fillInput({
-  type: messageType,
-  value,
-  id,
-  classQuery,
-  ariaLabel,
-  index,
-}: FillInputRequest) {
-  try {
-    await browser.runtime.sendMessage({
-      type: messageType,
-      input: { value, id, classQuery, ariaLabel, index },
-    });
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-  } catch (err: any) {
-    console.error("Error navigating to URL:", err);
-  }
-}
-
-export async function retrieve({
-  type: messageType,
-  id,
-  classQuery,
-}: RetrieveRequest): Promise<string> {
-  try {
-    const text: string = await browser.runtime.sendMessage({
-      type: messageType,
-      input: { id, classQuery },
-    });
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    return text;
-  } catch (err: any) {
-    console.error("Error retrieving:", err);
-    return "";
   }
 }
 

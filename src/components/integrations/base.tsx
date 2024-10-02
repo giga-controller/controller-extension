@@ -8,6 +8,7 @@ interface BaseIntegrationProps {
   name: string;
   url: string;
 }
+
 export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const HARDCODED_PROJECT_NAME = "UseController";
