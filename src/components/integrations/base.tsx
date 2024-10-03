@@ -17,7 +17,6 @@ export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
 
   const confirmCreation = async () => {
     const platformDetails: PlatformDetails = await getPlatformDetails();
-    platformDetails.projectId = getProjectId(platformDetails.platform);
 
     browser.storage.local.set(
       { 

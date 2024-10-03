@@ -1,5 +1,6 @@
 import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
 import { QuerySelector } from "@/types/scripts/base";
+import { getProjectId } from "@/lib/utils";
 
 export default defineContentScript({
   matches: ["<all_urls>"],
@@ -16,7 +17,7 @@ export default defineContentScript({
         "javaScriptRedirectUri",
         "projectId"
       ]).then(async (data) => {
-
+        data.projectId = getProjectId(data.platform);
         // Inject main script
         await injectCustomScript("/injected.js", { keepInDom: true });
 

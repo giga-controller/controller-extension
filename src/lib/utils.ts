@@ -22,20 +22,31 @@ export function constructClassQuery(classQuery: string) {
 }
 
 export function getProjectId(projectName: string): string {
-  let uuid = uuidv4().replace(/-/g, "");
-  /**
-   * Project id must start with a lowercase letter and ends with a letter or number, and be between 6 and 30 characters long.
-   * Project ID can have lowercase letters, digits or
-   **/
   const generateUuid = (): string => {
     let uuid = uuidv4().replace(/-/g, "");
+    console.log("uuid", uuid);
     // Ensure the first character is a lowercase letter
-    uuid = "a" + uuid.slice(1);
+    if (!/[a-z]/.test(uuid[0])) {
+      uuid = String.fromCharCode(97 + Math.floor(Math.random() * 26)) + uuid.slice(1);
+    }
     // Ensure the last character is a lowercase letter or digit
-    uuid = uuid.slice(0, -1) + "z";
-    // Ensure the length is between 6 and 30 characters
+    if (!/[a-z0-9]/.test(uuid.slice(-1))) {
+      uuid = uuid.slice(0, -1) + (Math.random() < 0.5 ? 
+        String.fromCharCode(97 + Math.floor(Math.random() * 26)) : 
+        Math.floor(Math.random() * 10).toString());
+    }
     return uuid;
   };
 
-  return `${projectName.toLowerCase()}-${generateUuid()}`.substring(0, 30);
+  const projectNameLower = projectName.toLowerCase();
+  const uuid = generateUuid();
+  const maxLength = 30;
+  const separator = '-';
+
+  if (projectNameLower.length + separator.length >= maxLength) {
+    return projectNameLower.slice(0, maxLength);
+  }
+
+  const uuidLength = maxLength - projectNameLower.length - separator.length;
+  return `${projectNameLower}${separator}${uuid.slice(0, uuidLength)}`;
 }
