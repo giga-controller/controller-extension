@@ -18,14 +18,12 @@ export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
   const confirmCreation = async () => {
     const platformDetails: PlatformDetails = await getPlatformDetails();
 
-    browser.storage.local.set(
-      { 
-        platform: platformDetails.platform,
-        javaScriptOriginUri: platformDetails.javaScriptOriginUri,
-        javaScriptRedirectUri: platformDetails.javaScriptRedirectUri,
-        projectId: platformDetails.projectId
-      }
-    );
+    browser.storage.local.set({
+      platform: platformDetails.platform,
+      javaScriptOriginUri: platformDetails.javaScriptOriginUri,
+      javaScriptRedirectUri: platformDetails.javaScriptRedirectUri,
+      projectId: platformDetails.projectId,
+    });
 
     browser.tabs
       .query({ active: true, currentWindow: true })

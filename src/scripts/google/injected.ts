@@ -8,8 +8,11 @@ import {
   retrieveRequestSchema,
 } from "@/types/scripts/base";
 
-export const createGoogleOauth2Application = async (platformDetails: PlatformDetails) => {
-  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } = platformDetails;
+export const createGoogleOauth2Application = async (
+  platformDetails: PlatformDetails,
+) => {
+  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
+    platformDetails;
 
   const PROJECT_DROPDOWN_BUTTON_CLASS_QUERY: string = constructClassQuery(
     "mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button",

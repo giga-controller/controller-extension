@@ -25,11 +25,14 @@ export default defineUnlistedScript(() => {
 
     document.body.appendChild(button);
   };
-  
+
   let platformDetails: PlatformDetails | null = null;
 
   const initializeButton = () => {
-    if (window.location.href.includes(GOOGLE_CLOUD_BASE_URL) && platformDetails) {
+    if (
+      window.location.href.includes(GOOGLE_CLOUD_BASE_URL) &&
+      platformDetails
+    ) {
       createButton(async () => {
         if (!platformDetails) return;
         await createGoogleOauth2Application(platformDetails);
@@ -48,7 +51,6 @@ export default defineUnlistedScript(() => {
   //     console.log("Click event received:", query);
   //   }
   // });
-
 
   // Listen for the data message
   window.addEventListener("message", (event) => {

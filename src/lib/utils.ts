@@ -27,13 +27,17 @@ export function getProjectId(projectName: string): string {
     console.log("uuid", uuid);
     // Ensure the first character is a lowercase letter
     if (!/[a-z]/.test(uuid[0])) {
-      uuid = String.fromCharCode(97 + Math.floor(Math.random() * 26)) + uuid.slice(1);
+      uuid =
+        String.fromCharCode(97 + Math.floor(Math.random() * 26)) +
+        uuid.slice(1);
     }
     // Ensure the last character is a lowercase letter or digit
     if (!/[a-z0-9]/.test(uuid.slice(-1))) {
-      uuid = uuid.slice(0, -1) + (Math.random() < 0.5 ? 
-        String.fromCharCode(97 + Math.floor(Math.random() * 26)) : 
-        Math.floor(Math.random() * 10).toString());
+      uuid =
+        uuid.slice(0, -1) +
+        (Math.random() < 0.5
+          ? String.fromCharCode(97 + Math.floor(Math.random() * 26))
+          : Math.floor(Math.random() * 10).toString());
     }
     return uuid;
   };
@@ -41,7 +45,7 @@ export function getProjectId(projectName: string): string {
   const projectNameLower = projectName.toLowerCase();
   const uuid = generateUuid();
   const maxLength = 30;
-  const separator = '-';
+  const separator = "-";
 
   if (projectNameLower.length + separator.length >= maxLength) {
     return projectNameLower.slice(0, maxLength);

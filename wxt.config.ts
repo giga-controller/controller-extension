@@ -14,7 +14,7 @@ export default defineConfig({
       "webNavigation",
       "webRequest",
       "webRequestBlocking",
-      "storage"
+      "storage",
     ],
     background: {
       service_worker: "background.js",
@@ -28,7 +28,12 @@ export default defineConfig({
     ],
     web_accessible_resources: [
       {
-        resources: ['icon/*.png', 'images/*.svg','images/*.png', "injected.js"],        
+        resources: [
+          "icon/*.png",
+          "images/*.svg",
+          "images/*.png",
+          "injected.js",
+        ],
         matches: ["*://*/*"],
       },
     ],

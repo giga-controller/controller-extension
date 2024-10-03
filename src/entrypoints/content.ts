@@ -10,24 +10,28 @@ export default defineContentScript({
     if ((window as any).__contentScriptInjected) return;
     (window as any).__contentScriptInjected = true;
 
-    browser.storage.local.get(
-      [
+    browser.storage.local
+      .get([
         "platform",
         "javaScriptOriginUri",
         "javaScriptRedirectUri",
-        "projectId"
-      ]).then(async (data) => {
+        "projectId",
+      ])
+      .then(async (data) => {
         data.projectId = getProjectId(data.platform);
         // Inject main script
         await injectCustomScript("/injected.js", { keepInDom: true });
 
         setTimeout(() => {
-          window.postMessage({
-            type: messageTypeEnumSchema.Values.platformDetails,
-            data: data
-          }, '*');
+          window.postMessage(
+            {
+              type: messageTypeEnumSchema.Values.platformDetails,
+              data: data,
+            },
+            "*",
+          );
         }, 1500);
-    });
+      });
 
     window.addEventListener("message", async (event) => {
       if (event.source !== window) return;

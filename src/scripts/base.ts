@@ -1,9 +1,14 @@
-import { PlatformDetails, platformDetailsMapping, PlatformEnum, platformEnum } from "@/types/platform";
+import {
+  PlatformDetails,
+  platformDetailsMapping,
+  PlatformEnum,
+  platformEnum,
+} from "@/types/platform";
 
 // TODO: Better regex matching
-const NANGO_BASE_URL = "https://app.nango.dev/dev/integrations"
-const N8N_BASE_URL = "https://www.google.com" // Test
-const GUMLOOP_BASE_URL = "https://www.amazon.com" // Test
+const NANGO_BASE_URL = "https://app.nango.dev/dev/integrations";
+const N8N_BASE_URL = "https://www.google.com"; // Test
+const GUMLOOP_BASE_URL = "https://www.amazon.com"; // Test
 
 export async function getPlatformDetails(): Promise<PlatformDetails> {
   const currentUrl = await getCurrentTabUrl();
@@ -18,7 +23,8 @@ export async function getPlatformDetails(): Promise<PlatformDetails> {
     throw new Error("Unsupported platform");
   }
 
-  const platformDetails: PlatformDetails | undefined = platformDetailsMapping[platform]; 
+  const platformDetails: PlatformDetails | undefined =
+    platformDetailsMapping[platform];
   if (!platformDetails) {
     throw new Error("Platform details not found");
   }
