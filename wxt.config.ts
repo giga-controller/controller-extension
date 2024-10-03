@@ -5,7 +5,8 @@ export default defineConfig({
   manifest: {
     default_locale: "en",
     description: "Automates the creation of OAuth2.0 applications",
-    name: "Controller",
+    name: "Auth Maven",
+    version: "0.0.1",
     permissions: [
       "tabs",
       "activeTab",
@@ -26,7 +27,7 @@ export default defineConfig({
     ],
     web_accessible_resources: [
       {
-        resources: ["wxt.svg", "injected.js"],
+        resources: ['icon/*.png', 'images/*.svg','images/*.png', "injected.js"],        
         matches: ["*://*/*"],
       },
     ],
