@@ -14,6 +14,7 @@ export default defineConfig({
       "webNavigation",
       "webRequest",
       "webRequestBlocking",
+      "storage"
     ],
     background: {
       service_worker: "background.js",

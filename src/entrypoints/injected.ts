@@ -1,23 +1,12 @@
 import { createGoogleOauth2Application } from "@/scripts/google/injected";
 import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
+import { PlatformDetails } from "@/types/platform";
 import { QuerySelector } from "@/types/scripts/base";
 
 const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
 // const GOOGLE_CLOUD_BASE_URL = "https://www.google.com"
 
 export default defineUnlistedScript(() => {
-  window.addEventListener("message", async (event) => {
-    if (event.source !== window) return;
-    if (!event.data.type) return;
-
-    const type: MessageTypeEnum = event.data.type;
-    const query: QuerySelector = event.data.query;
-
-    if (type === messageTypeEnumSchema.Values.click) {
-      console.log("Click event received:", query);
-    }
-  });
-
   const createButton = (onClick: () => Promise<void>) => {
     const button = document.createElement("button");
     button.textContent = "Start Auth Maven";
@@ -36,8 +25,42 @@ export default defineUnlistedScript(() => {
 
     document.body.appendChild(button);
   };
+  
+  let platformDetails: PlatformDetails | null = null;
 
-  if (window.location.href.includes(GOOGLE_CLOUD_BASE_URL)) {
-    createButton(createGoogleOauth2Application);
-  }
+  const initializeButton = () => {
+    if (window.location.href.includes(GOOGLE_CLOUD_BASE_URL) && platformDetails) {
+      createButton(async () => {
+        if (!platformDetails) return;
+        await createGoogleOauth2Application(platformDetails);
+      });
+    }
+  };
+
+  // window.addEventListener("message", async (event) => {
+  //   if (event.source !== window) return;
+  //   if (!event.data.type) return;
+
+  //   const type: MessageTypeEnum = event.data.type;
+  //   const query: QuerySelector = event.data.query;
+
+  //   if (type === messageTypeEnumSchema.Values.click) {
+  //     console.log("Click event received:", query);
+  //   }
+  // });
+
+
+  // Listen for the data message
+  window.addEventListener("message", (event) => {
+    if (event.source !== window) return;
+    if (event.data.type === messageTypeEnumSchema.Values.platformDetails) {
+      platformDetails = event.data.data;
+      initializeButton();
+    }
+  });
+
+  // In case the script loads after the message has been sent
+  // if (platformDetails) {
+  //   initializeButton();
+  // }
 });

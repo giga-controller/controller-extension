@@ -17,12 +17,16 @@ export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
 
   const confirmCreation = async () => {
     const platformDetails: PlatformDetails = await getPlatformDetails();
-    const projectId: string = getProjectId(platformDetails.platform);
+    platformDetails.projectId = getProjectId(platformDetails.platform);
 
-    localStorage.setItem("AuthMavenProjectName", platformDetails.platform);
-    localStorage.setItem("AuthMavenOriginUri", platformDetails.javaScriptOriginUri);
-    localStorage.setItem("AuthMavenRedirectUri", platformDetails.javaScriptRedirectUri);
-    localStorage.setItem("AuthMavenProjectId", projectId);
+    browser.storage.local.set(
+      { 
+        platform: platformDetails.platform,
+        javaScriptOriginUri: platformDetails.javaScriptOriginUri,
+        javaScriptRedirectUri: platformDetails.javaScriptRedirectUri,
+        projectId: platformDetails.projectId
+      }
+    );
 
     browser.tabs
       .query({ active: true, currentWindow: true })

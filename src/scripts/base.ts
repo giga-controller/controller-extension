@@ -8,11 +8,10 @@ const GUMLOOP_BASE_URL = "https://www.amazon.com" // Test
 export async function getPlatformDetails(): Promise<PlatformDetails> {
   const currentUrl = await getCurrentTabUrl();
   let platform: PlatformEnum;
-  console.log(currentUrl);
   if (currentUrl.startsWith(NANGO_BASE_URL)) {
     platform = platformEnum.Values.nango;
   } else if (currentUrl.startsWith(N8N_BASE_URL)) {
-    platform = platformEnum.Values.n8n;
+    platform = platformEnum.Values.n8nio;
   } else if (currentUrl.startsWith(GUMLOOP_BASE_URL)) {
     platform = platformEnum.Values.gumloop;
   } else {

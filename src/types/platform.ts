@@ -1,12 +1,13 @@
 import z from "zod";
 
-export const platformEnum = z.enum(["nango", "gumloop", "n8n"]);
+export const platformEnum = z.enum(["nango", "gumloop", "n8nio"]); // at least 5 characters long
 export type PlatformEnum = z.infer<typeof platformEnum>;
 
 export const platformDetailsSchema = z.object({
     platform: platformEnum,
     javaScriptOriginUri: z.string(),
     javaScriptRedirectUri: z.string(),
+    projectId: z.string().nullable(),
 })
 export type PlatformDetails = z.infer<typeof platformDetailsSchema>;
 
@@ -21,16 +22,19 @@ export const platformDetailsMapping: PlatformDetailsMapping = {
         platform: platformEnum.Values.nango,
         javaScriptOriginUri: "https://app.nango.dev",
         javaScriptRedirectUri: "https://api.nango.dev/oauth/callback",
+        projectId: null
     },
     gumloop: {
         platform: platformEnum.Values.gumloop,
         javaScriptOriginUri: "https://app.gumloop.com",
         javaScriptRedirectUri: "https://api.gumloop.com/oauth/callback",
+        projectId: null
     },
-    n8n: {
-        platform: platformEnum.Values.n8n,
+    n8nio: {
+        platform: platformEnum.Values.n8nio,
         javaScriptOriginUri: "https://app.n8n.io",
         javaScriptRedirectUri: "https://api.n8n.io/oauth/callback",
+        projectId: null
     },
 };
 

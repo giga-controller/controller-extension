@@ -1,5 +1,6 @@
 import { constructClassQuery } from "@/lib/utils";
 import { messageTypeEnumSchema } from "@/types/message";
+import { PlatformDetails } from "@/types/platform";
 import {
   clickRequestSchema,
   fillInputRequestSchema,
@@ -7,16 +8,8 @@ import {
   retrieveRequestSchema,
 } from "@/types/scripts/base";
 
-export const createGoogleOauth2Application = async () => {
-  const projectId: string =
-    localStorage.getItem("AuthMavenProjectId") ||
-    "usecontroller-aa9ab3bb621243f6";
-  const originUri: string =
-    localStorage.getItem("AuthMavenOriginUri") || "test";
-  const redirectUri: string =
-    localStorage.getItem("AuthMavenRedirectUri") || "test";
-  const projectName: string =
-    localStorage.getItem("AuthMavenProjectName") || "test";
+export const createGoogleOauth2Application = async (platformDetails: PlatformDetails) => {
+  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } = platformDetails;
 
   const PROJECT_DROPDOWN_BUTTON_CLASS_QUERY: string = constructClassQuery(
     "mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button",
@@ -59,7 +52,7 @@ export const createGoogleOauth2Application = async () => {
 
   const fillProjectNameInputRequest = fillInputRequestSchema.parse({
     type: messageTypeEnumSchema.Values.fillInput,
-    value: projectName,
+    value: platform,
     query: querySelectorSchema.parse({
       id: PROJECT_NAME_INPUT_ID,
     }),
@@ -114,7 +107,7 @@ export const createGoogleOauth2Application = async () => {
   );
   const fillAppNameInputRequest = fillInputRequestSchema.parse({
     type: messageTypeEnumSchema.Values.fillInput,
-    value: projectName,
+    value: platform,
     query: querySelectorSchema.parse({
       class: APP_NAME_INPUT_CLASS_QUERY,
     }),
@@ -285,7 +278,7 @@ export const createGoogleOauth2Application = async () => {
 
   const fillApplicationNameInputRequest = fillInputRequestSchema.parse({
     type: messageTypeEnumSchema.Values.fillInput,
-    value: projectName,
+    value: platform,
     query: querySelectorSchema.parse({
       class: INPUT_CLASS_QUERY,
     }),
@@ -310,7 +303,7 @@ export const createGoogleOauth2Application = async () => {
 
   const fillJavascriptOriginUriInputRequest = fillInputRequestSchema.parse({
     type: messageTypeEnumSchema.Values.fillInput,
-    value: originUri,
+    value: javaScriptOriginUri,
     query: querySelectorSchema.parse({
       class: INPUT_CLASS_QUERY,
       index: 1,
@@ -333,7 +326,7 @@ export const createGoogleOauth2Application = async () => {
 
   const fillRedirectUriInputRequest = fillInputRequestSchema.parse({
     type: messageTypeEnumSchema.Values.fillInput,
-    value: redirectUri,
+    value: javaScriptRedirectUri,
     query: querySelectorSchema.parse({
       class: INPUT_CLASS_QUERY,
       index: 2,
