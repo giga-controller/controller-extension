@@ -1,9 +1,23 @@
 import { createGoogleOauth2Application } from "@/scripts/google/injected";
+import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/background";
+import { QuerySelector } from "@/types/scripts/base";
 
 const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
 // const GOOGLE_CLOUD_BASE_URL = "https://www.google.com"
 
 export default defineUnlistedScript(() => {
+  window.addEventListener("message", async (event) => {
+    if (event.source !== window) return;
+    if (!event.data.type) return;
+
+    const type: MessageTypeEnum = event.data.type;
+    const query: QuerySelector = event.data.query;
+
+    if (type === messageTypeEnumSchema.Values.click) {
+      console.log("Click event received:", query);
+    }
+  });
+
   const createButton = (onClick: () => Promise<void>) => {
     const button = document.createElement("button");
     button.textContent = "Start Auth Maven";
