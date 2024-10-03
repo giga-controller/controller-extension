@@ -1,4 +1,4 @@
-import { messageTypeEnumSchema } from "@/types/background";
+import { messageTypeEnumSchema } from "@/types/message";
 
 export default defineBackground(() => {
   browser.runtime.onMessage.addListener((message) => {

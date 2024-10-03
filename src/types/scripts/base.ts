@@ -1,5 +1,5 @@
 import z from "zod";
-import { messageTypeEnumSchema } from "@/types/background";
+import { messageTypeEnumSchema } from "@/types/message";
 
 export const navigateToUrlRequestSchema = z.object({
   type: messageTypeEnumSchema,

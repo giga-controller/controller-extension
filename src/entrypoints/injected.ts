@@ -1,5 +1,5 @@
 import { createGoogleOauth2Application } from "@/scripts/google/injected";
-import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/background";
+import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
 import { QuerySelector } from "@/types/scripts/base";
 
 const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";

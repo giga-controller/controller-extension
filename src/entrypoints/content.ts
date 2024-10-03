@@ -1,4 +1,4 @@
-import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/background";
+import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
 import { QuerySelector } from "@/types/scripts/base";
 
 export default defineContentScript({

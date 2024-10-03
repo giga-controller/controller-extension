@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { getProjectId } from "@/lib/utils";
+import { getPlatformDetails } from "@/scripts/base";
+import { PlatformDetails } from "@/types/platform";
 
 interface BaseIntegrationProps {
   name: string;
@@ -8,21 +10,18 @@ interface BaseIntegrationProps {
 
 export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
-  const HARDCODED_PROJECT_NAME = "UseController";
-  const HARDCODED_ORIGIN_URI = "http://localhost:3000";
-  const HARDCODED_REDIRECT_URI = "http://localhost:3000/callback";
 
   const toggleIsClicked = () => {
     setIsClicked(!isClicked);
   };
 
-  const confirmCreation = () => {
-    // AARON getProjectName();
-    const projectId: string = getProjectId(HARDCODED_PROJECT_NAME);
+  const confirmCreation = async () => {
+    const platformDetails: PlatformDetails = await getPlatformDetails();
+    const projectId: string = getProjectId(platformDetails.platform);
 
-    localStorage.setItem("AuthMavenProjectName", HARDCODED_PROJECT_NAME);
-    localStorage.setItem("AuthMavenOriginUri", HARDCODED_ORIGIN_URI);
-    localStorage.setItem("AuthMavenRedirectUri", HARDCODED_REDIRECT_URI);
+    localStorage.setItem("AuthMavenProjectName", platformDetails.platform);
+    localStorage.setItem("AuthMavenOriginUri", platformDetails.javaScriptOriginUri);
+    localStorage.setItem("AuthMavenRedirectUri", platformDetails.javaScriptRedirectUri);
     localStorage.setItem("AuthMavenProjectId", projectId);
 
     browser.tabs
@@ -60,7 +59,7 @@ export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
       >
         <Button
           className="bg-green-500"
-          onClick={() => {
+          onClick={async () => {
             setIsClicked(false);
             confirmCreation();
           }}

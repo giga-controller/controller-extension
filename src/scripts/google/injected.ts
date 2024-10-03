@@ -1,5 +1,5 @@
 import { constructClassQuery } from "@/lib/utils";
-import { messageTypeEnumSchema } from "@/types/background";
+import { messageTypeEnumSchema } from "@/types/message";
 import {
   clickRequestSchema,
   fillInputRequestSchema,
