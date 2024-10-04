@@ -1,14 +1,14 @@
 import { createGoogleOauth2Application } from "@/scripts/google/injected";
 import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
-import { ClickRequest, clickRequestSchema, FillInputRequest, fillInputRequestSchema, QuerySelector } from "@/types/scripts/base";
+import { ClickRequest, clickRequestSchema, FillInputRequest, fillInputRequestSchema, QuerySelector, RetrieveRequest, retrieveRequestSchema } from "@/types/scripts/base";
 
 const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
 // const GOOGLE_CLOUD_BASE_URL = "https://www.google.com"
 
-// We probably do not want to unify this helper functions into one because the messages' schema overlap with one another and safeParse might lead to the wrong condition
-export async function waitUntilClickMessageResolved(request: ClickRequest) {
-  console.log("Waiting for message to be resolved");
+// We probably do not want to unify this helper functions into one because the messages' schema overlap with one another and safeParse might lead to the wrong condition. Additionally, these scripts need to be passed into the function, and cannot be imported
+async function waitUntilClickMessageResolved(request: ClickRequest) {
+  console.log("Waiting for Click Message to be resolved");
   let requestInstance: ClickRequest;
   let responseMessageType: MessageTypeEnum;
     
@@ -36,8 +36,8 @@ export async function waitUntilClickMessageResolved(request: ClickRequest) {
   });
 }
 
-export async function waitUntilFillInputMessageResolved(request: ClickRequest) {
-  console.log("Waiting for message to be resolved");
+async function waitUntilFillInputMessageResolved(request: ClickRequest) {
+  console.log("Waiting for Fill Input Message to be resolved");
   let requestInstance: FillInputRequest;
   let responseMessageType: MessageTypeEnum;
     
@@ -62,6 +62,41 @@ export async function waitUntilFillInputMessageResolved(request: ClickRequest) {
       }
     };
     window.addEventListener('message', listener);
+  });
+}
+
+async function waitUntilRetrieveMessageResolved(request: RetrieveRequest): Promise<string> {
+  console.log("Waiting for Retrieve Message to be resolved");
+  let requestInstance: RetrieveRequest;
+  let responseMessageType: MessageTypeEnum;
+    
+  if (retrieveRequestSchema.safeParse(request).success) {
+    requestInstance = retrieveRequestSchema.parse(request);
+    responseMessageType = messageTypeEnumSchema.Values.retrieveResponse;
+  } else {
+    throw new Error("Invalid request type");
+  }
+
+  return new Promise<string>((resolve) => {
+    const interval = setInterval(() => {
+      window.postMessage(requestInstance, "*");
+    }, 1000);
+
+    const listener = (event: MessageEvent) => {
+      if (event.source !== window) return;
+      if (event.data.type === responseMessageType) {
+        clearInterval(interval);
+        window.removeEventListener('message', listener);
+        resolve(event.data.value);
+      }
+    };
+    window.addEventListener('message', listener);
+  });
+}
+
+async function waitUntilPageLoaded() {
+  await new Promise((resolve) => {
+    window.addEventListener('load', resolve);
   });
 }
 
@@ -97,7 +132,9 @@ export default defineUnlistedScript(() => {
         await createGoogleOauth2Application(
           platformDetails,
           waitUntilClickMessageResolved,
-          waitUntilFillInputMessageResolved
+          waitUntilFillInputMessageResolved,
+          waitUntilRetrieveMessageResolved,
+          waitUntilPageLoaded
         );
       });
     }

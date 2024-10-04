@@ -15,7 +15,9 @@ import {
 export const createGoogleOauth2Application = async (
   platformDetails: PlatformDetails,
   waitUntilClickMessageResolved: (request: ClickRequest) => Promise<void>,
-  waitUntilFillInputMessageResolved: (request: FillInputRequest) => Promise<void>
+  waitUntilFillInputMessageResolved: (request: FillInputRequest) => Promise<void>,
+  waitUntilRetrieveMessageResolved: (request: RetrieveRequest) => Promise<string>,
+  waitUntilPageLoaded: () => Promise<void>
 ) => {
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
@@ -79,290 +81,213 @@ export const createGoogleOauth2Application = async (
   await waitUntilFillInputMessageResolved(fillProjectIdInputRequest);
 
 
-  // const CREATE_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
-  //   "projtest-create-form-submit mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
-  // );
-  // const clickCreateProjectButtonRequest = clickRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.click,
-  //   query: querySelectorSchema.parse({
-  //     class: CREATE_PROJECT_BUTTON_CLASS_QUERY,
-  //   }),
-  // });
-  // window.postMessage(clickCreateProjectButtonRequest, "*");
-  // // await new Promise((resolve) => setTimeout(resolve, 2000));
-  // await new Promise<void>((resolve) => {
-  //   const listener = (event: MessageEvent) => {
-  //     if (event.source !== window) return;
-  //     if (event.data.type === messageTypeEnumSchema.Values.clickResponse) {
-  //       window.removeEventListener('message', listener);
-  //       resolve();
-  //     }
-  //   };
-  //   window.addEventListener('message', listener);
-  // });
+  const CREATE_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
+    "projtest-create-form-submit mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
+  );
+  const clickCreateProjectButtonRequest = clickRequestSchema.parse({
+    type: messageTypeEnumSchema.Values.click,
+    query: querySelectorSchema.parse({
+      class: CREATE_PROJECT_BUTTON_CLASS_QUERY,
+    }),
+  });
+  await waitUntilClickMessageResolved(clickCreateProjectButtonRequest);
 
-  // const OAUTH_CONSENT_SCREEN_LINK: string = `https://console.cloud.google.com/apis/credentials/consent/edit;newAppInternalUser=false?project=${projectId}`;
-  // window.location.href = OAUTH_CONSENT_SCREEN_LINK;
-  // await new Promise((resolve) => {
-  //   window.addEventListener('load', resolve);
-  // });
 
-  // const APP_NAME_INPUT_CLASS_QUERY: string = constructClassQuery(
-  //   "cm-input mat-mdc-input-element ng-pristine gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input",
-  // );
-  // const fillAppNameInputRequest = fillInputRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.fillInput,
-  //   value: platform,
-  //   query: querySelectorSchema.parse({
-  //     class: APP_NAME_INPUT_CLASS_QUERY,
-  //   }),
-  // });
-  // window.postMessage(fillAppNameInputRequest, "*")
-  // await new Promise<void>((resolve) => {
-  //   const listener = (event: MessageEvent) => {
-  //     if (event.source !== window) return;
-  //     if (event.data.type === messageTypeEnumSchema.Values.clickResponse) {
-  //       window.removeEventListener('message', listener);
-  //       resolve();
-  //     }
-  //   };
-  //   window.addEventListener('message', listener);
-  // });
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  const OAUTH_CONSENT_SCREEN_LINK: string = `https://console.cloud.google.com/apis/credentials/consent?project=${projectId}`;
+  window.location.href = OAUTH_CONSENT_SCREEN_LINK;
+  await waitUntilPageLoaded();
 
-  // const USER_SUPPORT_EMAIL_DROPDOWN_ID: string =
-  //   "_0rif_mat-mdc-form-field-label-2";
-  // const clickUserSupportEmailDropdownRequest = clickRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.click,
-  //   query: querySelectorSchema.parse({
-  //     id: USER_SUPPORT_EMAIL_DROPDOWN_ID,
-  //   }),
-  // });
-  // window.postMessage(clickUserSupportEmailDropdownRequest, "*");
+  const EXTERNAL_USER_TYPE_INPUT_ID: string = "_0rif_mat-radio-3-input"
+  const clickExternalUserTypeInputRequest = clickRequestSchema.parse({
+    type: messageTypeEnumSchema.Values.click,
+    query: querySelectorSchema.parse({
+      id: EXTERNAL_USER_TYPE_INPUT_ID,
+    }),
+  });
+  await waitUntilClickMessageResolved(clickExternalUserTypeInputRequest);
 
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  const CREATE_OAUTH_CONSENT_SCREEN_BUTTON_CLASS_QUERY: string = constructClassQuery("mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button")
+  const clickCreateOauthConsentScreenButtonRequest = clickRequestSchema.parse({
+    type: messageTypeEnumSchema.Values.click,
+    query: querySelectorSchema.parse({
+      class: CREATE_OAUTH_CONSENT_SCREEN_BUTTON_CLASS_QUERY,
+    }),
+  });
+  await waitUntilClickMessageResolved(clickCreateOauthConsentScreenButtonRequest);
 
-  // const USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY: string = constructClassQuery(
-  //   "mat-mdc-option mdc-list-item ng-star-inserted",
-  // );
-  // const clickUserSupportEmailSelectionRequest = clickRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.click,
-  //   query: querySelectorSchema.parse({
-  //     class: USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY,
-  //   }),
-  // });
-  // window.postMessage(clickUserSupportEmailSelectionRequest, "*");
+  const APP_NAME_INPUT_CLASS_QUERY: string = constructClassQuery(
+    "cm-input mat-mdc-input-element ng-pristine gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input",
+  );
+  const fillAppNameInputRequest = fillInputRequestSchema.parse({
+    value: platform,
+    query: querySelectorSchema.parse({
+      class: APP_NAME_INPUT_CLASS_QUERY,
+    }),
+  });
+  await waitUntilFillInputMessageResolved(fillAppNameInputRequest);
 
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  const USER_SUPPORT_EMAIL_DROPDOWN_CLASS_QUERY: string = constructClassQuery(
+    "cfc-select ng-untouched ng-pristine",
+  );
+  const clickUserSupportEmailDropdownRequest = clickRequestSchema.parse({
+    query: querySelectorSchema.parse({
+      class: USER_SUPPORT_EMAIL_DROPDOWN_CLASS_QUERY,
+    }),
+  });
+  await waitUntilClickMessageResolved(clickUserSupportEmailDropdownRequest);
 
-  // const USER_SUPPORT_EMAIL_ID: string = "_0rif_cfc-select-0-select-value";
-  // const retrieveUserSupportEmailSelectionRequest = retrieveRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.retrieve,
-  //   query: querySelectorSchema.parse({
-  //     id: USER_SUPPORT_EMAIL_ID,
-  //   }),
-  // });
-  // window.postMessage(retrieveUserSupportEmailSelectionRequest, "*");
+  const USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY: string = constructClassQuery(
+    "mat-mdc-option mdc-list-item",
+  );
+  const clickUserSupportEmailSelectionRequest = clickRequestSchema.parse({
+    query: querySelectorSchema.parse({
+      class: USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY,
+    }),
+  });
+  await waitUntilClickMessageResolved(clickUserSupportEmailSelectionRequest);
 
-  // let email: string = "";
-  // window.addEventListener("message", (event) => {
-  //   if (event.source !== window) return;
-  //   if (event.data.type === messageTypeEnumSchema.Values.retrieveResponse) {
-  //     email = event.data.value;
-  //   }
-  // });
-  // await new Promise<void>((resolve) => {
-  //   const interval = setInterval(() => {
-  //     if (email.length > 0) {
-  //       clearInterval(interval);
-  //       resolve();
-  //     }
-  //   }, 1000);
-  // });
+  const USER_SUPPORT_EMAIL_ID: string = "_0rif_cfc-select-0-select-value";
+  const retrieveUserSupportEmailSelectionRequest = retrieveRequestSchema.parse({
+    query: querySelectorSchema.parse({
+      id: USER_SUPPORT_EMAIL_ID,
+    }),
+  });
+  const email: string = await waitUntilRetrieveMessageResolved(retrieveUserSupportEmailSelectionRequest);
 
-  // const DEVELOPER_CONTACT_EMAIL_CLASS_QUERY: string = constructClassQuery(
-  //   "mat-mdc-chip-input mat-mdc-input-element mdc-text-field__input mat-input-element mat-mdc-form-field-input-control",
-  // );
-  // const fillDeveloperContactEmailInputRequest = fillInputRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.fillInput,
-  //   value: email,
-  //   query: querySelectorSchema.parse({
-  //     class: DEVELOPER_CONTACT_EMAIL_CLASS_QUERY,
-  //   }),
-  // });
-  // window.postMessage(fillDeveloperContactEmailInputRequest, "*");
+  const DEVELOPER_CONTACT_EMAIL_CLASS_QUERY: string = constructClassQuery(
+    "mat-mdc-chip-input mat-mdc-input-element mdc-text-field__input mat-input-element mat-mdc-form-field-input-control",
+  );
+  const fillDeveloperContactEmailInputRequest = fillInputRequestSchema.parse({
+    value: email,
+    query: querySelectorSchema.parse({
+      class: DEVELOPER_CONTACT_EMAIL_CLASS_QUERY,
+    }),
+  });
+  await waitUntilFillInputMessageResolved(fillDeveloperContactEmailInputRequest);
 
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  const SAVE_AND_CONTINUE_BUTTON_CLASS_QUERY: string = constructClassQuery(
+    "cfc-stepper-step-button cfc-stepper-step-continue-button mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
+  );
+  const clickSaveAndContinueButtonRequest = clickRequestSchema.parse({
+    query: querySelectorSchema.parse({
+      class: SAVE_AND_CONTINUE_BUTTON_CLASS_QUERY,
+    }),
+  });
+  await waitUntilClickMessageResolved(clickSaveAndContinueButtonRequest);
 
-  // const SAVE_AND_CONTINUE_BUTTON_CLASS_QUERY: string = constructClassQuery(
-  //   "cfc-stepper-step-button cfc-stepper-step-continue-button mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
-  // );
-  // const clickSaveAndContinueButtonRequest = clickRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.click,
-  //   query: querySelectorSchema.parse({
-  //     class: SAVE_AND_CONTINUE_BUTTON_CLASS_QUERY,
-  //   }),
-  // });
-  // window.postMessage(clickSaveAndContinueButtonRequest, "*");
+  // Skip Scopes section
+  await waitUntilClickMessageResolved(clickSaveAndContinueButtonRequest);
 
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  const ADD_USERS_BUTTON_CLASS_QUERY: string = constructClassQuery(
+    "cfc-space-above-minus-3 cfc-space-below-plus-2 mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
+  );
+  const clickAddUsersButtonRequest = clickRequestSchema.parse({
+    query: querySelectorSchema.parse({
+      class: ADD_USERS_BUTTON_CLASS_QUERY,
+    }),
+  });
+  await waitUntilClickMessageResolved(clickAddUsersButtonRequest);
 
-  // // Skip Scopes section
-  // window.postMessage(clickSaveAndContinueButtonRequest, "*");
+  const ADD_USERS_INPUT_ID: string = "_0rif_mat-mdc-chip-list-input-1";
+  const fillAddUsersInputRequest = fillInputRequestSchema.parse({
+    // value: email,
+    value: "aarontanzb@gmail.com",
+    query: querySelectorSchema.parse({
+      id: ADD_USERS_INPUT_ID,
+    }),
+  });
+  await waitUntilFillInputMessageResolved(fillAddUsersInputRequest);
 
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  const ADD_TESTING_USERS_BUTTON_CLASS_QUERY: string = constructClassQuery(
+    "mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
+  );
+  const clickAddTestingUsersButtonRequest = clickRequestSchema.parse({
+    query: querySelectorSchema.parse({
+      class: ADD_TESTING_USERS_BUTTON_CLASS_QUERY,
+    }),
+  });
+  await waitUntilClickMessageResolved(clickAddTestingUsersButtonRequest);
 
-  // const ADD_USERS_BUTTON_CLASS_QUERY: string = constructClassQuery(
-  //   "cfc-space-above-minus-3 cfc-space-below-plus-2 mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
-  // );
-  // const clickAddUsersButtonRequest = clickRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.click,
-  //   query: querySelectorSchema.parse({
-  //     class: ADD_USERS_BUTTON_CLASS_QUERY,
-  //   }),
-  // });
-  // window.postMessage(clickAddUsersButtonRequest, "*");
+  const OAUTH_CLIENT_ID_LINK: string = `https://console.cloud.google.com/apis/credentials/oauthclient?previousPage=%2Fapis%2Fcredentials%3Fproject%3D${projectId}&project=${projectId}`;
+  window.location.href = OAUTH_CLIENT_ID_LINK;
+  await waitUntilPageLoaded();
 
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  const APPLICATION_TYPE_DROPDOWN_CLASS_QUERY: string = constructClassQuery(
+    "mdc-floating-label mat-mdc-floating-label ng-star-inserted",
+  );
+  const clickApplicationTypeDropdownRequest = clickRequestSchema.parse({
+    query: querySelectorSchema.parse({
+      class: APPLICATION_TYPE_DROPDOWN_CLASS_QUERY,
+    }),
+  });
+  await waitUntilClickMessageResolved(clickApplicationTypeDropdownRequest);
 
-  // const ADD_USERS_INPUT_ID: string = "_0rif_mat-mdc-chip-list-input-1";
-  // const fillAddUsersInputRequest = fillInputRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.fillInput,
-  //   value: email,
-  //   query: querySelectorSchema.parse({
-  //     id: ADD_USERS_INPUT_ID,
-  //   }),
-  // });
-  // window.postMessage(fillAddUsersInputRequest, "*");
+  const WEB_APPLICATION_SELECTION_CLASS_QUERY: string = constructClassQuery(
+    "mat-mdc-option mdc-list-item",
+  );
+  const clickWebApplicationSelectionRequest = clickRequestSchema.parse({
+    query: querySelectorSchema.parse({
+      class: WEB_APPLICATION_SELECTION_CLASS_QUERY,
+    }),
+  });
+  await waitUntilClickMessageResolved(clickWebApplicationSelectionRequest);
 
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  const INPUT_CLASS_QUERY: string = constructClassQuery(
+    "cm-input mat-mdc-input-element gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input cdk-text-field-autofill-monitored",
+  );
 
-  // const ADD_TESTING_USERS_BUTTON_CLASS_QUERY: string = constructClassQuery(
-  //   "mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
-  // );
-  // const clickAddTestingUsersButtonRequest = clickRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.click,
-  //   query: querySelectorSchema.parse({
-  //     class: ADD_TESTING_USERS_BUTTON_CLASS_QUERY,
-  //   }),
-  // });
-  // window.postMessage(clickAddTestingUsersButtonRequest, "*");
+  const fillApplicationNameInputRequest = fillInputRequestSchema.parse({
+    value: platform,
+    query: querySelectorSchema.parse({
+      class: INPUT_CLASS_QUERY,
+    }),
+  });
+  await waitUntilFillInputMessageResolved(fillApplicationNameInputRequest);
 
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  const ADD_JAVASCRIPT_ORIGIN_URI_BUTTON_CLASS_QUERY: string =
+    constructClassQuery(
+      "cfc-form-stack-add-button cfc-button-small mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
+    );
+  const clickAddJavascriptOriginUriButtonRequest = clickRequestSchema.parse({
+    query: querySelectorSchema.parse({
+      class: ADD_JAVASCRIPT_ORIGIN_URI_BUTTON_CLASS_QUERY,
+    }),
+  });
+  await waitUntilClickMessageResolved(clickAddJavascriptOriginUriButtonRequest);
 
-  // window.postMessage(clickSaveAndContinueButtonRequest, "*");
+  const fillJavascriptOriginUriInputRequest = fillInputRequestSchema.parse({
+    value: javaScriptOriginUri,
+    query: querySelectorSchema.parse({
+      class: INPUT_CLASS_QUERY,
+      index: 1,
+    }),
+  });
+  await waitUntilFillInputMessageResolved(fillJavascriptOriginUriInputRequest);
 
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  const clickAddRedirectUriButtonRequest = clickRequestSchema.parse({
+    query: querySelectorSchema.parse({
+      class: ADD_JAVASCRIPT_ORIGIN_URI_BUTTON_CLASS_QUERY,
+      index: 1,
+    }),
+  });
+  await waitUntilClickMessageResolved(clickAddRedirectUriButtonRequest);
 
-  // const OAUTH_CLIENT_ID_LINK: string = `https://console.cloud.google.com/apis/credentials/oauthclient?previousPage=%2Fapis%2Fcredentials%3Fproject%3D${projectId}&project=${projectId}`;
-  // window.location.href = OAUTH_CLIENT_ID_LINK;
+  const fillRedirectUriInputRequest = fillInputRequestSchema.parse({
+    value: javaScriptRedirectUri,
+    query: querySelectorSchema.parse({
+      class: INPUT_CLASS_QUERY,
+      index: 2,
+    }),
+  });
+  await waitUntilFillInputMessageResolved(fillRedirectUriInputRequest);
 
-  // // await new Promise((resolve) => setTimeout(resolve, 2000));
-  // await new Promise((resolve) => {
-  //   window.addEventListener('load', resolve);
-  // });
-
-  // const APPLICATION_TYPE_DROPDOWN_CLASS_QUERY: string = constructClassQuery(
-  //   "mdc-floating-label mat-mdc-floating-label ng-star-inserted",
-  // );
-  // const clickApplicationTypeDropdownRequest = clickRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.click,
-  //   query: querySelectorSchema.parse({
-  //     class: APPLICATION_TYPE_DROPDOWN_CLASS_QUERY,
-  //   }),
-  // });
-  // window.postMessage(clickApplicationTypeDropdownRequest, "*");
-
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
-
-  // const WEB_APPLICATION_SELECTION_CLASS_QUERY: string = constructClassQuery(
-  //   "mat-mdc-option mdc-list-item",
-  // );
-  // const clickWebApplicationSelectionRequest = clickRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.click,
-  //   query: querySelectorSchema.parse({
-  //     class: WEB_APPLICATION_SELECTION_CLASS_QUERY,
-  //   }),
-  // });
-
-  // window.postMessage(clickWebApplicationSelectionRequest, "*");
-
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
-
-  // const INPUT_CLASS_QUERY: string = constructClassQuery(
-  //   "cm-input mat-mdc-input-element gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input cdk-text-field-autofill-monitored",
-  // );
-
-  // const fillApplicationNameInputRequest = fillInputRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.fillInput,
-  //   value: platform,
-  //   query: querySelectorSchema.parse({
-  //     class: INPUT_CLASS_QUERY,
-  //   }),
-  // });
-  // window.postMessage(fillApplicationNameInputRequest, "*");
-
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
-
-  // const ADD_JAVASCRIPT_ORIGIN_URI_BUTTON_CLASS_QUERY: string =
-  //   constructClassQuery(
-  //     "cfc-form-stack-add-button cfc-button-small mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
-  //   );
-  // const clickAddJavascriptOriginUriButtonRequest = clickRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.click,
-  //   query: querySelectorSchema.parse({
-  //     class: ADD_JAVASCRIPT_ORIGIN_URI_BUTTON_CLASS_QUERY,
-  //   }),
-  // });
-  // window.postMessage(clickAddJavascriptOriginUriButtonRequest, "*");
-
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
-
-  // const fillJavascriptOriginUriInputRequest = fillInputRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.fillInput,
-  //   value: javaScriptOriginUri,
-  //   query: querySelectorSchema.parse({
-  //     class: INPUT_CLASS_QUERY,
-  //     index: 1,
-  //   }),
-  // });
-  // window.postMessage(fillJavascriptOriginUriInputRequest, "*");
-
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
-
-  // const clickAddRedirectUriButtonRequest = clickRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.click,
-  //   query: querySelectorSchema.parse({
-  //     class: ADD_JAVASCRIPT_ORIGIN_URI_BUTTON_CLASS_QUERY,
-  //     index: 1,
-  //   }),
-  // });
-  // window.postMessage(clickAddRedirectUriButtonRequest, "*");
-
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
-
-  // const fillRedirectUriInputRequest = fillInputRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.fillInput,
-  //   value: javaScriptRedirectUri,
-  //   query: querySelectorSchema.parse({
-  //     class: INPUT_CLASS_QUERY,
-  //     index: 2,
-  //   }),
-  // });
-  // window.postMessage(fillRedirectUriInputRequest, "*");
-
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
-
-  // const CREATE_OAUTH_CLIENT_BUTTON_CLASS_QUERY: string = constructClassQuery(
-  //   "mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
-  // );
-  // const clickCreateOauthClientButtonRequest = clickRequestSchema.parse({
-  //   type: messageTypeEnumSchema.Values.click,
-  //   query: querySelectorSchema.parse({
-  //     class: CREATE_OAUTH_CLIENT_BUTTON_CLASS_QUERY,
-  //   }),
-  // });
-  // window.postMessage(clickCreateOauthClientButtonRequest, "*");
-
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  const CREATE_OAUTH_CLIENT_BUTTON_CLASS_QUERY: string = constructClassQuery(
+    "mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
+  );
+  const clickCreateOauthClientButtonRequest = clickRequestSchema.parse({
+    query: querySelectorSchema.parse({
+      class: CREATE_OAUTH_CLIENT_BUTTON_CLASS_QUERY,
+    }),
+  });
+  await waitUntilClickMessageResolved(clickCreateOauthClientButtonRequest);
 };
