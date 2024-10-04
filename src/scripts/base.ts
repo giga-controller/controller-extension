@@ -1,17 +1,9 @@
-import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
 import {
   PlatformDetails,
   platformDetailsMapping,
   PlatformEnum,
   platformEnum,
 } from "@/types/platform";
-import {
-  ClickRequest,
-  clickRequestSchema,
-  fillInputRequestSchema,
-  navigateToUrlRequestSchema,
-  retrieveRequestSchema,
-} from "@/types/scripts/base";
 
 // TODO: Better regex matching
 const NANGO_BASE_URL = "https://app.nango.dev/dev/integrations";
