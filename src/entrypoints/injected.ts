@@ -17,6 +17,27 @@ export default defineUnlistedScript(() => {
     button.style.right = "10px";
     button.style.zIndex = "10000";
     button.style.backgroundColor = "#4CAF50";
+    button.style.color = "white";
+    button.style.border = "none";
+    button.style.cursor = "pointer";
+    button.style.transition = "background-color 0.3s, transform 0.1s";
+
+    button.addEventListener("mouseover", () => {
+      button.style.backgroundColor = "#45a049";
+    });
+
+    button.addEventListener("mouseout", () => {
+      button.style.backgroundColor = "#4CAF50";
+    });
+
+    button.addEventListener("mousedown", () => {
+      button.style.transform = "scale(0.95)";
+    });
+
+    button.addEventListener("mouseup", () => {
+      button.style.transform = "scale(1)";
+    });
+
     button.addEventListener("click", async () => {
       await onClick();
     });
