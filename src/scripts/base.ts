@@ -5,7 +5,13 @@ import {
   PlatformEnum,
   platformEnum,
 } from "@/types/platform";
-import { ClickRequest, clickRequestSchema, fillInputRequestSchema, navigateToUrlRequestSchema, retrieveRequestSchema } from "@/types/scripts/base";
+import {
+  ClickRequest,
+  clickRequestSchema,
+  fillInputRequestSchema,
+  navigateToUrlRequestSchema,
+  retrieveRequestSchema,
+} from "@/types/scripts/base";
 
 // TODO: Better regex matching
 const NANGO_BASE_URL = "https://app.nango.dev/dev/integrations";
@@ -38,5 +44,3 @@ async function getCurrentTabUrl(): Promise<string> {
   const tabs = await browser.tabs.query({ active: true, currentWindow: true });
   return tabs[0]?.url || "";
 }
-
-

@@ -63,7 +63,10 @@ export default defineContentScript({
           if (element) {
             element.click();
             console.log("Element successfully clicked");
-            window.postMessage({ type: messageTypeEnumSchema.Values.clickResponse }, "*");
+            window.postMessage(
+              { type: messageTypeEnumSchema.Values.clickResponse },
+              "*",
+            );
           }
         } catch (error) {
           console.error(`Error clicking: ${(error as Error).message}`);
@@ -112,7 +115,10 @@ export default defineContentScript({
             });
             element.dispatchEvent(enterEvent);
             console.log("Input successfully filled");
-            window.postMessage({ type: messageTypeEnumSchema.Values.fillInputResponse }, "*");
+            window.postMessage(
+              { type: messageTypeEnumSchema.Values.fillInputResponse },
+              "*",
+            );
           } else {
             console.error("No matching input field found");
             throw new Error("No matching input field found");
@@ -155,7 +161,13 @@ export default defineContentScript({
         }
       } else if (type === messageTypeEnumSchema.Values.platformDetails) {
         console.log("Platform details received:", platformDetails);
-        window.postMessage({ type: messageTypeEnumSchema.Values.platformDetailsResponse, data: platformDetails }, "*");
+        window.postMessage(
+          {
+            type: messageTypeEnumSchema.Values.platformDetailsResponse,
+            data: platformDetails,
+          },
+          "*",
+        );
       }
     });
   },

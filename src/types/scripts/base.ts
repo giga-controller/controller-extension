@@ -2,7 +2,9 @@ import z from "zod";
 import { messageTypeEnumSchema } from "@/types/message";
 
 export const navigateToUrlRequestSchema = z.object({
-  type: messageTypeEnumSchema.default(messageTypeEnumSchema.Values.navigateToUrl),
+  type: messageTypeEnumSchema.default(
+    messageTypeEnumSchema.Values.navigateToUrl,
+  ),
   url: z.string(),
 });
 

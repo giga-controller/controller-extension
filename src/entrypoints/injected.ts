@@ -1,7 +1,15 @@
 import { createGoogleOauth2Application } from "@/scripts/google/injected";
 import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
-import { ClickRequest, clickRequestSchema, FillInputRequest, fillInputRequestSchema, QuerySelector, RetrieveRequest, retrieveRequestSchema } from "@/types/scripts/base";
+import {
+  ClickRequest,
+  clickRequestSchema,
+  FillInputRequest,
+  fillInputRequestSchema,
+  QuerySelector,
+  RetrieveRequest,
+  retrieveRequestSchema,
+} from "@/types/scripts/base";
 
 const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
 // const GOOGLE_CLOUD_BASE_URL = "https://www.google.com"
@@ -11,7 +19,7 @@ async function waitUntilClickMessageResolved(request: ClickRequest) {
   console.log("Waiting for Click Message to be resolved");
   let requestInstance: ClickRequest;
   let responseMessageType: MessageTypeEnum;
-    
+
   if (clickRequestSchema.safeParse(request).success) {
     requestInstance = clickRequestSchema.parse(request);
     responseMessageType = messageTypeEnumSchema.Values.clickResponse;
@@ -28,11 +36,11 @@ async function waitUntilClickMessageResolved(request: ClickRequest) {
       if (event.source !== window) return;
       if (event.data.type === responseMessageType) {
         clearInterval(interval);
-        window.removeEventListener('message', listener);
+        window.removeEventListener("message", listener);
         resolve();
       }
     };
-    window.addEventListener('message', listener);
+    window.addEventListener("message", listener);
   });
 }
 
@@ -40,7 +48,7 @@ async function waitUntilFillInputMessageResolved(request: ClickRequest) {
   console.log("Waiting for Fill Input Message to be resolved");
   let requestInstance: FillInputRequest;
   let responseMessageType: MessageTypeEnum;
-    
+
   if (fillInputRequestSchema.safeParse(request).success) {
     requestInstance = fillInputRequestSchema.parse(request);
     responseMessageType = messageTypeEnumSchema.Values.fillInputResponse;
@@ -57,19 +65,21 @@ async function waitUntilFillInputMessageResolved(request: ClickRequest) {
       if (event.source !== window) return;
       if (event.data.type === responseMessageType) {
         clearInterval(interval);
-        window.removeEventListener('message', listener);
+        window.removeEventListener("message", listener);
         resolve();
       }
     };
-    window.addEventListener('message', listener);
+    window.addEventListener("message", listener);
   });
 }
 
-async function waitUntilRetrieveMessageResolved(request: RetrieveRequest): Promise<string> {
+async function waitUntilRetrieveMessageResolved(
+  request: RetrieveRequest,
+): Promise<string> {
   console.log("Waiting for Retrieve Message to be resolved");
   let requestInstance: RetrieveRequest;
   let responseMessageType: MessageTypeEnum;
-    
+
   if (retrieveRequestSchema.safeParse(request).success) {
     requestInstance = retrieveRequestSchema.parse(request);
     responseMessageType = messageTypeEnumSchema.Values.retrieveResponse;
@@ -86,17 +96,17 @@ async function waitUntilRetrieveMessageResolved(request: RetrieveRequest): Promi
       if (event.source !== window) return;
       if (event.data.type === responseMessageType) {
         clearInterval(interval);
-        window.removeEventListener('message', listener);
+        window.removeEventListener("message", listener);
         resolve(event.data.value);
       }
     };
-    window.addEventListener('message', listener);
+    window.addEventListener("message", listener);
   });
 }
 
 async function waitUntilPageLoaded() {
   await new Promise((resolve) => {
-    window.addEventListener('load', resolve);
+    window.addEventListener("load", resolve);
   });
 }
 
@@ -134,7 +144,7 @@ export default defineUnlistedScript(() => {
           waitUntilClickMessageResolved,
           waitUntilFillInputMessageResolved,
           waitUntilRetrieveMessageResolved,
-          waitUntilPageLoaded
+          waitUntilPageLoaded,
         );
       });
     }

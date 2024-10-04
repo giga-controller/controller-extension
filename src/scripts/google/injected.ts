@@ -15,13 +15,23 @@ import {
 export const createGoogleOauth2Application = async (
   platformDetails: PlatformDetails,
   waitUntilClickMessageResolved: (request: ClickRequest) => Promise<void>,
-  waitUntilFillInputMessageResolved: (request: FillInputRequest) => Promise<void>,
-  waitUntilRetrieveMessageResolved: (request: RetrieveRequest) => Promise<string>,
-  waitUntilPageLoaded: () => Promise<void>
+  waitUntilFillInputMessageResolved: (
+    request: FillInputRequest,
+  ) => Promise<void>,
+  waitUntilRetrieveMessageResolved: (
+    request: RetrieveRequest,
+  ) => Promise<string>,
+  waitUntilPageLoaded: () => Promise<void>,
 ) => {
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
-  window.postMessage({ type: messageTypeEnumSchema.Values.platformDetails, data: platformDetails }, "*");
+  window.postMessage(
+    {
+      type: messageTypeEnumSchema.Values.platformDetails,
+      data: platformDetails,
+    },
+    "*",
+  );
 
   const PROJECT_DROPDOWN_BUTTON_CLASS_QUERY: string = constructClassQuery(
     "mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button",
@@ -43,7 +53,6 @@ export const createGoogleOauth2Application = async (
   });
   await waitUntilClickMessageResolved(clickNewProjectButtonRequest);
 
-
   const PROJECT_NAME_INPUT_ID: string = "p6ntest-name-input";
   const clickProjectNameInputRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
@@ -51,7 +60,6 @@ export const createGoogleOauth2Application = async (
     }),
   });
   await waitUntilClickMessageResolved(clickProjectNameInputRequest);
-
 
   const fillProjectNameInputRequest = fillInputRequestSchema.parse({
     value: platform,
@@ -61,7 +69,6 @@ export const createGoogleOauth2Application = async (
   });
   await waitUntilFillInputMessageResolved(fillProjectNameInputRequest);
 
-
   const EDIT_PROJECT_ID_BUTTON_ID: string = "p6ntest-show-edit-proj-id";
   const editProjectIdButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
@@ -69,7 +76,6 @@ export const createGoogleOauth2Application = async (
     }),
   });
   await waitUntilClickMessageResolved(editProjectIdButtonRequest);
-
 
   const PROJECT_ID_INPUT_ID: string = "p6ntest-id-input";
   const fillProjectIdInputRequest = fillInputRequestSchema.parse({
@@ -79,7 +85,6 @@ export const createGoogleOauth2Application = async (
     value: projectId,
   });
   await waitUntilFillInputMessageResolved(fillProjectIdInputRequest);
-
 
   const CREATE_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
     "projtest-create-form-submit mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
@@ -92,12 +97,11 @@ export const createGoogleOauth2Application = async (
   });
   await waitUntilClickMessageResolved(clickCreateProjectButtonRequest);
 
-
   const OAUTH_CONSENT_SCREEN_LINK: string = `https://console.cloud.google.com/apis/credentials/consent?project=${projectId}`;
   window.location.href = OAUTH_CONSENT_SCREEN_LINK;
   await waitUntilPageLoaded();
 
-  const EXTERNAL_USER_TYPE_INPUT_ID: string = "_0rif_mat-radio-3-input"
+  const EXTERNAL_USER_TYPE_INPUT_ID: string = "_0rif_mat-radio-3-input";
   const clickExternalUserTypeInputRequest = clickRequestSchema.parse({
     type: messageTypeEnumSchema.Values.click,
     query: querySelectorSchema.parse({
@@ -106,14 +110,19 @@ export const createGoogleOauth2Application = async (
   });
   await waitUntilClickMessageResolved(clickExternalUserTypeInputRequest);
 
-  const CREATE_OAUTH_CONSENT_SCREEN_BUTTON_CLASS_QUERY: string = constructClassQuery("mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button")
+  const CREATE_OAUTH_CONSENT_SCREEN_BUTTON_CLASS_QUERY: string =
+    constructClassQuery(
+      "mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
+    );
   const clickCreateOauthConsentScreenButtonRequest = clickRequestSchema.parse({
     type: messageTypeEnumSchema.Values.click,
     query: querySelectorSchema.parse({
       class: CREATE_OAUTH_CONSENT_SCREEN_BUTTON_CLASS_QUERY,
     }),
   });
-  await waitUntilClickMessageResolved(clickCreateOauthConsentScreenButtonRequest);
+  await waitUntilClickMessageResolved(
+    clickCreateOauthConsentScreenButtonRequest,
+  );
 
   const APP_NAME_INPUT_CLASS_QUERY: string = constructClassQuery(
     "cm-input mat-mdc-input-element ng-pristine gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input",
@@ -152,7 +161,9 @@ export const createGoogleOauth2Application = async (
       id: USER_SUPPORT_EMAIL_ID,
     }),
   });
-  const email: string = await waitUntilRetrieveMessageResolved(retrieveUserSupportEmailSelectionRequest);
+  const email: string = await waitUntilRetrieveMessageResolved(
+    retrieveUserSupportEmailSelectionRequest,
+  );
 
   const DEVELOPER_CONTACT_EMAIL_CLASS_QUERY: string = constructClassQuery(
     "mat-mdc-chip-input mat-mdc-input-element mdc-text-field__input mat-input-element mat-mdc-form-field-input-control",
@@ -163,7 +174,9 @@ export const createGoogleOauth2Application = async (
       class: DEVELOPER_CONTACT_EMAIL_CLASS_QUERY,
     }),
   });
-  await waitUntilFillInputMessageResolved(fillDeveloperContactEmailInputRequest);
+  await waitUntilFillInputMessageResolved(
+    fillDeveloperContactEmailInputRequest,
+  );
 
   const SAVE_AND_CONTINUE_BUTTON_CLASS_QUERY: string = constructClassQuery(
     "cfc-stepper-step-button cfc-stepper-step-continue-button mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
