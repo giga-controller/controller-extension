@@ -1,6 +1,7 @@
 import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
 import { QuerySelector } from "@/types/scripts/base";
 import { getProjectId } from "@/lib/utils";
+import { PlatformDetails } from "@/types/platform";
 
 export default defineContentScript({
   matches: ["<all_urls>"],
@@ -21,7 +22,6 @@ export default defineContentScript({
         data.projectId = getProjectId(data.platform);
         // Inject main script
         await injectCustomScript("/injected.js", { keepInDom: true });
-
         setTimeout(() => {
           window.postMessage(
             {
@@ -39,6 +39,7 @@ export default defineContentScript({
 
       const type: MessageTypeEnum = event.data.type;
       const query: QuerySelector = event.data.query;
+      const platformDetails: PlatformDetails = event.data.data;
 
       if (type === messageTypeEnumSchema.Values.click) {
         console.log("Click event received:", query);
@@ -62,6 +63,7 @@ export default defineContentScript({
           if (element) {
             element.click();
             console.log("Element successfully clicked");
+            window.postMessage({ type: messageTypeEnumSchema.Values.clickResponse }, "*");
           }
         } catch (error) {
           console.error(`Error clicking: ${(error as Error).message}`);
@@ -71,7 +73,10 @@ export default defineContentScript({
         console.log("Fill input event received:", query);
 
         const value: string = event.data.value;
-        console.log("Value to fill:", value);
+        if (!value) {
+          console.error("Value to fill cannot be empty/null/undefined");
+          return;
+        }
 
         try {
           let element;
@@ -107,6 +112,7 @@ export default defineContentScript({
             });
             element.dispatchEvent(enterEvent);
             console.log("Input successfully filled");
+            window.postMessage({ type: messageTypeEnumSchema.Values.fillInputResponse }, "*");
           } else {
             console.error("No matching input field found");
             throw new Error("No matching input field found");
@@ -147,6 +153,9 @@ export default defineContentScript({
             `Error retrieving value: ${(error as Error).message}`,
           );
         }
+      } else if (type === messageTypeEnumSchema.Values.platformDetails) {
+        console.log("Platform details received:", platformDetails);
+        window.postMessage({ type: messageTypeEnumSchema.Values.platformDetailsResponse, data: platformDetails }, "*");
       }
     });
   },

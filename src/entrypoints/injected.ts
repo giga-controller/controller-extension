@@ -1,10 +1,69 @@
 import { createGoogleOauth2Application } from "@/scripts/google/injected";
 import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
-import { QuerySelector } from "@/types/scripts/base";
+import { ClickRequest, clickRequestSchema, FillInputRequest, fillInputRequestSchema, QuerySelector } from "@/types/scripts/base";
 
 const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
 // const GOOGLE_CLOUD_BASE_URL = "https://www.google.com"
+
+// We probably do not want to unify this helper functions into one because the messages' schema overlap with one another and safeParse might lead to the wrong condition
+export async function waitUntilClickMessageResolved(request: ClickRequest) {
+  console.log("Waiting for message to be resolved");
+  let requestInstance: ClickRequest;
+  let responseMessageType: MessageTypeEnum;
+    
+  if (clickRequestSchema.safeParse(request).success) {
+    requestInstance = clickRequestSchema.parse(request);
+    responseMessageType = messageTypeEnumSchema.Values.clickResponse;
+  } else {
+    throw new Error("Invalid request type");
+  }
+
+  await new Promise<void>((resolve) => {
+    const interval = setInterval(() => {
+      window.postMessage(requestInstance, "*");
+    }, 1000);
+
+    const listener = (event: MessageEvent) => {
+      if (event.source !== window) return;
+      if (event.data.type === responseMessageType) {
+        clearInterval(interval);
+        window.removeEventListener('message', listener);
+        resolve();
+      }
+    };
+    window.addEventListener('message', listener);
+  });
+}
+
+export async function waitUntilFillInputMessageResolved(request: ClickRequest) {
+  console.log("Waiting for message to be resolved");
+  let requestInstance: FillInputRequest;
+  let responseMessageType: MessageTypeEnum;
+    
+  if (fillInputRequestSchema.safeParse(request).success) {
+    requestInstance = fillInputRequestSchema.parse(request);
+    responseMessageType = messageTypeEnumSchema.Values.fillInputResponse;
+  } else {
+    throw new Error("Invalid request type");
+  }
+
+  await new Promise<void>((resolve) => {
+    const interval = setInterval(() => {
+      window.postMessage(requestInstance, "*");
+    }, 1000);
+
+    const listener = (event: MessageEvent) => {
+      if (event.source !== window) return;
+      if (event.data.type === responseMessageType) {
+        clearInterval(interval);
+        window.removeEventListener('message', listener);
+        resolve();
+      }
+    };
+    window.addEventListener('message', listener);
+  });
+}
 
 export default defineUnlistedScript(() => {
   const createButton = (onClick: () => Promise<void>) => {
@@ -35,22 +94,14 @@ export default defineUnlistedScript(() => {
     ) {
       createButton(async () => {
         if (!platformDetails) return;
-        await createGoogleOauth2Application(platformDetails);
+        await createGoogleOauth2Application(
+          platformDetails,
+          waitUntilClickMessageResolved,
+          waitUntilFillInputMessageResolved
+        );
       });
     }
   };
-
-  // window.addEventListener("message", async (event) => {
-  //   if (event.source !== window) return;
-  //   if (!event.data.type) return;
-
-  //   const type: MessageTypeEnum = event.data.type;
-  //   const query: QuerySelector = event.data.query;
-
-  //   if (type === messageTypeEnumSchema.Values.click) {
-  //     console.log("Click event received:", query);
-  //   }
-  // });
 
   // Listen for the data message
   window.addEventListener("message", (event) => {

@@ -2,7 +2,7 @@ import z from "zod";
 import { messageTypeEnumSchema } from "@/types/message";
 
 export const navigateToUrlRequestSchema = z.object({
-  type: messageTypeEnumSchema,
+  type: messageTypeEnumSchema.default(messageTypeEnumSchema.Values.navigateToUrl),
   url: z.string(),
 });
 
@@ -18,14 +18,14 @@ export const querySelectorSchema = z.object({
 export type QuerySelector = z.infer<typeof querySelectorSchema>;
 
 export const clickRequestSchema = z.object({
-  type: messageTypeEnumSchema,
+  type: messageTypeEnumSchema.default(messageTypeEnumSchema.Values.click),
   query: querySelectorSchema,
 });
 
 export type ClickRequest = z.infer<typeof clickRequestSchema>;
 
 export const fillInputRequestSchema = z.object({
-  type: messageTypeEnumSchema,
+  type: messageTypeEnumSchema.default(messageTypeEnumSchema.Values.fillInput),
   value: z.string(),
   query: querySelectorSchema,
 });
@@ -33,7 +33,7 @@ export const fillInputRequestSchema = z.object({
 export type FillInputRequest = z.infer<typeof fillInputRequestSchema>;
 
 export const retrieveRequestSchema = z.object({
-  type: messageTypeEnumSchema,
+  type: messageTypeEnumSchema.default(messageTypeEnumSchema.Values.retrieve),
   query: querySelectorSchema,
 });
 
