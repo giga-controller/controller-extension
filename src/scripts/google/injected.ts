@@ -1,12 +1,11 @@
 import { constructClassQuery } from "@/lib/utils";
-import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
+import { messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
 import {
   ClickRequest,
   clickRequestSchema,
   FillInputRequest,
   fillInputRequestSchema,
-  navigateToUrlRequestSchema,
   querySelectorSchema,
   RetrieveRequest,
   retrieveRequestSchema,
