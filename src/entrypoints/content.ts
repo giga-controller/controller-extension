@@ -1,6 +1,5 @@
 import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
 import { QuerySelector } from "@/types/scripts/base";
-import { getProjectId } from "@/lib/utils";
 import { PlatformDetails } from "@/types/platform";
 
 export default defineContentScript({
@@ -19,7 +18,9 @@ export default defineContentScript({
         "projectId",
       ])
       .then(async (data) => {
-        data.projectId = getProjectId(data.platform);
+        // IMPORTANT: Uncomment this line while testing parts of the integration flow so that the id is always updated for testing. BUT this line should never be commented out in production
+        // platformDetails.projectId = getProjectId(platformDetails.platform);
+
         // Inject main script
         await injectCustomScript("/injected.js", { keepInDom: true });
         setTimeout(() => {

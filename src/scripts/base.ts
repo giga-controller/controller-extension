@@ -1,3 +1,4 @@
+import { getProjectId } from "@/lib/utils";
 import {
   PlatformDetails,
   platformDetailsMapping,
@@ -28,6 +29,7 @@ export async function getPlatformDetails(): Promise<PlatformDetails> {
   if (!platformDetails) {
     throw new Error("Platform details not found");
   }
+  platformDetails.projectId = getProjectId(platformDetails.platform);
 
   return platformDetails;
 }

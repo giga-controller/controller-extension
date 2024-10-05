@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { getProjectId } from "@/lib/utils";
 import { getPlatformDetails } from "@/scripts/base";
 import { PlatformDetails } from "@/types/platform";
 
