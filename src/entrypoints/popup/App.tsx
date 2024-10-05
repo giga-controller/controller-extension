@@ -1,5 +1,6 @@
 import GoogleIntegration from "@/components/integrations/google";
 import LinearIntegration from "@/components/integrations/linear";
+import RedditIntegration from "@/components/integrations/reddit";
 import SlackIntegration from "@/components/integrations/slack";
 import XIntegration from "@/components/integrations/x";
 import { Button } from "@/components/ui/button";
@@ -83,6 +84,12 @@ function App() {
           />
           <XIntegration
             selected={integrationState.integration === integrationEnum.Values.x}
+            updateIntegrationState={updateIntegrationState}
+          />
+          <RedditIntegration
+            selected={
+              integrationState.integration === integrationEnum.Values.reddit
+            }
             updateIntegrationState={updateIntegrationState}
           />
         </div>
