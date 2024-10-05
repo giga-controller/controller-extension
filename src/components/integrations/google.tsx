@@ -8,7 +8,6 @@ interface GoogleIntegrationProps {
 
 export const GOOGLE_CLOUD_TARGET_URL = "https://console.cloud.google.com";
 
-
 export default function GoogleIntegration({
   selected,
   updateIntegrationState,

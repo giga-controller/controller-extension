@@ -103,7 +103,11 @@ export default defineContentScript({
             );
           }
 
-          if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) {            
+          if (
+            element &&
+            (element instanceof HTMLInputElement ||
+              element instanceof HTMLTextAreaElement)
+          ) {
             element.value = value;
             const inputEvent = new Event("input", { bubbles: true });
             element.dispatchEvent(inputEvent);
