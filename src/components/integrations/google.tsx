@@ -1,5 +1,9 @@
 import BaseIntegration from "@/components/integrations/base";
-import { Integration, integrationEnum, IntegrationState } from "@/types/integrations";
+import {
+  Integration,
+  integrationEnum,
+  IntegrationState,
+} from "@/types/integrations";
 
 interface GoogleBaseIntegrationProps {
   selected: boolean;

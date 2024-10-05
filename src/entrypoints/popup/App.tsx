@@ -13,7 +13,12 @@ import {
 } from "@/types/integrations";
 import { PlatformDetails } from "@/types/platform";
 import { Input } from "@/components/ui/input";
-import { GDocsIntegration, GDriveIntegration, GmailIntegration, GSheetsIntegration } from "@/components/integrations/google";
+import {
+  GDocsIntegration,
+  GDriveIntegration,
+  GmailIntegration,
+  GSheetsIntegration,
+} from "@/components/integrations/google";
 
 function App() {
   const [integrationState, setIntegrationState] = useState<IntegrationState>(
