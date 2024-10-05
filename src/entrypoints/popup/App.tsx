@@ -1,6 +1,7 @@
 import GoogleIntegration from "@/components/integrations/google";
 import LinearIntegration from "@/components/integrations/linear";
 import SlackIntegration from "@/components/integrations/slack";
+import XIntegration from "@/components/integrations/x";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getPlatformDetails } from "@/scripts/base";
@@ -78,6 +79,10 @@ function App() {
             selected={
               integrationState.integration === integrationEnum.Values.linear
             }
+            updateIntegrationState={updateIntegrationState}
+          />
+          <XIntegration
+            selected={integrationState.integration === integrationEnum.Values.x}
             updateIntegrationState={updateIntegrationState}
           />
         </div>

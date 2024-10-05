@@ -1,22 +1,22 @@
 import BaseIntegration from "@/components/integrations/base";
 import { integrationEnum, IntegrationState } from "@/types/integrations";
 
-interface SlackIntegrationProps {
+interface XIntegrationProps {
   selected: boolean;
   updateIntegrationState: (url: IntegrationState) => void;
 }
 
-export const SLACK_TARGET_URL = "https://api.slack.com/apps";
+export const X_TARGET_URL = "https://developer.x.com/en/portal/dashboard";
 
-export default function SlackIntegration({
+export default function XIntegration({
   selected,
   updateIntegrationState,
-}: SlackIntegrationProps) {
+}: XIntegrationProps) {
   return (
     <BaseIntegration
       selected={selected}
-      integration={integrationEnum.Values.slack}
-      url={SLACK_TARGET_URL}
+      integration={integrationEnum.Values.x}
+      url={X_TARGET_URL}
       updateIntegrationState={updateIntegrationState}
     />
   );

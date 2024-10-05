@@ -3,7 +3,10 @@ import {
   createGoogleOauth2ApplicationPartOne,
   createGoogleOauth2ApplicationPartThree,
   createGoogleOauth2ApplicationPartTwo,
-} from '@/scripts/google/injected'
+} from '@/scripts/injected/google'
+import { createLinearOauth2ApplicationPartOne } from '@/scripts/injected/linear'
+import { createSlackOauth2ApplicationPartOne } from '@/scripts/injected/slack'
+import { createXOauth2ApplicationPartOne } from '@/scripts/injected/x'
 import { MessageTypeEnum, messageTypeEnumSchema } from '@/types/message'
 import { PlatformDetails } from '@/types/platform'
 import {
@@ -20,7 +23,10 @@ import {
 } from '@/types/scripts/base'
 
 const GOOGLE_CLOUD_BASE_URL = 'https://console.cloud.google.com'
-// const GOOGLE_CLOUD_BASE_URL = "https://www.google.com"
+const LINEAR_BASE_URL = 'https://linear.app'
+const SLACK_BASE_URL = 'https://api.slack.com/apps'
+const X_HOME_PAGE_URL = 'https://x.com/home'
+const X_DEVELOPER_PAGE_URL = 'https://developer.x.com/en/portal/dashboard'
 
 const createButton = (autoClick: boolean, onClick: () => Promise<void>, buttonText: string) => {
   // This function creates a button and injects it into the client's DOM
@@ -299,6 +305,83 @@ export default defineUnlistedScript(() => {
         },
       })
       await injectButton(injectPartThreeButtonRequest)
+    }
+    else if (
+      window.location.href.includes(LINEAR_BASE_URL)
+      && platformDetails
+    ) {
+      const APPLICATION_NAME_INPUT_ID: string = 'name'
+      const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+        autoClick: false,
+        baseUrl: LINEAR_BASE_URL,
+        querySelector: querySelectorSchema.parse({
+          id: APPLICATION_NAME_INPUT_ID,
+        }),
+        injectedScript: async () => {
+          if (!platformDetails)
+            return
+          await createLinearOauth2ApplicationPartOne(
+            platformDetails,
+            waitUntilPageLoaded,
+            waitUntilActionMessageResolved,
+            waitUntilRetrieveMessageResolved,
+          )
+        },
+      })
+      await injectButton(injectPartOneButtonRequest)
+    }
+    else if (window.location.href === SLACK_BASE_URL && platformDetails) {
+      const CREATE_APP_BUTTON_CLASS_QUERY = constructClassQuery(
+        'create_new_app_button',
+      )
+      const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+        autoClick: false,
+        baseUrl: SLACK_BASE_URL,
+        querySelector: querySelectorSchema.parse({
+          class: CREATE_APP_BUTTON_CLASS_QUERY,
+        }),
+        injectedScript: async () => {
+          if (!platformDetails)
+            return
+          await createSlackOauth2ApplicationPartOne(
+            platformDetails,
+            waitUntilPageLoaded,
+            waitUntilActionMessageResolved,
+            waitUntilRetrieveMessageResolved,
+          )
+        },
+      })
+      await injectButton(injectPartOneButtonRequest)
+    }
+    else if (window.location.href === X_HOME_PAGE_URL && platformDetails) {
+      // X's redirection after logging in is wonky (it redirects to home page instead of developer portal)
+      window.location.href = X_DEVELOPER_PAGE_URL
+    }
+    else if (
+      window.location.href === X_DEVELOPER_PAGE_URL
+      && platformDetails
+    ) {
+      const PROJECT_AND_APPS_DROPDOWN_CLASS_QUERY = constructClassQuery(
+        'index__navItemButton--352Fy',
+      )
+      const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+        autoClick: false,
+        baseUrl: X_DEVELOPER_PAGE_URL,
+        querySelector: querySelectorSchema.parse({
+          class: PROJECT_AND_APPS_DROPDOWN_CLASS_QUERY,
+        }),
+        injectedScript: async () => {
+          if (!platformDetails)
+            return
+          await createXOauth2ApplicationPartOne(
+            platformDetails,
+            waitUntilPageLoaded,
+            waitUntilActionMessageResolved,
+            waitUntilRetrieveMessageResolved,
+          )
+        },
+      })
+      await injectButton(injectPartOneButtonRequest)
     }
   }
 

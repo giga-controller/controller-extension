@@ -67,6 +67,11 @@ export default defineContentScript({
               `[aria-label="${query.ariaLabel}"]`,
             ) as HTMLElement
           }
+          else if (query.dataTestId) {
+            element = document.querySelector(
+              `[data-testid="${query.dataTestId}"]`,
+            ) as HTMLElement
+          }
 
           if (element) {
             element.click()
@@ -104,14 +109,32 @@ export default defineContentScript({
             element = all_matching_elements[
               Math.min(query.index || 0, all_matching_elements.length - 1)
             ] as HTMLElement
+            console.log('Element successfully retrieved:', element)
           }
           else if (query.ariaLabel) {
             element = document.querySelector(
               `[aria-label="${query.ariaLabel}"]`,
             )
           }
+          else if (query.value) {
+            element = document.querySelector(`[value="${query.value}"]`)
+          }
+          else if (query.ariaLabelledby) {
+            element = document.querySelector(
+              `[aria-labelledby="${query.ariaLabelledby}"]`,
+            )
+          }
+          else if (query.dataTestId) {
+            element = document.querySelector(
+              `[data-testid="${query.dataTestId}"]`,
+            )
+          }
 
-          if (element && element instanceof HTMLInputElement) {
+          if (
+            element
+            && (element instanceof HTMLInputElement
+              || element instanceof HTMLTextAreaElement)
+          ) {
             element.value = value
             const inputEvent = new Event('input', { bubbles: true })
             element.dispatchEvent(inputEvent)
