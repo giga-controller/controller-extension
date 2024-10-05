@@ -1,7 +1,7 @@
 /* eslint-disable unused-imports/no-unused-vars */
-import { constructClassQuery } from "@/lib/utils";
-import { messageTypeEnumSchema } from "@/types/message";
-import { PlatformDetails } from "@/types/platform";
+import { constructClassQuery, updateButtonText } from '@/lib/utils'
+import { messageTypeEnumSchema } from '@/types/message'
+import { PlatformDetails } from '@/types/platform'
 import {
   BaseRequest,
   ClickRequest,
@@ -11,7 +11,7 @@ import {
   querySelectorSchema,
   RetrieveRequest,
   retrieveRequestSchema,
-} from "@/types/scripts/base";
+} from '@/types/scripts/base'
 
 export const createGoogleOauth2ApplicationPartOne = async (
   platformDetails: PlatformDetails,
@@ -21,77 +21,78 @@ export const createGoogleOauth2ApplicationPartOne = async (
     request: RetrieveRequest,
   ) => Promise<string>,
 ) => {
-  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
-    platformDetails;
+  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId }
+    = platformDetails
 
   const PROJECT_DROPDOWN_BUTTON_CLASS_QUERY: string = constructClassQuery(
-    "mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button",
-  );
+    'mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button',
+  )
   const clickProjectDropdownButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: PROJECT_DROPDOWN_BUTTON_CLASS_QUERY,
     }),
-  });
-  await waitUntilMessageResolved(clickProjectDropdownButtonRequest);
+  })
+  updateButtonText('Navigating...')
+  await waitUntilMessageResolved(clickProjectDropdownButtonRequest)
 
   const NEW_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
-    "purview-picker-create-project-button mdc-button mat-mdc-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
-  );
+    'purview-picker-create-project-button mdc-button mat-mdc-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted',
+  )
   const clickNewProjectButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: NEW_PROJECT_BUTTON_CLASS_QUERY,
     }),
-  });
-  await waitUntilMessageResolved(clickNewProjectButtonRequest);
+  })
+  await waitUntilMessageResolved(clickNewProjectButtonRequest)
 
-  const PROJECT_NAME_INPUT_ID: string = "p6ntest-name-input";
+  const PROJECT_NAME_INPUT_ID: string = 'p6ntest-name-input'
   const clickProjectNameInputRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       id: PROJECT_NAME_INPUT_ID,
     }),
-  });
-  await waitUntilMessageResolved(clickProjectNameInputRequest);
+  })
+  await waitUntilMessageResolved(clickProjectNameInputRequest)
 
   const fillProjectNameInputRequest = fillInputRequestSchema.parse({
     value: platform,
     query: querySelectorSchema.parse({
       id: PROJECT_NAME_INPUT_ID,
     }),
-  });
-  await waitUntilMessageResolved(fillProjectNameInputRequest);
+  })
+  await waitUntilMessageResolved(fillProjectNameInputRequest)
 
-  const EDIT_PROJECT_ID_BUTTON_ID: string = "p6ntest-show-edit-proj-id";
+  const EDIT_PROJECT_ID_BUTTON_ID: string = 'p6ntest-show-edit-proj-id'
   const editProjectIdButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       id: EDIT_PROJECT_ID_BUTTON_ID,
     }),
-  });
-  await waitUntilMessageResolved(editProjectIdButtonRequest);
+  })
+  await waitUntilMessageResolved(editProjectIdButtonRequest)
 
-  const PROJECT_ID_INPUT_ID: string = "p6ntest-id-input";
+  const PROJECT_ID_INPUT_ID: string = 'p6ntest-id-input'
   const fillProjectIdInputRequest = fillInputRequestSchema.parse({
     query: querySelectorSchema.parse({
       id: PROJECT_ID_INPUT_ID,
     }),
     value: projectId,
-  });
-  await waitUntilMessageResolved(fillProjectIdInputRequest);
+  })
+  await waitUntilMessageResolved(fillProjectIdInputRequest)
 
   const CREATE_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
-    "projtest-create-form-submit mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
-  );
+    'projtest-create-form-submit mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button',
+  )
   const clickCreateProjectButtonRequest = clickRequestSchema.parse({
     type: messageTypeEnumSchema.Values.click,
     query: querySelectorSchema.parse({
       class: CREATE_PROJECT_BUTTON_CLASS_QUERY,
     }),
-  });
-  await waitUntilMessageResolved(clickCreateProjectButtonRequest);
+  })
+  await waitUntilMessageResolved(clickCreateProjectButtonRequest)
 
-  const OAUTH_CONSENT_SCREEN_LINK: string = `https://console.cloud.google.com/apis/credentials/consent?project=${projectId}`;
-  window.location.href = OAUTH_CONSENT_SCREEN_LINK;
-  await waitUntilPageLoaded();
-};
+  const OAUTH_CONSENT_SCREEN_LINK: string = `https://console.cloud.google.com/apis/credentials/consent?project=${projectId}`
+  window.location.href = OAUTH_CONSENT_SCREEN_LINK
+  await waitUntilPageLoaded()
+}
 
 export const createGoogleOauth2ApplicationPartTwo = async (
   platformDetails: PlatformDetails,
@@ -101,132 +102,134 @@ export const createGoogleOauth2ApplicationPartTwo = async (
     request: RetrieveRequest,
   ) => Promise<string>,
 ) => {
-  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
-    platformDetails;
+  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId }
+    = platformDetails
 
-  const EXTERNAL_USER_TYPE_INPUT_ID: string = "_0rif_mat-radio-3-input";
+  const EXTERNAL_USER_TYPE_INPUT_ID: string = '_0rif_mat-radio-3-input'
   const clickExternalUserTypeInputRequest = clickRequestSchema.parse({
     type: messageTypeEnumSchema.Values.click,
     query: querySelectorSchema.parse({
       id: EXTERNAL_USER_TYPE_INPUT_ID,
     }),
-  });
-  await waitUntilMessageResolved(clickExternalUserTypeInputRequest);
+  })
 
-  const CREATE_OAUTH_CONSENT_SCREEN_BUTTON_CLASS_QUERY: string =
-    constructClassQuery(
-      "mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
-    );
+  updateButtonText('Filling application details...')
+  await waitUntilMessageResolved(clickExternalUserTypeInputRequest)
+
+  const CREATE_OAUTH_CONSENT_SCREEN_BUTTON_CLASS_QUERY: string
+    = constructClassQuery(
+      'mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button',
+    )
   const clickCreateOauthConsentScreenButtonRequest = clickRequestSchema.parse({
     type: messageTypeEnumSchema.Values.click,
     query: querySelectorSchema.parse({
       class: CREATE_OAUTH_CONSENT_SCREEN_BUTTON_CLASS_QUERY,
       index: 1,
     }),
-  });
-  await waitUntilMessageResolved(clickCreateOauthConsentScreenButtonRequest);
+  })
+  await waitUntilMessageResolved(clickCreateOauthConsentScreenButtonRequest)
 
   const APP_NAME_INPUT_CLASS_QUERY: string = constructClassQuery(
-    "cm-input mat-mdc-input-element ng-pristine gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input",
-  );
+    'cm-input mat-mdc-input-element ng-pristine gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input',
+  )
   const fillAppNameInputRequest = fillInputRequestSchema.parse({
     value: platform,
     query: querySelectorSchema.parse({
       class: APP_NAME_INPUT_CLASS_QUERY,
     }),
-  });
-  await waitUntilMessageResolved(fillAppNameInputRequest);
+  })
+  await waitUntilMessageResolved(fillAppNameInputRequest)
 
   const USER_SUPPORT_EMAIL_DROPDOWN_CLASS_QUERY: string = constructClassQuery(
-    "cfc-select ng-untouched ng-pristine",
-  );
+    'cfc-select ng-untouched ng-pristine',
+  )
   const clickUserSupportEmailDropdownRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: USER_SUPPORT_EMAIL_DROPDOWN_CLASS_QUERY,
     }),
-  });
-  await waitUntilMessageResolved(clickUserSupportEmailDropdownRequest);
+  })
+  await waitUntilMessageResolved(clickUserSupportEmailDropdownRequest)
 
   const USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY: string = constructClassQuery(
-    "mat-mdc-option mdc-list-item",
-  );
+    'mat-mdc-option mdc-list-item',
+  )
   const clickUserSupportEmailSelectionRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY,
     }),
-  });
-  await waitUntilMessageResolved(clickUserSupportEmailSelectionRequest);
+  })
+  await waitUntilMessageResolved(clickUserSupportEmailSelectionRequest)
 
-  const USER_SUPPORT_EMAIL_ID: string = "_0rif_cfc-select-0-select-value";
+  const USER_SUPPORT_EMAIL_ID: string = '_0rif_cfc-select-0-select-value'
   const retrieveUserSupportEmailSelectionRequest = retrieveRequestSchema.parse({
     query: querySelectorSchema.parse({
       id: USER_SUPPORT_EMAIL_ID,
     }),
-  });
+  })
   const email: string = await waitUntilRetrieveMessageResolved(
     retrieveUserSupportEmailSelectionRequest,
-  );
+  )
   if (!email) {
-    throw new Error("Failed to retrieve email");
+    throw new Error('Failed to retrieve email')
   }
 
   const DEVELOPER_CONTACT_EMAIL_CLASS_QUERY: string = constructClassQuery(
-    "mat-mdc-chip-input mat-mdc-input-element mdc-text-field__input mat-input-element mat-mdc-form-field-input-control",
-  );
+    'mat-mdc-chip-input mat-mdc-input-element mdc-text-field__input mat-input-element mat-mdc-form-field-input-control',
+  )
   const fillDeveloperContactEmailInputRequest = fillInputRequestSchema.parse({
     value: email,
     query: querySelectorSchema.parse({
       class: DEVELOPER_CONTACT_EMAIL_CLASS_QUERY,
     }),
-  });
-  await waitUntilMessageResolved(fillDeveloperContactEmailInputRequest);
+  })
+  await waitUntilMessageResolved(fillDeveloperContactEmailInputRequest)
 
   const SAVE_AND_CONTINUE_BUTTON_CLASS_QUERY: string = constructClassQuery(
-    "cfc-stepper-step-button cfc-stepper-step-continue-button mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
-  );
+    'cfc-stepper-step-button cfc-stepper-step-continue-button mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted',
+  )
   const clickSaveAndContinueButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: SAVE_AND_CONTINUE_BUTTON_CLASS_QUERY,
     }),
-  });
-  await waitUntilMessageResolved(clickSaveAndContinueButtonRequest);
+  })
+  await waitUntilMessageResolved(clickSaveAndContinueButtonRequest)
 
   // Skip Scopes section
-  await waitUntilMessageResolved(clickSaveAndContinueButtonRequest);
+  await waitUntilMessageResolved(clickSaveAndContinueButtonRequest)
 
   const ADD_USERS_BUTTON_CLASS_QUERY: string = constructClassQuery(
-    "cfc-space-above-minus-3 cfc-space-below-plus-2 mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
-  );
+    'cfc-space-above-minus-3 cfc-space-below-plus-2 mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted',
+  )
   const clickAddUsersButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: ADD_USERS_BUTTON_CLASS_QUERY,
     }),
-  });
-  await waitUntilMessageResolved(clickAddUsersButtonRequest);
+  })
+  await waitUntilMessageResolved(clickAddUsersButtonRequest)
 
-  const ADD_USERS_INPUT_ID: string = "_0rif_mat-mdc-chip-list-input-1";
+  const ADD_USERS_INPUT_ID: string = '_0rif_mat-mdc-chip-list-input-1'
   const fillAddUsersInputRequest = fillInputRequestSchema.parse({
     value: email,
     query: querySelectorSchema.parse({
       id: ADD_USERS_INPUT_ID,
     }),
-  });
-  await waitUntilMessageResolved(fillAddUsersInputRequest);
+  })
+  await waitUntilMessageResolved(fillAddUsersInputRequest)
 
   const ADD_TESTING_USERS_BUTTON_CLASS_QUERY: string = constructClassQuery(
-    "mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
-  );
+    'mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button',
+  )
   const clickAddTestingUsersButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: ADD_TESTING_USERS_BUTTON_CLASS_QUERY,
     }),
-  });
-  await waitUntilMessageResolved(clickAddTestingUsersButtonRequest);
+  })
+  await waitUntilMessageResolved(clickAddTestingUsersButtonRequest)
 
-  const OAUTH_CLIENT_ID_LINK: string = `https://console.cloud.google.com/apis/credentials/oauthclient?previousPage=%2Fapis%2Fcredentials%3Fproject%3D${projectId}&project=${projectId}`;
-  window.location.href = OAUTH_CLIENT_ID_LINK;
-  await waitUntilPageLoaded();
-};
+  const OAUTH_CLIENT_ID_LINK: string = `https://console.cloud.google.com/apis/credentials/oauthclient?previousPage=%2Fapis%2Fcredentials%3Fproject%3D${projectId}&project=${projectId}`
+  window.location.href = OAUTH_CLIENT_ID_LINK
+  await waitUntilPageLoaded()
+}
 
 export const createGoogleOauth2ApplicationPartThree = async (
   platformDetails: PlatformDetails,
@@ -236,51 +239,53 @@ export const createGoogleOauth2ApplicationPartThree = async (
     request: RetrieveRequest,
   ) => Promise<string>,
 ) => {
-  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
-    platformDetails;
+  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId }
+    = platformDetails
 
   const APPLICATION_TYPE_DROPDOWN_CLASS_QUERY: string = constructClassQuery(
-    "mdc-floating-label mat-mdc-floating-label ng-star-inserted",
-  );
+    'mdc-floating-label mat-mdc-floating-label ng-star-inserted',
+  )
   const clickApplicationTypeDropdownRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: APPLICATION_TYPE_DROPDOWN_CLASS_QUERY,
     }),
-  });
-  await waitUntilMessageResolved(clickApplicationTypeDropdownRequest);
+  })
+
+  updateButtonText('Putting the finishing touches...')
+  await waitUntilMessageResolved(clickApplicationTypeDropdownRequest)
 
   const WEB_APPLICATION_SELECTION_CLASS_QUERY: string = constructClassQuery(
-    "mat-mdc-option mdc-list-item",
-  );
+    'mat-mdc-option mdc-list-item',
+  )
   const clickWebApplicationSelectionRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: WEB_APPLICATION_SELECTION_CLASS_QUERY,
     }),
-  });
-  await waitUntilMessageResolved(clickWebApplicationSelectionRequest);
+  })
+  await waitUntilMessageResolved(clickWebApplicationSelectionRequest)
 
   const INPUT_CLASS_QUERY: string = constructClassQuery(
-    "cm-input mat-mdc-input-element gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input cdk-text-field-autofill-monitored",
-  );
+    'cm-input mat-mdc-input-element gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input cdk-text-field-autofill-monitored',
+  )
 
   const fillApplicationNameInputRequest = fillInputRequestSchema.parse({
     value: platform,
     query: querySelectorSchema.parse({
       class: INPUT_CLASS_QUERY,
     }),
-  });
-  await waitUntilMessageResolved(fillApplicationNameInputRequest);
+  })
+  await waitUntilMessageResolved(fillApplicationNameInputRequest)
 
-  const ADD_JAVASCRIPT_ORIGIN_URI_BUTTON_CLASS_QUERY: string =
-    constructClassQuery(
-      "cfc-form-stack-add-button cfc-button-small mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
-    );
+  const ADD_JAVASCRIPT_ORIGIN_URI_BUTTON_CLASS_QUERY: string
+    = constructClassQuery(
+      'cfc-form-stack-add-button cfc-button-small mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted',
+    )
   const clickAddJavascriptOriginUriButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: ADD_JAVASCRIPT_ORIGIN_URI_BUTTON_CLASS_QUERY,
     }),
-  });
-  await waitUntilMessageResolved(clickAddJavascriptOriginUriButtonRequest);
+  })
+  await waitUntilMessageResolved(clickAddJavascriptOriginUriButtonRequest)
 
   const fillJavascriptOriginUriInputRequest = fillInputRequestSchema.parse({
     value: javaScriptOriginUri,
@@ -288,16 +293,16 @@ export const createGoogleOauth2ApplicationPartThree = async (
       class: INPUT_CLASS_QUERY,
       index: 1,
     }),
-  });
-  await waitUntilMessageResolved(fillJavascriptOriginUriInputRequest);
+  })
+  await waitUntilMessageResolved(fillJavascriptOriginUriInputRequest)
 
   const clickAddRedirectUriButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: ADD_JAVASCRIPT_ORIGIN_URI_BUTTON_CLASS_QUERY,
       index: 1,
     }),
-  });
-  await waitUntilMessageResolved(clickAddRedirectUriButtonRequest);
+  })
+  await waitUntilMessageResolved(clickAddRedirectUriButtonRequest)
 
   const fillRedirectUriInputRequest = fillInputRequestSchema.parse({
     value: javaScriptRedirectUri,
@@ -305,17 +310,18 @@ export const createGoogleOauth2ApplicationPartThree = async (
       class: INPUT_CLASS_QUERY,
       index: 2,
     }),
-  });
-  await waitUntilMessageResolved(fillRedirectUriInputRequest);
+  })
+  await waitUntilMessageResolved(fillRedirectUriInputRequest)
 
   const CREATE_OAUTH_CLIENT_BUTTON_CLASS_QUERY: string = constructClassQuery(
-    "mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
-  );
+    'mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button',
+  )
   const clickCreateOauthClientButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: CREATE_OAUTH_CLIENT_BUTTON_CLASS_QUERY,
       index: 1,
     }),
-  });
-  await waitUntilMessageResolved(clickCreateOauthClientButtonRequest);
-};
+  })
+  await waitUntilMessageResolved(clickCreateOauthClientButtonRequest)
+  updateButtonText('OAuth Client ID created!')
+}
