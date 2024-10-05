@@ -324,4 +324,10 @@ export const createGoogleOauth2ApplicationPartThree = async (
   })
   await waitUntilMessageResolved(clickCreateOauthClientButtonRequest)
   updateButtonText('OAuth Client ID created!')
+  browser.storage.local.set({
+    platform: null,
+    javaScriptOriginUri: null,
+    javaScriptRedirectUri: null,
+    projectId: null,
+  })
 }

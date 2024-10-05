@@ -8,6 +8,7 @@ import {
   querySelectorSchema,
   RetrieveRequest,
 } from '@/types/scripts/base'
+import { ZodNull } from 'zod'
 
 export const createLinearOauth2ApplicationPartOne = async (
   platformDetails: PlatformDetails,
@@ -66,4 +67,10 @@ export const createLinearOauth2ApplicationPartOne = async (
   })
   await waitUntilMessageResolved(clickCreateApplicationButtonRequest)
   updateButtonText('OAuth Client ID created!')
+  browser.storage.local.set({
+    platform: null,
+    javaScriptOriginUri: null,
+    javaScriptRedirectUri: null,
+    projectId: null,
+  })
 }

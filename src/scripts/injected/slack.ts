@@ -84,4 +84,10 @@ export const createSlackOauth2ApplicationPartOne = async (
   })
   await waitUntilMessageResolved(clickCreateAppButtonRequest)
   updateButtonText('OAuth Client ID created!')
+  browser.storage.local.set({
+    platform: null,
+    javaScriptOriginUri: null,
+    javaScriptRedirectUri: null,
+    projectId: null,
+  })
 }
