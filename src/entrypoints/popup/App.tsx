@@ -1,35 +1,35 @@
-import GoogleIntegration from "@/components/integrations/google";
-import LinearIntegration from "@/components/integrations/linear";
-import SlackIntegration from "@/components/integrations/slack";
-import XIntegration from "@/components/integrations/x";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { getPlatformDetails } from "@/scripts/base";
+import GoogleIntegration from '@/components/integrations/google'
+import LinearIntegration from '@/components/integrations/linear'
+import SlackIntegration from '@/components/integrations/slack'
+import XIntegration from '@/components/integrations/x'
+import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { getPlatformDetails } from '@/scripts/base'
 import {
   defaultIntegrationState,
   integrationEnum,
   IntegrationState,
-} from "@/types/integrations";
-import { PlatformDetails } from "@/types/platform";
+} from '@/types/integrations'
+import { PlatformDetails } from '@/types/platform'
 
 function App() {
   const [integrationState, setIntegrationState] = useState<IntegrationState>(
     defaultIntegrationState,
-  );
+  )
 
   const updateIntegrationState = (input: IntegrationState) => {
-    setIntegrationState(input);
-  };
+    setIntegrationState(input)
+  }
 
   const confirmNavigation = async (url: string) => {
-    const platformDetails: PlatformDetails = await getPlatformDetails();
+    const platformDetails: PlatformDetails = await getPlatformDetails()
 
     browser.storage.local.set({
       platform: platformDetails.platform,
       javaScriptOriginUri: platformDetails.javaScriptOriginUri,
       javaScriptRedirectUri: platformDetails.javaScriptRedirectUri,
       projectId: platformDetails.projectId,
-    });
+    })
 
     browser.tabs
       .query({ active: true, currentWindow: true })
@@ -38,31 +38,32 @@ function App() {
           return browser.tabs
             .update(tabs[0].id!, { url: url })
             .then((response) => {
-              console.log("Navigate to URL response:", response);
-              return browser.tabs.sendMessage(tabs[0].id!, { input: url });
+              console.log('Navigate to URL response:', response)
+              return browser.tabs.sendMessage(tabs[0].id!, { input: url })
             })
             .catch((error) => {
-              console.error("Error navigating to URL:", error);
-              throw new Error("Error navigating to URL");
-            });
-        } else {
-          console.error("No active tab found");
-          throw new Error("No active tab found");
+              console.error('Error navigating to URL:', error)
+              throw new Error('Error navigating to URL')
+            })
+        }
+        else {
+          console.error('No active tab found')
+          throw new Error('No active tab found')
         }
       })
       .catch((error) => {
-        console.error("Error invoking navigateToUrl:", error);
-        throw new Error("Error invoking navigateToUrl");
-      });
-  };
+        console.error('Error invoking navigateToUrl:', error)
+        throw new Error('Error invoking navigateToUrl')
+      })
+  }
 
   return (
-    <ScrollArea className="min-w-[400px] max-w-[600px] flex flex-col gap-4">
-      <h1 className="text-center font-bold text-2xl py-5">
+    <ScrollArea className="flex min-w-[320px] max-w-[600px] flex-col gap-4 p-2">
+      <h1 className="ml-4 py-5 text-left text-lg font-bold">
         Select Integration
       </h1>
-      <div className="flex items-center justify-center flex-col w-full">
-        <div className="p-5 space-y-2 mb-3">
+      <div className="flex w-full flex-col items-center justify-center">
+        <div className="mb-3 grid grid-cols-3 gap-2 p-3 ">
           <GoogleIntegration
             selected={
               integrationState.integration === integrationEnum.Values.google
@@ -86,15 +87,15 @@ function App() {
             updateIntegrationState={updateIntegrationState}
           />
         </div>
-        <div className="flex justify-center min-w-[50%] pb-3">
+        <div className="flex w-full  justify-center px-4 pb-3">
           <Button
-            className="w-full text-lg"
+            className="w-full text-lg "
             disabled={!integrationState.targetUrl}
             onClick={() => {
               if (!integrationState.targetUrl) {
-                return;
+                return
               }
-              confirmNavigation(integrationState.targetUrl);
+              confirmNavigation(integrationState.targetUrl)
             }}
           >
             Confirm
@@ -102,7 +103,7 @@ function App() {
         </div>
       </div>
     </ScrollArea>
-  );
+  )
 }
 
-export default App;
+export default App
