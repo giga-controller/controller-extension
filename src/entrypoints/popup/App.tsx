@@ -13,11 +13,13 @@ import {
   IntegrationState,
 } from "@/types/integrations";
 import { PlatformDetails } from "@/types/platform";
+import { Input } from "@/components/ui/input";
 
 function App() {
   const [integrationState, setIntegrationState] = useState<IntegrationState>(
     defaultIntegrationState,
   );
+  const [searchTerm, setSearchTerm] = useState("");
 
   const updateIntegrationState = (input: IntegrationState) => {
     setIntegrationState(input);
@@ -58,45 +60,52 @@ function App() {
       });
   };
 
+  const integrations = [
+    { component: GoogleIntegration, value: integrationEnum.Values.google },
+    { component: SlackIntegration, value: integrationEnum.Values.slack },
+    { component: LinearIntegration, value: integrationEnum.Values.linear },
+    { component: XIntegration, value: integrationEnum.Values.x },
+    { component: RedditIntegration, value: integrationEnum.Values.reddit },
+  ];
+
+  const filteredIntegrations = integrations.filter((integration) =>
+    integration.value.toLowerCase().startsWith(searchTerm.toLowerCase()),
+  );
+
   return (
     <ScrollArea className="flex min-w-[320px] max-w-[600px] flex-col gap-4 p-2">
       <h1 className="ml-4 py-5 text-left text-lg font-bold">
         Select Integration
       </h1>
       <div className="flex w-full flex-col items-center justify-center">
-        <div className="mb-3 grid grid-cols-3 gap-2 p-3 ">
-          <GoogleIntegration
-            selected={
-              integrationState.integration === integrationEnum.Values.google
-            }
-            updateIntegrationState={updateIntegrationState}
-          />
-          <SlackIntegration
-            selected={
-              integrationState.integration === integrationEnum.Values.slack
-            }
-            updateIntegrationState={updateIntegrationState}
-          />
-          <LinearIntegration
-            selected={
-              integrationState.integration === integrationEnum.Values.linear
-            }
-            updateIntegrationState={updateIntegrationState}
-          />
-          <XIntegration
-            selected={integrationState.integration === integrationEnum.Values.x}
-            updateIntegrationState={updateIntegrationState}
-          />
-          <RedditIntegration
-            selected={
-              integrationState.integration === integrationEnum.Values.reddit
-            }
-            updateIntegrationState={updateIntegrationState}
-          />
+        <Input
+          type="text"
+          placeholder="Search integrations..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="mb-3 max-w-[90%]"
+        />
+        <div className="mb-3 grid w-full grid-cols-3 gap-3 p-3">
+          {filteredIntegrations.length > 0 ? (
+            filteredIntegrations.map(
+              ({ component: IntegrationComponent, value }) => (
+                <div key={value}>
+                  <IntegrationComponent
+                    selected={integrationState.integration === value}
+                    updateIntegrationState={updateIntegrationState}
+                  />
+                </div>
+              ),
+            )
+          ) : (
+            <div className="col-span-3 ml-2 text-[15px] text-gray-800">
+              No results found.
+            </div>
+          )}
         </div>
-        <div className="flex w-full  justify-center px-4 pb-3">
+        <div className="flex w-full justify-center px-4 pb-3">
           <Button
-            className="w-full text-lg "
+            className="w-full text-lg"
             disabled={!integrationState.targetUrl}
             onClick={() => {
               if (!integrationState.targetUrl) {
