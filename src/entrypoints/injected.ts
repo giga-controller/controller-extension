@@ -1,5 +1,9 @@
 import { constructClassQuery } from "@/lib/utils";
-import { createGoogleOauth2ApplicationPartOne, createGoogleOauth2ApplicationPartThree, createGoogleOauth2ApplicationPartTwo } from "@/scripts/google/injected";
+import {
+  createGoogleOauth2ApplicationPartOne,
+  createGoogleOauth2ApplicationPartThree,
+  createGoogleOauth2ApplicationPartTwo,
+} from "@/scripts/google/injected";
 import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
 import {
@@ -157,7 +161,12 @@ async function waitUntilPageLoaded() {
   });
 }
 
-async function injectButton({autoClick, baseUrl, querySelector, injectedScript}: InjectButtonRequest) {
+async function injectButton({
+  autoClick,
+  baseUrl,
+  querySelector,
+  injectedScript,
+}: InjectButtonRequest) {
   await new Promise<void>((resolve) => {
     if (!window.location.href.includes(baseUrl)) {
       resolve();
@@ -190,12 +199,9 @@ async function injectButton({autoClick, baseUrl, querySelector, injectedScript}:
 
       if (elementFound) {
         clearInterval(interval);
-        createButton(
-          autoClick,
-          async () => {
-            await injectedScript();
-          }
-        );
+        createButton(autoClick, async () => {
+          await injectedScript();
+        });
         resolve();
       } else {
         location.reload();
@@ -203,7 +209,6 @@ async function injectButton({autoClick, baseUrl, querySelector, injectedScript}:
     }, 3000);
   });
 }
-
 
 export default defineUnlistedScript(() => {
   let platformDetails: PlatformDetails | null = null;
@@ -213,8 +218,8 @@ export default defineUnlistedScript(() => {
       window.location.href.includes(GOOGLE_CLOUD_BASE_URL) &&
       platformDetails
     ) {
-
-      const GOOGLE_CLOUD_START_PAGE_BASE_URL: string = "https://console.cloud.google.com/welcome"
+      const GOOGLE_CLOUD_START_PAGE_BASE_URL: string =
+        "https://console.cloud.google.com/welcome";
       const PROJECT_DROPDOWN_BUTTON_CLASS_QUERY: string = constructClassQuery(
         "mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button",
       );
@@ -231,13 +236,14 @@ export default defineUnlistedScript(() => {
             waitUntilClickMessageResolved,
             waitUntilFillInputMessageResolved,
             waitUntilRetrieveMessageResolved,
-            waitUntilPageLoaded, 
+            waitUntilPageLoaded,
           );
-        }
+        },
       });
       await injectButton(injectPartOneButtonRequest);
 
-      const OAUTH_CONSENT_SCREEN_BASE_URL: string = "https://console.cloud.google.com/apis/credentials/consent"
+      const OAUTH_CONSENT_SCREEN_BASE_URL: string =
+        "https://console.cloud.google.com/apis/credentials/consent";
       const EXTERNAL_USER_TYPE_INPUT_ID: string = "_0rif_mat-radio-3-input";
       const injectPartTwoButtonRequest = injectButtonRequestSchema.parse({
         autoClick: true,
@@ -252,9 +258,9 @@ export default defineUnlistedScript(() => {
             waitUntilClickMessageResolved,
             waitUntilFillInputMessageResolved,
             waitUntilRetrieveMessageResolved,
-            waitUntilPageLoaded, 
+            waitUntilPageLoaded,
           );
-        }
+        },
       });
       await injectButton(injectPartTwoButtonRequest);
 
@@ -275,9 +281,9 @@ export default defineUnlistedScript(() => {
             waitUntilClickMessageResolved,
             waitUntilFillInputMessageResolved,
             waitUntilRetrieveMessageResolved,
-            waitUntilPageLoaded, 
+            waitUntilPageLoaded,
           );
-        }
+        },
       });
       await injectButton(injectPartThreeButtonRequest);
     }

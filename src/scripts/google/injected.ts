@@ -126,7 +126,7 @@ export const createGoogleOauth2ApplicationPartTwo = async (
     type: messageTypeEnumSchema.Values.click,
     query: querySelectorSchema.parse({
       class: CREATE_OAUTH_CONSENT_SCREEN_BUTTON_CLASS_QUERY,
-      index: 1
+      index: 1,
     }),
   });
   await waitUntilClickMessageResolved(
@@ -233,7 +233,7 @@ export const createGoogleOauth2ApplicationPartTwo = async (
   const OAUTH_CLIENT_ID_LINK: string = `https://console.cloud.google.com/apis/credentials/oauthclient?previousPage=%2Fapis%2Fcredentials%3Fproject%3D${projectId}&project=${projectId}`;
   window.location.href = OAUTH_CLIENT_ID_LINK;
   await waitUntilPageLoaded();
-}
+};
 
 export const createGoogleOauth2ApplicationPartThree = async (
   platformDetails: PlatformDetails,
@@ -247,7 +247,7 @@ export const createGoogleOauth2ApplicationPartThree = async (
   waitUntilPageLoaded: () => Promise<void>,
 ) => {
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
-  platformDetails;
+    platformDetails;
 
   const APPLICATION_TYPE_DROPDOWN_CLASS_QUERY: string = constructClassQuery(
     "mdc-floating-label mat-mdc-floating-label ng-star-inserted",
@@ -324,8 +324,8 @@ export const createGoogleOauth2ApplicationPartThree = async (
   const clickCreateOauthClientButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: CREATE_OAUTH_CLIENT_BUTTON_CLASS_QUERY,
-      index: 1
+      index: 1,
     }),
   });
   await waitUntilClickMessageResolved(clickCreateOauthClientButtonRequest);
-}
+};
