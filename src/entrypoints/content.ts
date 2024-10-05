@@ -102,9 +102,7 @@ export default defineContentScript({
               `[aria-label="${query.ariaLabel}"]`,
             );
           } else if (query.value) {
-            element = document.querySelector(
-              `[value="${query.value}"]`,
-            );
+            element = document.querySelector(`[value="${query.value}"]`);
           } else if (query.ariaLabelledby) {
             element = document.querySelector(
               `[aria-labelledby="${query.ariaLabelledby}"]`,

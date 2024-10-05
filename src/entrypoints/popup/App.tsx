@@ -82,9 +82,7 @@ function App() {
             updateIntegrationState={updateIntegrationState}
           />
           <XIntegration
-            selected={
-              integrationState.integration === integrationEnum.Values.x
-            }
+            selected={integrationState.integration === integrationEnum.Values.x}
             updateIntegrationState={updateIntegrationState}
           />
         </div>

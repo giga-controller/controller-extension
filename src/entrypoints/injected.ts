@@ -28,7 +28,6 @@ const SLACK_BASE_URL = "https://api.slack.com/apps";
 const X_HOME_PAGE_URL = "https://x.com/home";
 const X_DEVELOPER_PAGE_URL = "https://developer.x.com/en/portal/dashboard";
 
-
 const createButton = (autoClick: boolean, onClick: () => Promise<void>) => {
   // This function creates the button and injects it into the client's DOM
   const button = document.createElement("button");
@@ -321,8 +320,13 @@ export default defineUnlistedScript(() => {
     } else if (window.location.href === X_HOME_PAGE_URL && platformDetails) {
       // X's redirection after logging in is wonky (it redirects to home page instead of developer portal)
       window.location.href = X_DEVELOPER_PAGE_URL;
-    } else if (window.location.href === X_DEVELOPER_PAGE_URL && platformDetails) {
-      const PROJECT_AND_APPS_DROPDOWN_CLASS_QUERY = constructClassQuery("index__navItemButton--352Fy");
+    } else if (
+      window.location.href === X_DEVELOPER_PAGE_URL &&
+      platformDetails
+    ) {
+      const PROJECT_AND_APPS_DROPDOWN_CLASS_QUERY = constructClassQuery(
+        "index__navItemButton--352Fy",
+      );
       const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
         autoClick: false,
         baseUrl: X_DEVELOPER_PAGE_URL,
