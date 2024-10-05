@@ -5,6 +5,7 @@ import {
   createGoogleOauth2ApplicationPartTwo,
 } from "@/scripts/injected/google";
 import { createLinearOauth2ApplicationPartOne } from "@/scripts/injected/linear";
+import { createSlackOauth2ApplicationPartOne } from "@/scripts/injected/slack";
 import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
 import {
@@ -22,6 +23,7 @@ import {
 
 export const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
 export const LINEAR_BASE_URL = "https://linear.app";
+export const SLACK_BASE_URL = "https://api.slack.com/apps";
 
 const createButton = (autoClick: boolean, onClick: () => Promise<void>) => {
   // This function creates the button and injects it into the client's DOM
@@ -283,6 +285,27 @@ export default defineUnlistedScript(() => {
         injectedScript: async () => {
           if (!platformDetails) return;
           await createLinearOauth2ApplicationPartOne(
+            platformDetails,
+            waitUntilPageLoaded,
+            waitUntilActionMessageResolved,
+            waitUntilRetrieveMessageResolved,
+          );
+        },
+      });
+      await injectButton(injectPartOneButtonRequest);
+    } else if (window.location.href === SLACK_BASE_URL && platformDetails) {
+      const CREATE_APP_BUTTON_CLASS_QUERY = constructClassQuery(
+        "create_new_app_button",
+      );
+      const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+        autoClick: false,
+        baseUrl: SLACK_BASE_URL,
+        querySelector: querySelectorSchema.parse({
+          class: CREATE_APP_BUTTON_CLASS_QUERY,
+        }),
+        injectedScript: async () => {
+          if (!platformDetails) return;
+          await createSlackOauth2ApplicationPartOne(
             platformDetails,
             waitUntilPageLoaded,
             waitUntilActionMessageResolved,

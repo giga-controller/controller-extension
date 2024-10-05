@@ -6,6 +6,8 @@ interface SlackIntegrationProps {
   updateIntegrationState: (url: IntegrationState) => void;
 }
 
+export const SLACK_TARGET_URL = "https://api.slack.com/apps";
+
 export default function SlackIntegration({
   selected,
   updateIntegrationState,
@@ -14,7 +16,7 @@ export default function SlackIntegration({
     <BaseIntegration
       selected={selected}
       integration={integrationEnum.Values.slack}
-      url="https://console.cloud.google.com"
+      url={SLACK_TARGET_URL}
       updateIntegrationState={updateIntegrationState}
     />
   );
