@@ -7,6 +7,7 @@ import {
 import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
 import {
+  BaseRequest,
   ClickRequest,
   clickRequestSchema,
   FillInputRequest,
@@ -66,58 +67,42 @@ const createButton = (autoClick: boolean, onClick: () => Promise<void>) => {
 };
 
 // We probably do not want to unify this helper functions into one because the messages' schema overlap with one another and safeParse might lead to the wrong condition. Additionally, these scripts need to be passed into the function, and cannot be imported
-async function waitUntilClickMessageResolved(request: ClickRequest) {
-  console.log("Waiting for Click Message to be resolved");
-  let requestInstance: ClickRequest;
+async function waitUntilActionMessageResolved(
+  request: BaseRequest,
+): Promise<void> {
+  let requestInstance: BaseRequest;
   let responseMessageType: MessageTypeEnum;
 
-  if (clickRequestSchema.safeParse(request).success) {
-    requestInstance = clickRequestSchema.parse(request);
-    responseMessageType = messageTypeEnumSchema.Values.clickResponse;
-  } else {
-    throw new Error("Invalid request type");
+  if (request.type === messageTypeEnumSchema.Values.click) {
+    if (clickRequestSchema.safeParse(request).success) {
+      console.log("Waiting for Click Message to be resolved");
+      requestInstance = clickRequestSchema.parse(request);
+      responseMessageType = messageTypeEnumSchema.Values.clickResponse;
+    } else {
+      throw new Error("Invalid request type for click");
+    }
+  } else if (request.type === messageTypeEnumSchema.Values.fillInput) {
+    console.log("Waiting for Fill Input Message to be resolved");
+    if (fillInputRequestSchema.safeParse(request).success) {
+      requestInstance = fillInputRequestSchema.parse(request);
+      responseMessageType = messageTypeEnumSchema.Values.fillInputResponse;
+    } else {
+      throw new Error("Invalid request type for fillInput");
+    }
   }
 
-  await new Promise<void>((resolve) => {
+  await new Promise<void | string>((resolve) => {
     const interval = setInterval(() => {
       window.postMessage(requestInstance, "*");
     }, 1000);
 
-    const listener = (event: MessageEvent) => {
+    const listener = (event: any) => {
       if (event.source !== window) return;
       if (event.data.type === responseMessageType) {
         clearInterval(interval);
         window.removeEventListener("message", listener);
-        resolve();
-      }
-    };
-    window.addEventListener("message", listener);
-  });
-}
-
-async function waitUntilFillInputMessageResolved(request: FillInputRequest) {
-  console.log("Waiting for Fill Input Message to be resolved");
-  let requestInstance: FillInputRequest;
-  let responseMessageType: MessageTypeEnum;
-
-  if (fillInputRequestSchema.safeParse(request).success) {
-    requestInstance = fillInputRequestSchema.parse(request);
-    responseMessageType = messageTypeEnumSchema.Values.fillInputResponse;
-  } else {
-    throw new Error("Invalid request type");
-  }
-
-  await new Promise<void>((resolve) => {
-    const interval = setInterval(() => {
-      window.postMessage(requestInstance, "*");
-    }, 1000);
-
-    const listener = (event: MessageEvent) => {
-      if (event.source !== window) return;
-      if (event.data.type === responseMessageType) {
-        clearInterval(interval);
-        window.removeEventListener("message", listener);
-        resolve();
+        console.log("Message received:", event.data);
+        resolve(event.data.value);
       }
     };
     window.addEventListener("message", listener);
@@ -233,10 +218,9 @@ export default defineUnlistedScript(() => {
           if (!platformDetails) return;
           await createGoogleOauth2ApplicationPartOne(
             platformDetails,
-            waitUntilClickMessageResolved,
-            waitUntilFillInputMessageResolved,
-            waitUntilRetrieveMessageResolved,
             waitUntilPageLoaded,
+            waitUntilActionMessageResolved,
+            waitUntilRetrieveMessageResolved,
           );
         },
       });
@@ -255,10 +239,9 @@ export default defineUnlistedScript(() => {
           if (!platformDetails) return;
           await createGoogleOauth2ApplicationPartTwo(
             platformDetails,
-            waitUntilClickMessageResolved,
-            waitUntilFillInputMessageResolved,
-            waitUntilRetrieveMessageResolved,
             waitUntilPageLoaded,
+            waitUntilActionMessageResolved,
+            waitUntilRetrieveMessageResolved,
           );
         },
       });
@@ -278,10 +261,9 @@ export default defineUnlistedScript(() => {
           if (!platformDetails) return;
           await createGoogleOauth2ApplicationPartThree(
             platformDetails,
-            waitUntilClickMessageResolved,
-            waitUntilFillInputMessageResolved,
-            waitUntilRetrieveMessageResolved,
             waitUntilPageLoaded,
+            waitUntilActionMessageResolved,
+            waitUntilRetrieveMessageResolved,
           );
         },
       });

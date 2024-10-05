@@ -54,7 +54,9 @@ export default defineContentScript({
               query.class,
             );
             console.log(`${all_matching_elements.length} elements found`);
-            element = all_matching_elements[query.index || 0] as HTMLElement;
+            element = all_matching_elements[
+              Math.min(query.index || 0, all_matching_elements.length - 1)
+            ] as HTMLElement;
           } else if (query.ariaLabel) {
             element = document.querySelector(
               `[aria-label="${query.ariaLabel}"]`,
@@ -91,7 +93,9 @@ export default defineContentScript({
               query.class,
             );
             console.log(`${all_matching_elements.length} elements found`);
-            element = all_matching_elements[query.index || 0];
+            element = all_matching_elements[
+              Math.min(query.index || 0, all_matching_elements.length - 1)
+            ] as HTMLElement;
           } else if (query.ariaLabel) {
             element = document.querySelector(
               `[aria-label="${query.ariaLabel}"]`,
@@ -136,7 +140,13 @@ export default defineContentScript({
           if (query.id) {
             element = document.getElementById(query.id) as HTMLElement;
           } else if (query.class) {
-            element = document.querySelectorAll(query.class)[0] as HTMLElement;
+            const all_matching_elements = document.querySelectorAll(
+              query.class,
+            );
+            console.log(`${all_matching_elements.length} elements found`);
+            element = all_matching_elements[
+              Math.min(query.index || 0, all_matching_elements.length - 1)
+            ] as HTMLElement;
           } else if (query.ariaLabel) {
             element = document.querySelector(
               `[aria-label="${query.ariaLabel}"]`,
@@ -148,7 +158,10 @@ export default defineContentScript({
               element.textContent || (element as HTMLInputElement).value;
             console.log("Value successfully retrieved:", value);
             window.postMessage(
-              { type: messageTypeEnumSchema.Values.retrieveResponse, value },
+              {
+                type: messageTypeEnumSchema.Values.retrieveResponse,
+                value: value,
+              },
               "*",
             );
           } else {

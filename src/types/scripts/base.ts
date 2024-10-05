@@ -1,15 +1,6 @@
 import z from "zod";
 import { messageTypeEnumSchema } from "@/types/message";
 
-export const navigateToUrlRequestSchema = z.object({
-  type: messageTypeEnumSchema.default(
-    messageTypeEnumSchema.Values.navigateToUrl,
-  ),
-  url: z.string(),
-});
-
-export type NavigateToUrlRequest = z.infer<typeof navigateToUrlRequestSchema>;
-
 export const querySelectorSchema = z.object({
   id: z.string().nullable().optional().default(null),
   class: z.string().nullable().optional().default(null),
@@ -19,14 +10,29 @@ export const querySelectorSchema = z.object({
 
 export type QuerySelector = z.infer<typeof querySelectorSchema>;
 
-export const clickRequestSchema = z.object({
+export const baseRequestSchema = z.object({
+  type: messageTypeEnumSchema,
+});
+
+export type BaseRequest = z.infer<typeof baseRequestSchema>;
+
+export const navigateToUrlRequestSchema = baseRequestSchema.extend({
+  type: messageTypeEnumSchema.default(
+    messageTypeEnumSchema.Values.navigateToUrl,
+  ),
+  url: z.string(),
+});
+
+export type NavigateToUrlRequest = z.infer<typeof navigateToUrlRequestSchema>;
+
+export const clickRequestSchema = baseRequestSchema.extend({
   type: messageTypeEnumSchema.default(messageTypeEnumSchema.Values.click),
   query: querySelectorSchema,
 });
 
 export type ClickRequest = z.infer<typeof clickRequestSchema>;
 
-export const fillInputRequestSchema = z.object({
+export const fillInputRequestSchema = baseRequestSchema.extend({
   type: messageTypeEnumSchema.default(messageTypeEnumSchema.Values.fillInput),
   value: z.string(),
   query: querySelectorSchema,
@@ -34,7 +40,7 @@ export const fillInputRequestSchema = z.object({
 
 export type FillInputRequest = z.infer<typeof fillInputRequestSchema>;
 
-export const retrieveRequestSchema = z.object({
+export const retrieveRequestSchema = baseRequestSchema.extend({
   type: messageTypeEnumSchema.default(messageTypeEnumSchema.Values.retrieve),
   query: querySelectorSchema,
 });
