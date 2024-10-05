@@ -3,7 +3,8 @@ import {
   createGoogleOauth2ApplicationPartOne,
   createGoogleOauth2ApplicationPartThree,
   createGoogleOauth2ApplicationPartTwo,
-} from "@/scripts/google/injected";
+} from "@/scripts/injected/google";
+import { createLinearOauth2ApplicationPartOne } from "@/scripts/injected/linear";
 import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
 import {
@@ -19,8 +20,8 @@ import {
   retrieveRequestSchema,
 } from "@/types/scripts/base";
 
-const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
-// const GOOGLE_CLOUD_BASE_URL = "https://www.google.com"
+export const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
+export const LINEAR_BASE_URL = "https://linear.app";
 
 const createButton = (autoClick: boolean, onClick: () => Promise<void>) => {
   // This function creates the button and injects it into the client's DOM
@@ -268,6 +269,28 @@ export default defineUnlistedScript(() => {
         },
       });
       await injectButton(injectPartThreeButtonRequest);
+    } else if (
+      window.location.href.includes(LINEAR_BASE_URL) &&
+      platformDetails
+    ) {
+      const APPLICATION_NAME_INPUT_ID: string = "name";
+      const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+        autoClick: false,
+        baseUrl: LINEAR_BASE_URL,
+        querySelector: querySelectorSchema.parse({
+          id: APPLICATION_NAME_INPUT_ID,
+        }),
+        injectedScript: async () => {
+          if (!platformDetails) return;
+          await createLinearOauth2ApplicationPartOne(
+            platformDetails,
+            waitUntilPageLoaded,
+            waitUntilActionMessageResolved,
+            waitUntilRetrieveMessageResolved,
+          );
+        },
+      });
+      await injectButton(injectPartOneButtonRequest);
     }
   };
 
