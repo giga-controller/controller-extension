@@ -1,3 +1,4 @@
+import { integrationEnum } from "@/types/integrations";
 import z from "zod";
 
 export const platformEnum = z.enum(["nango", "gumloop", "n8nio"]); // at least 5 characters long
@@ -5,6 +6,7 @@ export type PlatformEnum = z.infer<typeof platformEnum>;
 
 export const platformDetailsSchema = z.object({
   platform: platformEnum,
+  integration: integrationEnum,
   javaScriptOriginUri: z.string(),
   javaScriptRedirectUri: z.string(),
   projectId: z.string().nullable(),

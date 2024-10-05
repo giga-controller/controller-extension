@@ -2,7 +2,6 @@ import z from "zod";
 import { IconType } from "react-icons/lib";
 
 import {
-  SiGoogle,
   SiLinear,
   SiReddit,
   SiSlack,
