@@ -1,4 +1,4 @@
-import { constructClassQuery } from "@/lib/utils";
+import { constructClassQuery, updateButtonText } from "@/lib/utils";
 import {
   createGoogleOauth2ApplicationPartOne,
   createGoogleOauth2ApplicationPartThree,
@@ -30,21 +30,43 @@ const X_HOME_PAGE_URL = "https://x.com/home";
 const X_DEVELOPER_PAGE_URL = "https://developer.x.com/en/portal/dashboard";
 const REDDIT_TARGET_URL = "https://www.reddit.com/prefs/apps";
 
-const createButton = (autoClick: boolean, onClick: () => Promise<void>) => {
-  // This function creates the button and injects it into the client's DOM
+const createButton = (
+  autoClick: boolean,
+  onClick: () => Promise<void>,
+  buttonText: string,
+) => {
+  // This function creates a button and injects it into the client's DOM
+
   const button = document.createElement("button");
-  button.textContent = "Start Auth Maven";
+  button.id = "auth-maven-button";
   button.style.position = "fixed";
-  button.style.width = "200px";
-  button.style.height = "50px";
   button.style.top = "10px";
   button.style.right = "10px";
   button.style.zIndex = "10000";
+  button.style.width = "200px";
+  button.style.height = "50px";
   button.style.backgroundColor = "#4CAF50";
   button.style.color = "white";
   button.style.border = "none";
+  button.style.borderRadius = "10px";
   button.style.cursor = "pointer";
+  button.style.display = "flex";
+  button.style.justifyContent = "center";
+  button.style.alignItems = "center";
   button.style.transition = "background-color 0.3s, transform 0.1s";
+
+  const img = document.createElement("img");
+  img.src = "https://pngimg.com/d/google_PNG19635.png";
+  img.alt = "Button icon";
+  img.style.width = "24px";
+  img.style.height = "24px";
+  img.style.marginRight = "10px";
+
+  const span = document.createElement("span");
+  span.textContent = buttonText;
+
+  button.appendChild(img);
+  button.appendChild(span);
 
   button.addEventListener("mouseover", () => {
     button.style.backgroundColor = "#45a049";
@@ -65,8 +87,6 @@ const createButton = (autoClick: boolean, onClick: () => Promise<void>) => {
   button.addEventListener("click", async () => {
     await onClick();
   });
-
-  // TODO: Add an image to the button
 
   document.body.appendChild(button);
   if (autoClick) {
@@ -157,6 +177,7 @@ async function waitUntilPageLoaded() {
 async function injectButton({
   autoClick,
   baseUrl,
+  isStartStep,
   querySelector,
   injectedScript,
 }: InjectButtonRequest) {
@@ -192,9 +213,13 @@ async function injectButton({
 
       if (elementFound) {
         clearInterval(interval);
-        createButton(autoClick, async () => {
-          await injectedScript();
-        });
+        createButton(
+          autoClick,
+          async () => {
+            await injectedScript();
+          },
+          isStartStep ? "Start Auth Maven" : "Navigating...",
+        );
         resolve();
       } else {
         location.reload();
@@ -217,6 +242,7 @@ export default defineUnlistedScript(() => {
         "mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button",
       );
       const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+        isStartStep: true,
         autoClick: false,
         baseUrl: GOOGLE_CLOUD_START_PAGE_BASE_URL,
         querySelector: querySelectorSchema.parse({

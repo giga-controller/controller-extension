@@ -1,5 +1,5 @@
 /* eslint-disable unused-imports/no-unused-vars */
-import { constructClassQuery } from "@/lib/utils";
+import { constructClassQuery, updateButtonText } from "@/lib/utils";
 import { PlatformDetails } from "@/types/platform";
 import {
   BaseRequest,
@@ -27,6 +27,7 @@ export const createLinearOauth2ApplicationPartOne = async (
       id: APPLICATION_NAME_INPUT_ID,
     }),
   });
+  updateButtonText("Navigating...");
   await waitUntilMessageResolved(fillApplicationNameInputRequest);
 
   const DEVELOPER_NAME_INPUT_ID: string = "developer";
@@ -64,4 +65,11 @@ export const createLinearOauth2ApplicationPartOne = async (
     }),
   });
   await waitUntilMessageResolved(clickCreateApplicationButtonRequest);
+  updateButtonText("OAuth Client ID created!");
+  browser.storage.local.set({
+    platform: null,
+    javaScriptOriginUri: null,
+    javaScriptRedirectUri: null,
+    projectId: null,
+  });
 };

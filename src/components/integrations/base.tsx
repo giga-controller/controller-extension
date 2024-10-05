@@ -1,6 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { capitaliseFirstLetter } from "@/lib/utils";
-import { Integration, IntegrationState } from "@/types/integrations";
+import {
+  Integration,
+  integrationIconMapping,
+  IntegrationState,
+} from "@/types/integrations";
+import { IconType } from "react-icons/lib";
 
 interface BaseIntegrationProps {
   selected: boolean;
@@ -15,10 +20,11 @@ export default function BaseIntegration({
   url,
   updateIntegrationState,
 }: BaseIntegrationProps) {
+  const IconComponent = integrationIconMapping[integration];
   return (
-    <div className="flex flex-row space-x-2 items-center justify-center">
+    <div className="flex flex-row items-center justify-center space-x-2">
       <Button
-        className={`w-full ${selected ? "bg-green-500 hover:bg-green-500" : ""}`}
+        className={`min-h-[70px] w-full ${selected ? "bg-green-500 hover:bg-green-500" : ""}`}
         onClick={() =>
           updateIntegrationState({
             integration: integration,
@@ -26,7 +32,10 @@ export default function BaseIntegration({
           })
         }
       >
-        {capitaliseFirstLetter(integration)}
+        <div className="flex flex-col items-center justify-center">
+          {IconComponent && <IconComponent className="m-2 size-4" />}
+          {capitaliseFirstLetter(integration)}
+        </div>
       </Button>
     </div>
   );

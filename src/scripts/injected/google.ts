@@ -1,5 +1,5 @@
 /* eslint-disable unused-imports/no-unused-vars */
-import { constructClassQuery } from "@/lib/utils";
+import { constructClassQuery, updateButtonText } from "@/lib/utils";
 import { messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
 import {
@@ -32,6 +32,7 @@ export const createGoogleOauth2ApplicationPartOne = async (
       class: PROJECT_DROPDOWN_BUTTON_CLASS_QUERY,
     }),
   });
+  updateButtonText("Navigating...");
   await waitUntilMessageResolved(clickProjectDropdownButtonRequest);
 
   const NEW_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
@@ -111,6 +112,8 @@ export const createGoogleOauth2ApplicationPartTwo = async (
       id: EXTERNAL_USER_TYPE_INPUT_ID,
     }),
   });
+
+  updateButtonText("Navigating...");
   await waitUntilMessageResolved(clickExternalUserTypeInputRequest);
 
   const CREATE_OAUTH_CONSENT_SCREEN_BUTTON_CLASS_QUERY: string =
@@ -247,6 +250,8 @@ export const createGoogleOauth2ApplicationPartThree = async (
       class: APPLICATION_TYPE_DROPDOWN_CLASS_QUERY,
     }),
   });
+
+  updateButtonText("Navigating...");
   await waitUntilMessageResolved(clickApplicationTypeDropdownRequest);
 
   const WEB_APPLICATION_SELECTION_CLASS_QUERY: string = constructClassQuery(
@@ -318,4 +323,11 @@ export const createGoogleOauth2ApplicationPartThree = async (
     }),
   });
   await waitUntilMessageResolved(clickCreateOauthClientButtonRequest);
+  updateButtonText("OAuth Client ID created!");
+  browser.storage.local.set({
+    platform: null,
+    javaScriptOriginUri: null,
+    javaScriptRedirectUri: null,
+    projectId: null,
+  });
 };

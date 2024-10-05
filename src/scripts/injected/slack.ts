@@ -1,5 +1,5 @@
 /* eslint-disable unused-imports/no-unused-vars */
-import { constructClassQuery } from "@/lib/utils";
+import { constructClassQuery, updateButtonText } from "@/lib/utils";
 import { messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
 import {
@@ -31,6 +31,8 @@ export const createSlackOauth2ApplicationPartOne = async (
       class: START_CREATE_APP_BUTTON_CLASS_QUERY,
     }),
   });
+
+  updateButtonText("Navigating...");
   await waitUntilMessageResolved(clickStartCreateAppButtonRequest);
 
   const FROM_SCRATCH_BUTTON_CLASS_QUERY = constructClassQuery(
@@ -81,4 +83,11 @@ export const createSlackOauth2ApplicationPartOne = async (
     }),
   });
   await waitUntilMessageResolved(clickCreateAppButtonRequest);
+  updateButtonText("OAuth Client ID created!");
+  browser.storage.local.set({
+    platform: null,
+    javaScriptOriginUri: null,
+    javaScriptRedirectUri: null,
+    projectId: null,
+  });
 };

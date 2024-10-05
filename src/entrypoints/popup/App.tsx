@@ -1,3 +1,4 @@
+import { useState } from "react";
 import GoogleIntegration from "@/components/integrations/google";
 import LinearIntegration from "@/components/integrations/linear";
 import RedditIntegration from "@/components/integrations/reddit";
@@ -58,12 +59,12 @@ function App() {
   };
 
   return (
-    <ScrollArea className="min-w-[400px] max-w-[600px] flex flex-col gap-4">
-      <h1 className="text-center font-bold text-2xl py-5">
+    <ScrollArea className="flex min-w-[320px] max-w-[600px] flex-col gap-4 p-2">
+      <h1 className="ml-4 py-5 text-left text-lg font-bold">
         Select Integration
       </h1>
-      <div className="flex items-center justify-center flex-col w-full">
-        <div className="p-5 space-y-2 mb-3">
+      <div className="flex w-full flex-col items-center justify-center">
+        <div className="mb-3 grid grid-cols-3 gap-2 p-3 ">
           <GoogleIntegration
             selected={
               integrationState.integration === integrationEnum.Values.google
@@ -93,9 +94,9 @@ function App() {
             updateIntegrationState={updateIntegrationState}
           />
         </div>
-        <div className="flex justify-center min-w-[50%] pb-3">
+        <div className="flex w-full  justify-center px-4 pb-3">
           <Button
-            className="w-full text-lg"
+            className="w-full text-lg "
             disabled={!integrationState.targetUrl}
             onClick={() => {
               if (!integrationState.targetUrl) {

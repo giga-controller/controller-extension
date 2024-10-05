@@ -54,3 +54,10 @@ export function getProjectId(projectName: string): string {
   const uuidLength = maxLength - projectNameLower.length - separator.length;
   return `${projectNameLower}${separator}${uuid.slice(0, uuidLength)}`;
 }
+
+export const updateButtonText = (text: string) => {
+  const button = document.getElementById("auth-maven-button");
+  if (button) {
+    button.innerText = text;
+  }
+};

@@ -1,5 +1,5 @@
 /* eslint-disable unused-imports/no-unused-vars */
-import { constructClassQuery } from "@/lib/utils";
+import { constructClassQuery, updateButtonText } from "@/lib/utils";
 import { messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
 import {
@@ -33,6 +33,8 @@ export const createXOauth2ApplicationPartOne = async (
       index: 1,
     }),
   });
+
+  updateButtonText("Navigating...");
   await waitUntilMessageResolved(clickProjectAndAppDropdownRequest);
 
   const PROJECT_BUTTON_CLASS_QUERY = constructClassQuery(
@@ -109,4 +111,11 @@ export const createXOauth2ApplicationPartOne = async (
     }),
   });
   await waitUntilMessageResolved(clickConfirmChangePermissionButtonRequest);
+  updateButtonText("OAuth Client ID created!");
+  browser.storage.local.set({
+    platform: null,
+    javaScriptOriginUri: null,
+    javaScriptRedirectUri: null,
+    projectId: null,
+  });
 };

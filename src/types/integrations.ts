@@ -1,4 +1,8 @@
 import z from "zod";
+import { IconType } from "react-icons/lib";
+
+import { SiGoogle, SiLinear, SiReddit, SiSlack } from "react-icons/si";
+import { FaXTwitter } from "react-icons/fa6";
 
 export const integrationEnum = z.enum([
   "google",
@@ -20,3 +24,17 @@ export const defaultIntegrationState = {
 };
 
 export type IntegrationState = z.infer<typeof integrationStateSchema>;
+
+export const integrationIconMappingSchema = z.record(
+  integrationEnum,
+  z.custom<IconType>(),
+);
+type IntegrationIconMapping = z.infer<typeof integrationIconMappingSchema>;
+
+export const integrationIconMapping: IntegrationIconMapping = {
+  google: SiGoogle,
+  linear: SiLinear,
+  slack: SiSlack,
+  reddit: SiReddit,
+  x: FaXTwitter,
+};

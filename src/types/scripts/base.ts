@@ -55,6 +55,7 @@ export const injectButtonRequestSchema = z.object({
   baseUrl: z.string(),
   querySelector: querySelectorSchema,
   injectedScript: z.function(),
+  isStartStep: z.boolean().optional().default(false),
 });
 
 export type InjectButtonRequest = z.infer<typeof injectButtonRequestSchema>;
