@@ -217,12 +217,12 @@ async function injectButton({
         clearInterval(interval)
         createButton(autoClick, async () => {
           await injectedScript()
-        }, isStartStep ? 'Start Auth Maven' : 'Loading...')
+        }, isStartStep ? 'Start Auth Maven' : 'Navigating...')
         resolve()
       }
       else {
         location.reload()
-        updateButtonText('Retrying...')
+        updateButtonText('Navigating...')
       }
     }, 3000)
   })

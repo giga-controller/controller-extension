@@ -113,7 +113,7 @@ export const createGoogleOauth2ApplicationPartTwo = async (
     }),
   })
 
-  updateButtonText('Filling application details...')
+  updateButtonText('Navigating...')
   await waitUntilMessageResolved(clickExternalUserTypeInputRequest)
 
   const CREATE_OAUTH_CONSENT_SCREEN_BUTTON_CLASS_QUERY: string
@@ -251,7 +251,7 @@ export const createGoogleOauth2ApplicationPartThree = async (
     }),
   })
 
-  updateButtonText('Putting the finishing touches...')
+  updateButtonText('Navigating...')
   await waitUntilMessageResolved(clickApplicationTypeDropdownRequest)
 
   const WEB_APPLICATION_SELECTION_CLASS_QUERY: string = constructClassQuery(
