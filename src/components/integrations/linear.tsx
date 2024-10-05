@@ -6,6 +6,9 @@ interface LinearIntegrationProps {
   updateIntegrationState: (input: IntegrationState) => void;
 }
 
+export const LINEAR_TARGET_URL = "https://linear.app/linear-controller/settings/api/applications/new";
+
+
 export default function LinearIntegration({
   selected,
   updateIntegrationState,
@@ -14,7 +17,7 @@ export default function LinearIntegration({
     <BaseIntegration
       selected={selected}
       integration={integrationEnum.Values.linear}
-      url="https://console.cloud.google.com"
+      url={LINEAR_TARGET_URL}
       updateIntegrationState={updateIntegrationState}
     />
   );

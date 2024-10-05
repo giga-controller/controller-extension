@@ -6,6 +6,9 @@ interface GoogleIntegrationProps {
   updateIntegrationState: (input: IntegrationState) => void;
 }
 
+export const GOOGLE_CLOUD_TARGET_URL = "https://console.cloud.google.com";
+
+
 export default function GoogleIntegration({
   selected,
   updateIntegrationState,
@@ -14,7 +17,7 @@ export default function GoogleIntegration({
     <BaseIntegration
       selected={selected}
       integration={integrationEnum.Values.google}
-      url="https://console.cloud.google.com"
+      url={GOOGLE_CLOUD_TARGET_URL}
       updateIntegrationState={updateIntegrationState}
     />
   );
