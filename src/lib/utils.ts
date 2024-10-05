@@ -56,8 +56,8 @@ export function getProjectId(projectName: string): string {
 }
 
 export const updateButtonText = (text: string) => {
-  const button = document.getElementById('auth-maven-button')
+  const button = document.getElementById("auth-maven-button");
   if (button) {
-    button.textContent = text
+    button.textContent = text;
   }
-}
+};
