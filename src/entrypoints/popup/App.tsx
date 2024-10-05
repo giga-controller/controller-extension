@@ -1,37 +1,37 @@
-import { useState } from 'react'
-import GoogleIntegration from '@/components/integrations/google'
-import LinearIntegration from '@/components/integrations/linear'
-import RedditIntegration from '@/components/integrations/reddit'
-import SlackIntegration from '@/components/integrations/slack'
-import XIntegration from '@/components/integrations/x'
-import { Button } from '@/components/ui/button'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { getPlatformDetails } from '@/scripts/base'
+import { useState } from "react";
+import GoogleIntegration from "@/components/integrations/google";
+import LinearIntegration from "@/components/integrations/linear";
+import RedditIntegration from "@/components/integrations/reddit";
+import SlackIntegration from "@/components/integrations/slack";
+import XIntegration from "@/components/integrations/x";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { getPlatformDetails } from "@/scripts/base";
 import {
   defaultIntegrationState,
   integrationEnum,
   IntegrationState,
-} from '@/types/integrations'
-import { PlatformDetails } from '@/types/platform'
+} from "@/types/integrations";
+import { PlatformDetails } from "@/types/platform";
 
 function App() {
   const [integrationState, setIntegrationState] = useState<IntegrationState>(
     defaultIntegrationState,
-  )
+  );
 
   const updateIntegrationState = (input: IntegrationState) => {
-    setIntegrationState(input)
-  }
+    setIntegrationState(input);
+  };
 
   const confirmNavigation = async (url: string) => {
-    const platformDetails: PlatformDetails = await getPlatformDetails()
+    const platformDetails: PlatformDetails = await getPlatformDetails();
 
     browser.storage.local.set({
       platform: platformDetails.platform,
       javaScriptOriginUri: platformDetails.javaScriptOriginUri,
       javaScriptRedirectUri: platformDetails.javaScriptRedirectUri,
       projectId: platformDetails.projectId,
-    })
+    });
 
     browser.tabs
       .query({ active: true, currentWindow: true })
@@ -40,24 +40,23 @@ function App() {
           return browser.tabs
             .update(tabs[0].id!, { url: url })
             .then((response) => {
-              console.log('Navigate to URL response:', response)
-              return browser.tabs.sendMessage(tabs[0].id!, { input: url })
+              console.log("Navigate to URL response:", response);
+              return browser.tabs.sendMessage(tabs[0].id!, { input: url });
             })
             .catch((error) => {
-              console.error('Error navigating to URL:', error)
-              throw new Error('Error navigating to URL')
-            })
-        }
-        else {
-          console.error('No active tab found')
-          throw new Error('No active tab found')
+              console.error("Error navigating to URL:", error);
+              throw new Error("Error navigating to URL");
+            });
+        } else {
+          console.error("No active tab found");
+          throw new Error("No active tab found");
         }
       })
       .catch((error) => {
-        console.error('Error invoking navigateToUrl:', error)
-        throw new Error('Error invoking navigateToUrl')
-      })
-  }
+        console.error("Error invoking navigateToUrl:", error);
+        throw new Error("Error invoking navigateToUrl");
+      });
+  };
 
   return (
     <ScrollArea className="flex min-w-[320px] max-w-[600px] flex-col gap-4 p-2">
@@ -101,9 +100,9 @@ function App() {
             disabled={!integrationState.targetUrl}
             onClick={() => {
               if (!integrationState.targetUrl) {
-                return
+                return;
               }
-              confirmNavigation(integrationState.targetUrl)
+              confirmNavigation(integrationState.targetUrl);
             }}
           >
             Confirm
@@ -111,7 +110,7 @@ function App() {
         </div>
       </div>
     </ScrollArea>
-  )
+  );
 }
 
-export default App
+export default App;
