@@ -1,5 +1,4 @@
 import { useState } from "react";
-import GoogleIntegration from "@/components/integrations/google";
 import LinearIntegration from "@/components/integrations/linear";
 import RedditIntegration from "@/components/integrations/reddit";
 import SlackIntegration from "@/components/integrations/slack";
@@ -14,6 +13,7 @@ import {
 } from "@/types/integrations";
 import { PlatformDetails } from "@/types/platform";
 import { Input } from "@/components/ui/input";
+import { GDocsIntegration, GDriveIntegration, GmailIntegration, GSheetsIntegration } from "@/components/integrations/google";
 
 function App() {
   const [integrationState, setIntegrationState] = useState<IntegrationState>(
@@ -61,7 +61,10 @@ function App() {
   };
 
   const integrations = [
-    { component: GoogleIntegration, value: integrationEnum.Values.google },
+    { component: GmailIntegration, value: integrationEnum.Values.gmail },
+    { component: GDriveIntegration, value: integrationEnum.Values.gdrive },
+    { component: GDocsIntegration, value: integrationEnum.Values.gdocs },
+    { component: GSheetsIntegration, value: integrationEnum.Values.gsheets },
     { component: SlackIntegration, value: integrationEnum.Values.slack },
     { component: LinearIntegration, value: integrationEnum.Values.linear },
     { component: XIntegration, value: integrationEnum.Values.x },
@@ -69,7 +72,7 @@ function App() {
   ];
 
   const filteredIntegrations = integrations.filter((integration) =>
-    integration.value.toLowerCase().startsWith(searchTerm.toLowerCase()),
+    integration.value.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (

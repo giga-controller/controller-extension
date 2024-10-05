@@ -5,7 +5,6 @@ import {
   integrationIconMapping,
   IntegrationState,
 } from "@/types/integrations";
-import { IconType } from "react-icons/lib";
 
 interface BaseIntegrationProps {
   selected: boolean;
