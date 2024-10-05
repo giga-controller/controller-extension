@@ -40,3 +40,12 @@ export const retrieveRequestSchema = z.object({
 });
 
 export type RetrieveRequest = z.infer<typeof retrieveRequestSchema>;
+
+export const injectButtonRequestSchema = z.object({
+  autoClick: z.boolean(),
+  baseUrl: z.string(),
+  querySelector: querySelectorSchema,
+  injectedScript: z.function(),
+});
+
+export type InjectButtonRequest = z.infer<typeof injectButtonRequestSchema>;

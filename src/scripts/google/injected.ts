@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 import { constructClassQuery } from "@/lib/utils";
 import { messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
@@ -11,7 +12,7 @@ import {
   retrieveRequestSchema,
 } from "@/types/scripts/base";
 
-export const createGoogleOauth2Application = async (
+export const createGoogleOauth2ApplicationPartOne = async (
   platformDetails: PlatformDetails,
   waitUntilClickMessageResolved: (request: ClickRequest) => Promise<void>,
   waitUntilFillInputMessageResolved: (
@@ -24,13 +25,6 @@ export const createGoogleOauth2Application = async (
 ) => {
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
-  window.postMessage(
-    {
-      type: messageTypeEnumSchema.Values.platformDetails,
-      data: platformDetails,
-    },
-    "*",
-  );
 
   const PROJECT_DROPDOWN_BUTTON_CLASS_QUERY: string = constructClassQuery(
     "mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button",
@@ -99,6 +93,21 @@ export const createGoogleOauth2Application = async (
   const OAUTH_CONSENT_SCREEN_LINK: string = `https://console.cloud.google.com/apis/credentials/consent?project=${projectId}`;
   window.location.href = OAUTH_CONSENT_SCREEN_LINK;
   await waitUntilPageLoaded();
+};
+
+export const createGoogleOauth2ApplicationPartTwo = async (
+  platformDetails: PlatformDetails,
+  waitUntilClickMessageResolved: (request: ClickRequest) => Promise<void>,
+  waitUntilFillInputMessageResolved: (
+    request: FillInputRequest,
+  ) => Promise<void>,
+  waitUntilRetrieveMessageResolved: (
+    request: RetrieveRequest,
+  ) => Promise<string>,
+  waitUntilPageLoaded: () => Promise<void>,
+) => {
+  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
+    platformDetails;
 
   const EXTERNAL_USER_TYPE_INPUT_ID: string = "_0rif_mat-radio-3-input";
   const clickExternalUserTypeInputRequest = clickRequestSchema.parse({
@@ -117,6 +126,7 @@ export const createGoogleOauth2Application = async (
     type: messageTypeEnumSchema.Values.click,
     query: querySelectorSchema.parse({
       class: CREATE_OAUTH_CONSENT_SCREEN_BUTTON_CLASS_QUERY,
+      index: 1
     }),
   });
   await waitUntilClickMessageResolved(
@@ -223,6 +233,21 @@ export const createGoogleOauth2Application = async (
   const OAUTH_CLIENT_ID_LINK: string = `https://console.cloud.google.com/apis/credentials/oauthclient?previousPage=%2Fapis%2Fcredentials%3Fproject%3D${projectId}&project=${projectId}`;
   window.location.href = OAUTH_CLIENT_ID_LINK;
   await waitUntilPageLoaded();
+}
+
+export const createGoogleOauth2ApplicationPartThree = async (
+  platformDetails: PlatformDetails,
+  waitUntilClickMessageResolved: (request: ClickRequest) => Promise<void>,
+  waitUntilFillInputMessageResolved: (
+    request: FillInputRequest,
+  ) => Promise<void>,
+  waitUntilRetrieveMessageResolved: (
+    request: RetrieveRequest,
+  ) => Promise<string>,
+  waitUntilPageLoaded: () => Promise<void>,
+) => {
+  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
+  platformDetails;
 
   const APPLICATION_TYPE_DROPDOWN_CLASS_QUERY: string = constructClassQuery(
     "mdc-floating-label mat-mdc-floating-label ng-star-inserted",
@@ -299,7 +324,8 @@ export const createGoogleOauth2Application = async (
   const clickCreateOauthClientButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: CREATE_OAUTH_CLIENT_BUTTON_CLASS_QUERY,
+      index: 1
     }),
   });
   await waitUntilClickMessageResolved(clickCreateOauthClientButtonRequest);
-};
+}
