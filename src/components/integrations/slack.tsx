@@ -1,12 +1,21 @@
 import BaseIntegration from "@/components/integrations/base";
-import { capitaliseFirstLetter } from "@/lib/utils";
-import { integrationEnum } from "@/types/integrations";
+import { integrationEnum, IntegrationState } from "@/types/integrations";
 
-export default function SlackIntegration() {
+interface SlackIntegrationProps {
+  selected: boolean;
+  updateIntegrationState: (url: IntegrationState) => void;
+}
+
+export default function SlackIntegration({
+  selected,
+  updateIntegrationState,
+}: SlackIntegrationProps) {
   return (
     <BaseIntegration
-      name={capitaliseFirstLetter(integrationEnum.Values.slack)}
+      selected={selected}
+      integration={integrationEnum.Values.slack}
       url="https://console.cloud.google.com"
+      updateIntegrationState={updateIntegrationState}
     />
   );
 }

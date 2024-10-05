@@ -3,6 +3,7 @@ import { constructClassQuery } from "@/lib/utils";
 import { messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
 import {
+  BaseRequest,
   ClickRequest,
   clickRequestSchema,
   FillInputRequest,
@@ -14,14 +15,11 @@ import {
 
 export const createGoogleOauth2ApplicationPartOne = async (
   platformDetails: PlatformDetails,
-  waitUntilClickMessageResolved: (request: ClickRequest) => Promise<void>,
-  waitUntilFillInputMessageResolved: (
-    request: FillInputRequest,
-  ) => Promise<void>,
+  waitUntilPageLoaded: () => Promise<void>,
+  waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,
   waitUntilRetrieveMessageResolved: (
     request: RetrieveRequest,
   ) => Promise<string>,
-  waitUntilPageLoaded: () => Promise<void>,
 ) => {
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
@@ -34,7 +32,7 @@ export const createGoogleOauth2ApplicationPartOne = async (
       class: PROJECT_DROPDOWN_BUTTON_CLASS_QUERY,
     }),
   });
-  await waitUntilClickMessageResolved(clickProjectDropdownButtonRequest);
+  await waitUntilMessageResolved(clickProjectDropdownButtonRequest);
 
   const NEW_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
     "purview-picker-create-project-button mdc-button mat-mdc-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
@@ -44,7 +42,7 @@ export const createGoogleOauth2ApplicationPartOne = async (
       class: NEW_PROJECT_BUTTON_CLASS_QUERY,
     }),
   });
-  await waitUntilClickMessageResolved(clickNewProjectButtonRequest);
+  await waitUntilMessageResolved(clickNewProjectButtonRequest);
 
   const PROJECT_NAME_INPUT_ID: string = "p6ntest-name-input";
   const clickProjectNameInputRequest = clickRequestSchema.parse({
@@ -52,7 +50,7 @@ export const createGoogleOauth2ApplicationPartOne = async (
       id: PROJECT_NAME_INPUT_ID,
     }),
   });
-  await waitUntilClickMessageResolved(clickProjectNameInputRequest);
+  await waitUntilMessageResolved(clickProjectNameInputRequest);
 
   const fillProjectNameInputRequest = fillInputRequestSchema.parse({
     value: platform,
@@ -60,7 +58,7 @@ export const createGoogleOauth2ApplicationPartOne = async (
       id: PROJECT_NAME_INPUT_ID,
     }),
   });
-  await waitUntilFillInputMessageResolved(fillProjectNameInputRequest);
+  await waitUntilMessageResolved(fillProjectNameInputRequest);
 
   const EDIT_PROJECT_ID_BUTTON_ID: string = "p6ntest-show-edit-proj-id";
   const editProjectIdButtonRequest = clickRequestSchema.parse({
@@ -68,7 +66,7 @@ export const createGoogleOauth2ApplicationPartOne = async (
       id: EDIT_PROJECT_ID_BUTTON_ID,
     }),
   });
-  await waitUntilClickMessageResolved(editProjectIdButtonRequest);
+  await waitUntilMessageResolved(editProjectIdButtonRequest);
 
   const PROJECT_ID_INPUT_ID: string = "p6ntest-id-input";
   const fillProjectIdInputRequest = fillInputRequestSchema.parse({
@@ -77,7 +75,7 @@ export const createGoogleOauth2ApplicationPartOne = async (
     }),
     value: projectId,
   });
-  await waitUntilFillInputMessageResolved(fillProjectIdInputRequest);
+  await waitUntilMessageResolved(fillProjectIdInputRequest);
 
   const CREATE_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
     "projtest-create-form-submit mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
@@ -88,7 +86,7 @@ export const createGoogleOauth2ApplicationPartOne = async (
       class: CREATE_PROJECT_BUTTON_CLASS_QUERY,
     }),
   });
-  await waitUntilClickMessageResolved(clickCreateProjectButtonRequest);
+  await waitUntilMessageResolved(clickCreateProjectButtonRequest);
 
   const OAUTH_CONSENT_SCREEN_LINK: string = `https://console.cloud.google.com/apis/credentials/consent?project=${projectId}`;
   window.location.href = OAUTH_CONSENT_SCREEN_LINK;
@@ -97,14 +95,11 @@ export const createGoogleOauth2ApplicationPartOne = async (
 
 export const createGoogleOauth2ApplicationPartTwo = async (
   platformDetails: PlatformDetails,
-  waitUntilClickMessageResolved: (request: ClickRequest) => Promise<void>,
-  waitUntilFillInputMessageResolved: (
-    request: FillInputRequest,
-  ) => Promise<void>,
+  waitUntilPageLoaded: () => Promise<void>,
+  waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,
   waitUntilRetrieveMessageResolved: (
     request: RetrieveRequest,
   ) => Promise<string>,
-  waitUntilPageLoaded: () => Promise<void>,
 ) => {
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
@@ -116,7 +111,7 @@ export const createGoogleOauth2ApplicationPartTwo = async (
       id: EXTERNAL_USER_TYPE_INPUT_ID,
     }),
   });
-  await waitUntilClickMessageResolved(clickExternalUserTypeInputRequest);
+  await waitUntilMessageResolved(clickExternalUserTypeInputRequest);
 
   const CREATE_OAUTH_CONSENT_SCREEN_BUTTON_CLASS_QUERY: string =
     constructClassQuery(
@@ -129,9 +124,7 @@ export const createGoogleOauth2ApplicationPartTwo = async (
       index: 1,
     }),
   });
-  await waitUntilClickMessageResolved(
-    clickCreateOauthConsentScreenButtonRequest,
-  );
+  await waitUntilMessageResolved(clickCreateOauthConsentScreenButtonRequest);
 
   const APP_NAME_INPUT_CLASS_QUERY: string = constructClassQuery(
     "cm-input mat-mdc-input-element ng-pristine gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input",
@@ -142,7 +135,7 @@ export const createGoogleOauth2ApplicationPartTwo = async (
       class: APP_NAME_INPUT_CLASS_QUERY,
     }),
   });
-  await waitUntilFillInputMessageResolved(fillAppNameInputRequest);
+  await waitUntilMessageResolved(fillAppNameInputRequest);
 
   const USER_SUPPORT_EMAIL_DROPDOWN_CLASS_QUERY: string = constructClassQuery(
     "cfc-select ng-untouched ng-pristine",
@@ -152,7 +145,7 @@ export const createGoogleOauth2ApplicationPartTwo = async (
       class: USER_SUPPORT_EMAIL_DROPDOWN_CLASS_QUERY,
     }),
   });
-  await waitUntilClickMessageResolved(clickUserSupportEmailDropdownRequest);
+  await waitUntilMessageResolved(clickUserSupportEmailDropdownRequest);
 
   const USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY: string = constructClassQuery(
     "mat-mdc-option mdc-list-item",
@@ -162,7 +155,7 @@ export const createGoogleOauth2ApplicationPartTwo = async (
       class: USER_SUPPORT_EMAIL_SELECTION_CLASS_QUERY,
     }),
   });
-  await waitUntilClickMessageResolved(clickUserSupportEmailSelectionRequest);
+  await waitUntilMessageResolved(clickUserSupportEmailSelectionRequest);
 
   const USER_SUPPORT_EMAIL_ID: string = "_0rif_cfc-select-0-select-value";
   const retrieveUserSupportEmailSelectionRequest = retrieveRequestSchema.parse({
@@ -173,6 +166,9 @@ export const createGoogleOauth2ApplicationPartTwo = async (
   const email: string = await waitUntilRetrieveMessageResolved(
     retrieveUserSupportEmailSelectionRequest,
   );
+  if (!email) {
+    throw new Error("Failed to retrieve email");
+  }
 
   const DEVELOPER_CONTACT_EMAIL_CLASS_QUERY: string = constructClassQuery(
     "mat-mdc-chip-input mat-mdc-input-element mdc-text-field__input mat-input-element mat-mdc-form-field-input-control",
@@ -183,9 +179,7 @@ export const createGoogleOauth2ApplicationPartTwo = async (
       class: DEVELOPER_CONTACT_EMAIL_CLASS_QUERY,
     }),
   });
-  await waitUntilFillInputMessageResolved(
-    fillDeveloperContactEmailInputRequest,
-  );
+  await waitUntilMessageResolved(fillDeveloperContactEmailInputRequest);
 
   const SAVE_AND_CONTINUE_BUTTON_CLASS_QUERY: string = constructClassQuery(
     "cfc-stepper-step-button cfc-stepper-step-continue-button mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
@@ -195,10 +189,10 @@ export const createGoogleOauth2ApplicationPartTwo = async (
       class: SAVE_AND_CONTINUE_BUTTON_CLASS_QUERY,
     }),
   });
-  await waitUntilClickMessageResolved(clickSaveAndContinueButtonRequest);
+  await waitUntilMessageResolved(clickSaveAndContinueButtonRequest);
 
   // Skip Scopes section
-  await waitUntilClickMessageResolved(clickSaveAndContinueButtonRequest);
+  await waitUntilMessageResolved(clickSaveAndContinueButtonRequest);
 
   const ADD_USERS_BUTTON_CLASS_QUERY: string = constructClassQuery(
     "cfc-space-above-minus-3 cfc-space-below-plus-2 mdc-button mdc-button--raised mat-mdc-raised-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
@@ -208,17 +202,16 @@ export const createGoogleOauth2ApplicationPartTwo = async (
       class: ADD_USERS_BUTTON_CLASS_QUERY,
     }),
   });
-  await waitUntilClickMessageResolved(clickAddUsersButtonRequest);
+  await waitUntilMessageResolved(clickAddUsersButtonRequest);
 
   const ADD_USERS_INPUT_ID: string = "_0rif_mat-mdc-chip-list-input-1";
   const fillAddUsersInputRequest = fillInputRequestSchema.parse({
-    // value: email,
-    value: "aarontanzb@gmail.com",
+    value: email,
     query: querySelectorSchema.parse({
       id: ADD_USERS_INPUT_ID,
     }),
   });
-  await waitUntilFillInputMessageResolved(fillAddUsersInputRequest);
+  await waitUntilMessageResolved(fillAddUsersInputRequest);
 
   const ADD_TESTING_USERS_BUTTON_CLASS_QUERY: string = constructClassQuery(
     "mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
@@ -228,7 +221,7 @@ export const createGoogleOauth2ApplicationPartTwo = async (
       class: ADD_TESTING_USERS_BUTTON_CLASS_QUERY,
     }),
   });
-  await waitUntilClickMessageResolved(clickAddTestingUsersButtonRequest);
+  await waitUntilMessageResolved(clickAddTestingUsersButtonRequest);
 
   const OAUTH_CLIENT_ID_LINK: string = `https://console.cloud.google.com/apis/credentials/oauthclient?previousPage=%2Fapis%2Fcredentials%3Fproject%3D${projectId}&project=${projectId}`;
   window.location.href = OAUTH_CLIENT_ID_LINK;
@@ -237,14 +230,11 @@ export const createGoogleOauth2ApplicationPartTwo = async (
 
 export const createGoogleOauth2ApplicationPartThree = async (
   platformDetails: PlatformDetails,
-  waitUntilClickMessageResolved: (request: ClickRequest) => Promise<void>,
-  waitUntilFillInputMessageResolved: (
-    request: FillInputRequest,
-  ) => Promise<void>,
+  waitUntilPageLoaded: () => Promise<void>,
+  waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,
   waitUntilRetrieveMessageResolved: (
     request: RetrieveRequest,
   ) => Promise<string>,
-  waitUntilPageLoaded: () => Promise<void>,
 ) => {
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
@@ -257,7 +247,7 @@ export const createGoogleOauth2ApplicationPartThree = async (
       class: APPLICATION_TYPE_DROPDOWN_CLASS_QUERY,
     }),
   });
-  await waitUntilClickMessageResolved(clickApplicationTypeDropdownRequest);
+  await waitUntilMessageResolved(clickApplicationTypeDropdownRequest);
 
   const WEB_APPLICATION_SELECTION_CLASS_QUERY: string = constructClassQuery(
     "mat-mdc-option mdc-list-item",
@@ -267,7 +257,7 @@ export const createGoogleOauth2ApplicationPartThree = async (
       class: WEB_APPLICATION_SELECTION_CLASS_QUERY,
     }),
   });
-  await waitUntilClickMessageResolved(clickWebApplicationSelectionRequest);
+  await waitUntilMessageResolved(clickWebApplicationSelectionRequest);
 
   const INPUT_CLASS_QUERY: string = constructClassQuery(
     "cm-input mat-mdc-input-element gmat-mdc-input mat-mdc-form-field-input-control mdc-text-field__input cdk-text-field-autofill-monitored",
@@ -279,7 +269,7 @@ export const createGoogleOauth2ApplicationPartThree = async (
       class: INPUT_CLASS_QUERY,
     }),
   });
-  await waitUntilFillInputMessageResolved(fillApplicationNameInputRequest);
+  await waitUntilMessageResolved(fillApplicationNameInputRequest);
 
   const ADD_JAVASCRIPT_ORIGIN_URI_BUTTON_CLASS_QUERY: string =
     constructClassQuery(
@@ -290,7 +280,7 @@ export const createGoogleOauth2ApplicationPartThree = async (
       class: ADD_JAVASCRIPT_ORIGIN_URI_BUTTON_CLASS_QUERY,
     }),
   });
-  await waitUntilClickMessageResolved(clickAddJavascriptOriginUriButtonRequest);
+  await waitUntilMessageResolved(clickAddJavascriptOriginUriButtonRequest);
 
   const fillJavascriptOriginUriInputRequest = fillInputRequestSchema.parse({
     value: javaScriptOriginUri,
@@ -299,7 +289,7 @@ export const createGoogleOauth2ApplicationPartThree = async (
       index: 1,
     }),
   });
-  await waitUntilFillInputMessageResolved(fillJavascriptOriginUriInputRequest);
+  await waitUntilMessageResolved(fillJavascriptOriginUriInputRequest);
 
   const clickAddRedirectUriButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
@@ -307,7 +297,7 @@ export const createGoogleOauth2ApplicationPartThree = async (
       index: 1,
     }),
   });
-  await waitUntilClickMessageResolved(clickAddRedirectUriButtonRequest);
+  await waitUntilMessageResolved(clickAddRedirectUriButtonRequest);
 
   const fillRedirectUriInputRequest = fillInputRequestSchema.parse({
     value: javaScriptRedirectUri,
@@ -316,7 +306,7 @@ export const createGoogleOauth2ApplicationPartThree = async (
       index: 2,
     }),
   });
-  await waitUntilFillInputMessageResolved(fillRedirectUriInputRequest);
+  await waitUntilMessageResolved(fillRedirectUriInputRequest);
 
   const CREATE_OAUTH_CLIENT_BUTTON_CLASS_QUERY: string = constructClassQuery(
     "mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button",
@@ -327,5 +317,5 @@ export const createGoogleOauth2ApplicationPartThree = async (
       index: 1,
     }),
   });
-  await waitUntilClickMessageResolved(clickCreateOauthClientButtonRequest);
+  await waitUntilMessageResolved(clickCreateOauthClientButtonRequest);
 };

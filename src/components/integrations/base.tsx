@@ -1,75 +1,33 @@
 import { Button } from "@/components/ui/button";
-import { getPlatformDetails } from "@/scripts/base";
-import { PlatformDetails } from "@/types/platform";
+import { capitaliseFirstLetter } from "@/lib/utils";
+import { Integration, IntegrationState } from "@/types/integrations";
 
 interface BaseIntegrationProps {
-  name: string;
+  selected: boolean;
+  integration: Integration;
   url: string;
+  updateIntegrationState: (input: IntegrationState) => void;
 }
 
-export default function BaseIntegration({ name, url }: BaseIntegrationProps) {
-  const [isClicked, setIsClicked] = useState<boolean>(false);
-
-  const toggleIsClicked = () => {
-    setIsClicked(!isClicked);
-  };
-
-  const confirmCreation = async () => {
-    const platformDetails: PlatformDetails = await getPlatformDetails();
-
-    browser.storage.local.set({
-      platform: platformDetails.platform,
-      javaScriptOriginUri: platformDetails.javaScriptOriginUri,
-      javaScriptRedirectUri: platformDetails.javaScriptRedirectUri,
-      projectId: platformDetails.projectId,
-    });
-
-    browser.tabs
-      .query({ active: true, currentWindow: true })
-      .then(async (tabs) => {
-        if (tabs[0]) {
-          return browser.tabs
-            .update(tabs[0].id!, { url: url })
-            .then((response) => {
-              console.log("Navigate to URL response:", response);
-              return browser.tabs.sendMessage(tabs[0].id!, { input: url });
-            })
-            .catch((error) => {
-              console.error("Error navigating to URL:", error);
-              throw new Error("Error navigating to URL");
-            });
-        } else {
-          console.error("No active tab found");
-          throw new Error("No active tab found");
-        }
-      })
-      .catch((error) => {
-        console.error("Error invoking navigateToUrl:", error);
-        throw new Error("Error invoking navigateToUrl");
-      });
-  };
-
+export default function BaseIntegration({
+  selected,
+  integration,
+  url,
+  updateIntegrationState,
+}: BaseIntegrationProps) {
   return (
     <div className="flex flex-row space-x-2 items-center justify-center">
-      <Button className="w-full" onClick={() => toggleIsClicked()}>
-        {name}
-      </Button>
-      <div
-        className={`flex space-x-2 flex-row ${isClicked ? "visible" : "invisible"}`}
+      <Button
+        className={`w-full ${selected ? "bg-green-500 hover:bg-green-500" : ""}`}
+        onClick={() =>
+          updateIntegrationState({
+            integration: integration,
+            targetUrl: url,
+          })
+        }
       >
-        <Button
-          className="bg-green-500"
-          onClick={async () => {
-            setIsClicked(false);
-            confirmCreation();
-          }}
-        >
-          ✓
-        </Button>
-        <Button className="bg-red-500" onClick={() => setIsClicked(false)}>
-          ✗
-        </Button>
-      </div>
+        {capitaliseFirstLetter(integration)}
+      </Button>
     </div>
   );
 }

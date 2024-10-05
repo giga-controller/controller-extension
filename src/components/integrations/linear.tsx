@@ -1,12 +1,21 @@
 import BaseIntegration from "@/components/integrations/base";
-import { capitaliseFirstLetter } from "@/lib/utils";
-import { integrationEnum } from "@/types/integrations";
+import { integrationEnum, IntegrationState } from "@/types/integrations";
 
-export default function LinearIntegration() {
+interface LinearIntegrationProps {
+  selected: boolean;
+  updateIntegrationState: (input: IntegrationState) => void;
+}
+
+export default function LinearIntegration({
+  selected,
+  updateIntegrationState,
+}: LinearIntegrationProps) {
   return (
     <BaseIntegration
-      name={capitaliseFirstLetter(integrationEnum.Values.linear)}
+      selected={selected}
+      integration={integrationEnum.Values.linear}
       url="https://console.cloud.google.com"
+      updateIntegrationState={updateIntegrationState}
     />
   );
 }
