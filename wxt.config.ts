@@ -6,7 +6,7 @@ export default defineConfig({
     default_locale: "en",
     description: "Automates the creation of OAuth2.0 applications",
     name: "Auth Maven",
-    version: "0.0.1",
+    version: "0.0.3",
     permissions: [
       "tabs",
       "activeTab",
