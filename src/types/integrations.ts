@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const integrationEnum = z.enum(["google", "slack", "linear"]);
+export const integrationEnum = z.enum(["google", "slack", "linear", "x"]);
 export type Integration = z.infer<typeof integrationEnum>;
 
 export const integrationStateSchema = z.object({
