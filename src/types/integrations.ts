@@ -9,8 +9,16 @@ import {
 } from 'react-icons/si'
 import { FaXTwitter } from 'react-icons/fa6'
 
-export const integrationEnum = z.enum(['google', 'slack', 'linear', 'x'])
-export type Integration = z.infer<typeof integrationEnum>
+
+export const integrationEnum = z.enum([
+  "google",
+  "slack",
+  "linear",
+  "x",
+  "reddit",
+]);
+export type Integration = z.infer<typeof integrationEnum>;
+
 
 export const integrationStateSchema = z.object({
   targetUrl: z.string().nullable(),

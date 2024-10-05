@@ -3,12 +3,13 @@ import {
   createGoogleOauth2ApplicationPartOne,
   createGoogleOauth2ApplicationPartThree,
   createGoogleOauth2ApplicationPartTwo,
-} from '@/scripts/injected/google'
-import { createLinearOauth2ApplicationPartOne } from '@/scripts/injected/linear'
-import { createSlackOauth2ApplicationPartOne } from '@/scripts/injected/slack'
-import { createXOauth2ApplicationPartOne } from '@/scripts/injected/x'
-import { MessageTypeEnum, messageTypeEnumSchema } from '@/types/message'
-import { PlatformDetails } from '@/types/platform'
+} from "@/scripts/injected/google";
+import { createLinearOauth2ApplicationPartOne } from "@/scripts/injected/linear";
+import { createSlackOauth2ApplicationPartOne } from "@/scripts/injected/slack";
+import { createXOauth2ApplicationPartOne } from "@/scripts/injected/x";
+import { createRedditOauth2ApplicationPartOne } from "@/scripts/injected/reddit";
+import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
+import { PlatformDetails } from "@/types/platform";
 import {
   BaseRequest,
   ClickRequest,
@@ -22,11 +23,13 @@ import {
   retrieveRequestSchema,
 } from '@/types/scripts/base'
 
-const GOOGLE_CLOUD_BASE_URL = 'https://console.cloud.google.com'
-const LINEAR_BASE_URL = 'https://linear.app'
-const SLACK_BASE_URL = 'https://api.slack.com/apps'
-const X_HOME_PAGE_URL = 'https://x.com/home'
-const X_DEVELOPER_PAGE_URL = 'https://developer.x.com/en/portal/dashboard'
+
+const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
+const LINEAR_BASE_URL = "https://linear.app";
+const SLACK_BASE_URL = "https://api.slack.com/apps";
+const X_HOME_PAGE_URL = "https://x.com/home";
+const X_DEVELOPER_PAGE_URL = "https://developer.x.com/en/portal/dashboard";
+const REDDIT_TARGET_URL = "https://www.reddit.com/prefs/apps";
 
 const createButton = (autoClick: boolean, onClick: () => Promise<void>, buttonText: string) => {
   // This function creates a button and injects it into the client's DOM
@@ -380,8 +383,27 @@ export default defineUnlistedScript(() => {
             waitUntilRetrieveMessageResolved,
           )
         },
-      })
-      await injectButton(injectPartOneButtonRequest)
+      });
+      await injectButton(injectPartOneButtonRequest);
+    } else if (window.location.href === REDDIT_TARGET_URL && platformDetails) {
+      const CREATE_APP_BUTTON_ID = "create-app-button";
+      const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+        autoClick: false,
+        baseUrl: REDDIT_TARGET_URL,
+        querySelector: querySelectorSchema.parse({
+          id: CREATE_APP_BUTTON_ID,
+        }),
+        injectedScript: async () => {
+          if (!platformDetails) return;
+          await createRedditOauth2ApplicationPartOne(
+            platformDetails,
+            waitUntilPageLoaded,
+            waitUntilActionMessageResolved,
+            waitUntilRetrieveMessageResolved,
+          );
+        },
+      });
+      await injectButton(injectPartOneButtonRequest);
     }
   }
 

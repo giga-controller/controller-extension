@@ -1,10 +1,11 @@
-import GoogleIntegration from '@/components/integrations/google'
-import LinearIntegration from '@/components/integrations/linear'
-import SlackIntegration from '@/components/integrations/slack'
-import XIntegration from '@/components/integrations/x'
-import { Button } from '@/components/ui/button'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { getPlatformDetails } from '@/scripts/base'
+import GoogleIntegration from "@/components/integrations/google";
+import LinearIntegration from "@/components/integrations/linear";
+import RedditIntegration from "@/components/integrations/reddit";
+import SlackIntegration from "@/components/integrations/slack";
+import XIntegration from "@/components/integrations/x";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { getPlatformDetails } from "@/scripts/base";
 import {
   defaultIntegrationState,
   integrationEnum,
@@ -84,6 +85,12 @@ function App() {
           />
           <XIntegration
             selected={integrationState.integration === integrationEnum.Values.x}
+            updateIntegrationState={updateIntegrationState}
+          />
+          <RedditIntegration
+            selected={
+              integrationState.integration === integrationEnum.Values.reddit
+            }
             updateIntegrationState={updateIntegrationState}
           />
         </div>
