@@ -84,4 +84,29 @@ export const createXOauth2ApplicationPartOne = async (
     }),
   });
   await waitUntilMessageResolved(fillRedirectUriInputRequest);
+
+  const WEBSITE_URL_INPUT_DATA_TEST_ID = "website-url-input";
+  const fillWebsiteUrlInputRequest = fillInputRequestSchema.parse({
+    value: javaScriptOriginUri,
+    query: querySelectorSchema.parse({
+      dataTestId: WEBSITE_URL_INPUT_DATA_TEST_ID,
+    }),
+  });
+  await waitUntilMessageResolved(fillWebsiteUrlInputRequest);
+
+  const SAVE_BUTTON_DATA_TEST_ID = "save-auth-setting-button";
+  const clickSaveButtonRequest = clickRequestSchema.parse({
+    query: querySelectorSchema.parse({
+      dataTestId: SAVE_BUTTON_DATA_TEST_ID,
+    }),
+  });
+  await waitUntilMessageResolved(clickSaveButtonRequest);
+
+  const CONFIRM_CHANGE_PERMISSION_BUTTON_DATA_TEST_ID = "action-button";
+  const clickConfirmChangePermissionButtonRequest = clickRequestSchema.parse({
+    query: querySelectorSchema.parse({
+      dataTestId: CONFIRM_CHANGE_PERMISSION_BUTTON_DATA_TEST_ID,
+    }),
+  });
+  await waitUntilMessageResolved(clickConfirmChangePermissionButtonRequest);
 };

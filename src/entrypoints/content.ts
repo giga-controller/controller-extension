@@ -61,6 +61,10 @@ export default defineContentScript({
             element = document.querySelector(
               `[aria-label="${query.ariaLabel}"]`,
             ) as HTMLElement;
+          } else if (query.dataTestId) {
+            element = document.querySelector(
+              `[data-testid="${query.dataTestId}"]`,
+            ) as HTMLElement;
           }
 
           if (element) {
@@ -106,6 +110,10 @@ export default defineContentScript({
           } else if (query.ariaLabelledby) {
             element = document.querySelector(
               `[aria-labelledby="${query.ariaLabelledby}"]`,
+            );
+          } else if (query.dataTestId) {
+            element = document.querySelector(
+              `[data-testid="${query.dataTestId}"]`,
             );
           }
 
