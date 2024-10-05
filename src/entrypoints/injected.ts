@@ -293,11 +293,10 @@ export default defineUnlistedScript(() => {
         },
       });
       await injectButton(injectPartOneButtonRequest);
-    } else if (
-      window.location.href === SLACK_BASE_URL &&
-      platformDetails
-    ) {
-      const CREATE_APP_BUTTON_CLASS_QUERY = constructClassQuery("create_new_app_button");
+    } else if (window.location.href === SLACK_BASE_URL && platformDetails) {
+      const CREATE_APP_BUTTON_CLASS_QUERY = constructClassQuery(
+        "create_new_app_button",
+      );
       const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
         autoClick: false,
         baseUrl: SLACK_BASE_URL,
