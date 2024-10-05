@@ -1,12 +1,21 @@
 import BaseIntegration from "@/components/integrations/base";
-import { capitaliseFirstLetter } from "@/lib/utils";
-import { integrationEnum } from "@/types/integrations";
+import { integrationEnum, IntegrationState } from "@/types/integrations";
 
-export default function GoogleIntegration() {
+interface GoogleIntegrationProps {
+  selected: boolean;
+  updateIntegrationState: (input: IntegrationState) => void;
+}
+
+export default function GoogleIntegration({
+  selected,
+  updateIntegrationState,
+}: GoogleIntegrationProps) {
   return (
     <BaseIntegration
-      name={capitaliseFirstLetter(integrationEnum.Values.google)}
+      selected={selected}
+      integration={integrationEnum.Values.google}
       url="https://console.cloud.google.com"
+      updateIntegrationState={updateIntegrationState}
     />
   );
 }
