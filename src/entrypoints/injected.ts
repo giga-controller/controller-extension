@@ -6,6 +6,7 @@ import {
 } from "@/scripts/injected/google";
 import { createLinearOauth2ApplicationPartOne } from "@/scripts/injected/linear";
 import { createSlackOauth2ApplicationPartOne } from "@/scripts/injected/slack";
+import { createXOauth2ApplicationPartOne } from "@/scripts/injected/x";
 import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
 import {
@@ -21,9 +22,12 @@ import {
   retrieveRequestSchema,
 } from "@/types/scripts/base";
 
-export const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
-export const LINEAR_BASE_URL = "https://linear.app";
-export const SLACK_BASE_URL = "https://api.slack.com/apps";
+const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
+const LINEAR_BASE_URL = "https://linear.app";
+const SLACK_BASE_URL = "https://api.slack.com/apps";
+const X_HOME_PAGE_URL = "https://x.com/home";
+const X_DEVELOPER_PAGE_URL = "https://developer.x.com/en/portal/dashboard";
+
 
 const createButton = (autoClick: boolean, onClick: () => Promise<void>) => {
   // This function creates the button and injects it into the client's DOM
@@ -306,6 +310,28 @@ export default defineUnlistedScript(() => {
         injectedScript: async () => {
           if (!platformDetails) return;
           await createSlackOauth2ApplicationPartOne(
+            platformDetails,
+            waitUntilPageLoaded,
+            waitUntilActionMessageResolved,
+            waitUntilRetrieveMessageResolved,
+          );
+        },
+      });
+      await injectButton(injectPartOneButtonRequest);
+    } else if (window.location.href === X_HOME_PAGE_URL && platformDetails) {
+      // X's redirection after logging in is wonky (it redirects to home page instead of developer portal)
+      window.location.href = X_DEVELOPER_PAGE_URL;
+    } else if (window.location.href === X_DEVELOPER_PAGE_URL && platformDetails) {
+      const PROJECT_AND_APPS_DROPDOWN_CLASS_QUERY = constructClassQuery("index__navItemButton--352Fy");
+      const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+        autoClick: false,
+        baseUrl: X_DEVELOPER_PAGE_URL,
+        querySelector: querySelectorSchema.parse({
+          class: PROJECT_AND_APPS_DROPDOWN_CLASS_QUERY,
+        }),
+        injectedScript: async () => {
+          if (!platformDetails) return;
+          await createXOauth2ApplicationPartOne(
             platformDetails,
             waitUntilPageLoaded,
             waitUntilActionMessageResolved,

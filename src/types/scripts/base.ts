@@ -5,6 +5,8 @@ export const querySelectorSchema = z.object({
   id: z.string().nullable().optional().default(null),
   class: z.string().nullable().optional().default(null),
   ariaLabel: z.string().nullable().optional().default(null),
+  value: z.string().nullable().optional().default(null),
+  ariaLabelledby: z.string().nullable().optional().default(null),
   index: z.number().nullable().optional().default(0),
 });
 
