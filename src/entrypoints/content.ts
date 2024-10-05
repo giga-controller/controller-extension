@@ -11,6 +11,22 @@ export default defineContentScript({
     if ((window as any).__contentScriptInjected) return;
     (window as any).__contentScriptInjected = true;
 
+    // Get the base URL in the extension context
+const extensionBaseUrl = chrome.runtime.getURL('');
+
+// Create a script element to inject into the page
+const script = document.createElement('script');
+
+// Properly set the script's textContent
+script.textContent = `window.__EXTENSION_BASE_URL__ = '${extensionBaseUrl}';`;
+
+// Inject the script into the page
+(document.head || document.documentElement).appendChild(script);
+
+// Log the base URL for debugging
+console.log('Extension Base URL:', extensionBaseUrl);
+
+
     browser.storage.local
       .get([
         "platform",

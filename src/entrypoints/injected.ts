@@ -117,7 +117,7 @@ export default defineUnlistedScript(() => {
     button.style.position = "fixed";
     button.style.width = "200px";
     button.style.height = "50px";
-    button.style.top = "10px";
+    button.style.top = "20px";
     button.style.right = "10px";
     button.style.zIndex = "10000";
     button.style.backgroundColor = "#4CAF50";
@@ -146,7 +146,21 @@ export default defineUnlistedScript(() => {
       await onClick();
     });
 
-    // TODO: Add an image to the button
+    // Use the base URL from the global variable
+  const extensionBaseUrl = (window as any).__EXTENSION_BASE_URL__;
+  const imageUrl = extensionBaseUrl + 'images/authmaven-removebg-preview.png';
+  console.log('imageUrl', imageUrl);
+
+  // Create the image element
+  const img = document.createElement("img");
+  img.src = imageUrl;
+  img.style.width = "30px";
+  img.style.height = "30px";
+  img.style.verticalAlign = "middle";
+  img.style.marginRight = "10px";
+
+    // Add the image and text to the button
+    button.prepend(img);
 
     document.body.appendChild(button);
   };
@@ -160,6 +174,7 @@ export default defineUnlistedScript(() => {
     ) {
       createButton(async () => {
         if (!platformDetails) return;
+<<<<<<< Updated upstream
         await createGoogleOauth2Application(
           platformDetails,
           waitUntilClickMessageResolved,
@@ -167,6 +182,10 @@ export default defineUnlistedScript(() => {
           waitUntilRetrieveMessageResolved,
           waitUntilPageLoaded,
         );
+=======
+        await createGoogleOauth2Application(platformDetails);
+        console.log('Extension Base URL:', chrome.runtime.getURL(''));
+>>>>>>> Stashed changes
       });
     }
   };
