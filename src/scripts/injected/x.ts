@@ -112,10 +112,4 @@ export const createXOauth2ApplicationPartOne = async (
   });
   await waitUntilMessageResolved(clickConfirmChangePermissionButtonRequest);
   updateButtonText("OAuth Client ID created!");
-  browser.storage.local.set({
-    platform: null,
-    javaScriptOriginUri: null,
-    javaScriptRedirectUri: null,
-    projectId: null,
-  });
 };
