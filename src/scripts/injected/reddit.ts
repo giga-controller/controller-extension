@@ -1,5 +1,5 @@
 /* eslint-disable unused-imports/no-unused-vars */
-import { constructClassQuery } from "@/lib/utils";
+import { constructClassQuery, updateButtonText } from "@/lib/utils";
 import { messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
 import {
@@ -31,6 +31,7 @@ export const createRedditOauth2ApplicationPartOne = async (
     }),
   });
   await waitUntilMessageResolved(clickCreateAppButtonRequest);
+  updateButtonText("Navigatin...");
 
   const INPUT_CLASS_QUERY = constructClassQuery("text");
   const fillNameInputRequest = fillInputRequestSchema.parse({
@@ -59,4 +60,5 @@ export const createRedditOauth2ApplicationPartOne = async (
     }),
   });
   await waitUntilMessageResolved(fillRedirectUriInputRequest);
+  updateButtonText("OAuth Application Created!");
 };

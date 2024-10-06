@@ -83,5 +83,5 @@ export const createSlackOauth2ApplicationPartOne = async (
     }),
   });
   await waitUntilMessageResolved(clickCreateAppButtonRequest);
-  updateButtonText("OAuth Client ID created!");
+  updateButtonText("OAuth Application created!");
 };

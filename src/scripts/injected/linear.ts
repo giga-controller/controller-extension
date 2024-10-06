@@ -67,5 +67,5 @@ export const createLinearOauth2ApplicationPartOne = async (
     }),
   });
   await waitUntilMessageResolved(clickCreateApplicationButtonRequest);
-  updateButtonText("OAuth Client ID created!");
+  updateButtonText("OAuth Application Created!");
 };

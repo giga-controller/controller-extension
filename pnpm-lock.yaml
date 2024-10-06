@@ -89,6 +89,9 @@ importers:
       eslint-plugin-tailwindcss:
         specifier: ^3.17.4
         version: 3.17.4(tailwindcss@3.4.13)
+      nodemon:
+        specifier: ^3.1.7
+        version: 3.1.7
       postcss:
         specifier: ^8.4.47
         version: 8.4.47
@@ -3520,6 +3523,12 @@ packages:
         integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==,
       }
 
+  ignore-by-default@1.0.1:
+    resolution:
+      {
+        integrity: sha512-Ius2VYcGNk7T90CppJqcIkS5ooHUZyIQK+ClZfMfMNFEF9VSE73Fq+906u/CWu92x4gzZMWOwfFYckPObzdEbA==,
+      }
+
   ignore@5.3.2:
     resolution:
       {
@@ -4658,6 +4667,14 @@ packages:
         integrity: sha512-d9VeXT4SJ7ZeOqGX6R5EM022wpL+eWPooLI+5UpWn2jCT1aosUQEhQP214x33Wkwx3JQMvIm+tIoVOdodFS40g==,
       }
 
+  nodemon@3.1.7:
+    resolution:
+      {
+        integrity: sha512-hLj7fuMow6f0lbB0cD14Lz2xNjwsyruH251Pk4t/yIitCFJbmY1myuLlHm/q06aST4jg6EgAh74PIBBrRqpVAQ==,
+      }
+    engines: { node: ">=10" }
+    hasBin: true
+
   normalize-package-data@2.5.0:
     resolution:
       {
@@ -5150,6 +5167,12 @@ packages:
         integrity: sha512-vtK/94akxsTMhe0/cbfpR+syPuszcuwhqVjJq26CuNDgFGj682oRBXOP5MJpv2r7JtE8MsiepGIqvvOTBwn2vA==,
       }
 
+  pstree.remy@1.1.8:
+    resolution:
+      {
+        integrity: sha512-77DZwxQmxKnu3aR542U+X8FypNzbfJ+C5XQDk3uWjWxn6151aIMGthWYRXTqT1E5oJvg+ljaa2OJi+VfvCOQ8w==,
+      }
+
   publish-browser-extension@2.2.1:
     resolution:
       {
@@ -5549,6 +5572,13 @@ packages:
       }
     engines: { node: ">=14" }
 
+  simple-update-notifier@2.0.0:
+    resolution:
+      {
+        integrity: sha512-a2B9Y0KlNXl9u/vsW6sTIu9vGEpfKu2wRV6l1H3XEas/0gUIzGzBoP/IouTcUQbm9JWZLH3COxyn03TYlFax6w==,
+      }
+    engines: { node: ">=10" }
+
   sisteransi@1.0.5:
     resolution:
       {
@@ -5925,6 +5955,13 @@ packages:
       }
     engines: { node: ^12.22.0 || ^14.17.0 || >=16.0.0 }
 
+  touch@3.1.1:
+    resolution:
+      {
+        integrity: sha512-r0eojU4bI8MnHr8c5bNo7lJDdI2qXlWWJk6a9EAFG7vbhTjElYhBVS3/miuE0uOuoLdb8Mc/rVfsmm6eo5o9GA==,
+      }
+    hasBin: true
+
   ts-api-utils@1.3.0:
     resolution:
       {
@@ -6025,6 +6062,12 @@ packages:
     resolution:
       {
         integrity: sha512-qz3o9CHXmJJPGBdqzab7qAYuW8kQGKNEuoHFYrBwV6hWIMcpAmxDLXojcHfFr9US1Pe6zUswEIJIbLI610fuqA==,
+      }
+
+  undefsafe@2.0.5:
+    resolution:
+      {
+        integrity: sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA==,
       }
 
   undici-types@6.19.8:
@@ -6571,7 +6614,7 @@ snapshots:
       "@babel/traverse": 7.25.6
       "@babel/types": 7.25.6
       convert-source-map: 2.0.0
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -6668,7 +6711,7 @@ snapshots:
       "@babel/parser": 7.25.6
       "@babel/template": 7.25.0
       "@babel/types": 7.25.6
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -6700,7 +6743,7 @@ snapshots:
       "@devicefarmer/adbkit-monkey": 1.2.1
       bluebird: 3.7.2
       commander: 9.5.0
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       node-forge: 1.3.1
       split: 1.0.1
     transitivePeerDependencies:
@@ -6871,7 +6914,7 @@ snapshots:
   "@eslint/config-array@0.18.0":
     dependencies:
       "@eslint/object-schema": 2.1.4
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -6881,7 +6924,7 @@ snapshots:
   "@eslint/eslintrc@3.1.0":
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       espree: 10.1.0
       globals: 14.0.0
       ignore: 5.3.2
@@ -7247,7 +7290,7 @@ snapshots:
       "@typescript-eslint/types": 8.7.0
       "@typescript-eslint/typescript-estree": 8.7.0(typescript@5.6.2)
       "@typescript-eslint/visitor-keys": 8.7.0
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       eslint: 9.11.1(jiti@1.21.6)
     optionalDependencies:
       typescript: 5.6.2
@@ -7268,7 +7311,7 @@ snapshots:
     dependencies:
       "@typescript-eslint/typescript-estree": 8.7.0(typescript@5.6.2)
       "@typescript-eslint/utils": 8.7.0(eslint@9.11.1(jiti@1.21.6))(typescript@5.6.2)
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       ts-api-utils: 1.3.0(typescript@5.6.2)
     optionalDependencies:
       typescript: 5.6.2
@@ -7284,7 +7327,7 @@ snapshots:
     dependencies:
       "@typescript-eslint/types": 8.5.0
       "@typescript-eslint/visitor-keys": 8.5.0
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       fast-glob: 3.3.2
       is-glob: 4.0.3
       minimatch: 9.0.5
@@ -7299,7 +7342,7 @@ snapshots:
     dependencies:
       "@typescript-eslint/types": 8.7.0
       "@typescript-eslint/visitor-keys": 8.7.0
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       fast-glob: 3.3.2
       is-glob: 4.0.3
       minimatch: 9.0.5
@@ -7802,9 +7845,11 @@ snapshots:
     dependencies:
       ms: 2.1.3
 
-  debug@4.3.7:
+  debug@4.3.7(supports-color@5.5.0):
     dependencies:
       ms: 2.1.3
+    optionalDependencies:
+      supports-color: 5.5.0
 
   decode-named-character-reference@1.0.2:
     dependencies:
@@ -8035,7 +8080,7 @@ snapshots:
   eslint-plugin-import-x@4.2.1(eslint@9.11.1(jiti@1.21.6))(typescript@5.6.2):
     dependencies:
       "@typescript-eslint/utils": 8.5.0(eslint@9.11.1(jiti@1.21.6))(typescript@5.6.2)
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       doctrine: 3.0.0
       eslint: 9.11.1(jiti@1.21.6)
       eslint-import-resolver-node: 0.3.9
@@ -8054,7 +8099,7 @@ snapshots:
       "@es-joy/jsdoccomment": 0.48.0
       are-docs-informative: 0.0.2
       comment-parser: 1.4.1
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       escape-string-regexp: 4.0.0
       eslint: 9.11.1(jiti@1.21.6)
       espree: 10.1.0
@@ -8127,7 +8172,7 @@ snapshots:
 
   eslint-plugin-toml@0.11.1(eslint@9.11.1(jiti@1.21.6)):
     dependencies:
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       eslint: 9.11.1(jiti@1.21.6)
       eslint-compat-utils: 0.5.1(eslint@9.11.1(jiti@1.21.6))
       lodash: 4.17.21
@@ -8177,7 +8222,7 @@ snapshots:
 
   eslint-plugin-yml@1.14.0(eslint@9.11.1(jiti@1.21.6)):
     dependencies:
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       eslint: 9.11.1(jiti@1.21.6)
       eslint-compat-utils: 0.5.1(eslint@9.11.1(jiti@1.21.6))
       lodash: 4.17.21
@@ -8222,7 +8267,7 @@ snapshots:
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.3
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       escape-string-regexp: 4.0.0
       eslint-scope: 8.0.2
       eslint-visitor-keys: 4.0.0
@@ -8334,7 +8379,7 @@ snapshots:
 
   extract-zip@2.0.1:
     dependencies:
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -8590,6 +8635,8 @@ snapshots:
   human-signals@8.0.0: {}
 
   ieee754@1.2.1: {}
+
+  ignore-by-default@1.0.1: {}
 
   ignore@5.3.2: {}
 
@@ -9174,7 +9221,7 @@ snapshots:
   micromark@4.0.0:
     dependencies:
       "@types/debug": 4.1.12
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       decode-named-character-reference: 1.0.2
       devlop: 1.1.0
       micromark-core-commonmark: 2.0.1
@@ -9306,6 +9353,19 @@ snapshots:
       which: 2.0.2
 
   node-releases@2.0.18: {}
+
+  nodemon@3.1.7:
+    dependencies:
+      chokidar: 3.6.0
+      debug: 4.3.7(supports-color@5.5.0)
+      ignore-by-default: 1.0.1
+      minimatch: 3.1.2
+      pstree.remy: 1.1.8
+      semver: 7.6.3
+      simple-update-notifier: 2.0.0
+      supports-color: 5.5.0
+      touch: 3.1.1
+      undefsafe: 2.0.5
 
   normalize-package-data@2.5.0:
     dependencies:
@@ -9589,6 +9649,8 @@ snapshots:
 
   proto-list@1.2.4: {}
 
+  pstree.remy@1.1.8: {}
+
   publish-browser-extension@2.2.1:
     dependencies:
       cac: 6.7.14
@@ -9835,6 +9897,10 @@ snapshots:
 
   signal-exit@4.1.0: {}
 
+  simple-update-notifier@2.0.0:
+    dependencies:
+      semver: 7.6.3
+
   sisteransi@1.0.5: {}
 
   slashes@3.0.12: {}
@@ -10055,6 +10121,8 @@ snapshots:
     dependencies:
       eslint-visitor-keys: 3.4.3
 
+  touch@3.1.1: {}
+
   ts-api-utils@1.3.0(typescript@5.6.2):
     dependencies:
       typescript: 5.6.2
@@ -10090,6 +10158,8 @@ snapshots:
   ufo@1.5.4: {}
 
   uhyphen@0.2.0: {}
+
+  undefsafe@2.0.5: {}
 
   undici-types@6.19.8: {}
 
@@ -10187,7 +10257,7 @@ snapshots:
   vite-node@2.0.5(@types/node@22.5.4):
     dependencies:
       cac: 6.7.14
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       pathe: 1.1.2
       tinyrainbow: 1.2.0
       vite: 5.4.3(@types/node@22.5.4)
@@ -10213,7 +10283,7 @@ snapshots:
 
   vue-eslint-parser@9.4.3(eslint@9.11.1(jiti@1.21.6)):
     dependencies:
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       eslint: 9.11.1(jiti@1.21.6)
       eslint-scope: 7.2.2
       eslint-visitor-keys: 3.4.3

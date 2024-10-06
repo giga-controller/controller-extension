@@ -33,7 +33,7 @@ export const createPersistedStore = <T, K extends string, S extends string>(
         }) as StoreType,
       {
         name: storeName,
-        getStorage: () => localStorage,
+        // getStorage: () => localStorage,
         onRehydrateStorage: () => (state) => {
           if (state && stateKey in state) {
             const result = stateSchema.safeParse(state[stateKey]);
