@@ -24,6 +24,7 @@ import {
   retrieveRequestSchema,
 } from "@/types/scripts/base";
 import { createHubspotOauth2ApplicationPartOne } from "@/scripts/injected/hubspot";
+import { logoBase64 } from "@/constants/logoBase64";
 
 const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
 const LINEAR_BASE_URL = "https://linear.app";
@@ -36,15 +37,25 @@ const HUBSPOT_TARGET_BASE_URL = "https://app.hubspot.com/developer";
 
 const createButton = (autoClick: boolean, onClick: () => Promise<void>) => {
   // This function creates a button and injects it into the client's DOM
+  const container = document.createElement("div");
+  container.id = "auth-maven-container";
+  container.style.position = "fixed";
+  container.style.top = "50px";
+  container.style.right = "10px";
+  container.style.zIndex = "10000";
+  container.style.width = "200px";
+  container.style.height = "50px";
+  container.style.display = "flex";
+  container.style.flexDirection = "row";
+  container.style.alignItems = "center";
+  container.style.justifyContent = "center";
+  container.style.padding = "5px";
+  container.style.backgroundColor = "#4CAF50";
+  container.style.borderRadius = "10px";
+  container.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.1)";
 
   const button = document.createElement("button");
   button.id = "auth-maven-button";
-  button.style.position = "fixed";
-  button.style.top = "50px";
-  button.style.right = "10px";
-  button.style.zIndex = "10000";
-  button.style.width = "200px";
-  button.style.height = "50px";
   button.style.backgroundColor = "#4CAF50";
   button.style.color = "white";
   button.style.border = "none";
@@ -67,7 +78,7 @@ const createButton = (autoClick: boolean, onClick: () => Promise<void>) => {
   document.head.appendChild(styleElement);
 
   const img = document.createElement("img");
-  img.src = "https://pngimg.com/d/google_PNG19635.png";
+  img.src = `${logoBase64}`;
   img.alt = "Button icon";
   img.style.width = "24px";
   img.style.height = "24px";
@@ -75,8 +86,8 @@ const createButton = (autoClick: boolean, onClick: () => Promise<void>) => {
 
   const span = document.createElement("span");
 
-  button.appendChild(img);
-  button.appendChild(span);
+  container.appendChild(img);
+  container.appendChild(button);
 
   button.addEventListener("mouseover", () => {
     button.style.backgroundColor = "#45a049";
@@ -98,7 +109,7 @@ const createButton = (autoClick: boolean, onClick: () => Promise<void>) => {
     await onClick();
   });
 
-  document.body.appendChild(button);
+  document.body.appendChild(container);
   updateButtonText(navigationStateEnumSchema.Values.start);
   if (autoClick) {
     button.click();
