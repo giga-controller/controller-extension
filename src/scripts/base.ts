@@ -88,9 +88,9 @@ function getIntegration(url: string): Integration {
     return integrationEnum.Values.reddit;
   } else {
     // DEVELOPMENT
-    // return integrationEnum.Values.hubspot;
+    return integrationEnum.Values.hubspot;
 
     // PRODUCTION
-    throw new Error("Unsupported integration");
+    // throw new Error("Unsupported integration");
   }
 }
