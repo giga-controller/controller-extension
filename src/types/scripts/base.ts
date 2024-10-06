@@ -1,5 +1,6 @@
 import z from "zod";
 import { messageTypeEnumSchema } from "@/types/message";
+import { platformEnum } from "@/types/platform";
 
 export const querySelectorSchema = z.object({
   id: z.string().nullable().optional().default(null),
@@ -60,3 +61,33 @@ export const injectButtonRequestSchema = z.object({
 });
 
 export type InjectButtonRequest = z.infer<typeof injectButtonRequestSchema>;
+
+export const navigationStateEnumSchema = z.enum([
+  "start",
+  "wait",
+  "find",
+  "click",
+  "fill",
+  "retrieve",
+  "navigate",
+  "end",
+]);
+
+export type NavigationStateEnum = z.infer<typeof navigationStateEnumSchema>;
+
+const _buttonTextMappingSchema = z.record(
+  navigationStateEnumSchema,
+  z.string(),
+);
+export type ButtonTextMapping = z.infer<typeof _buttonTextMappingSchema>;
+
+export const displayMessageMapping: ButtonTextMapping = {
+  start: "Click here to start!",
+  wait: "Waiting for page to load...",
+  find: "Finding element...",
+  click: "Clicking element...",
+  fill: "Filling input...",
+  retrieve: "Retrieving value...",
+  navigate: "Navigating...",
+  end: "Oauth application created!"
+};

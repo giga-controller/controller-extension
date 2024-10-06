@@ -1,13 +1,14 @@
 /* eslint-disable unused-imports/no-unused-vars */
-import { constructClassQuery, updateButtonText } from "@/lib/utils";
-import { PlatformDetails } from "@/types/platform";
+import { constructClassQuery, updateButtonText } from '@/lib/utils'
+import { PlatformDetails } from '@/types/platform'
 import {
   BaseRequest,
   clickRequestSchema,
   fillInputRequestSchema,
+  navigationStateEnumSchema,
   querySelectorSchema,
   RetrieveRequest,
-} from "@/types/scripts/base";
+} from '@/types/scripts/base'
 
 export const createLinearOauth2ApplicationPartOne = async (
   platformDetails: PlatformDetails,
@@ -17,55 +18,55 @@ export const createLinearOauth2ApplicationPartOne = async (
     request: RetrieveRequest,
   ) => Promise<string>,
 ) => {
-  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
-    platformDetails;
+  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId }
+    = platformDetails
 
-  const APPLICATION_NAME_INPUT_ID: string = "name";
+  const APPLICATION_NAME_INPUT_ID: string = 'name'
   const fillApplicationNameInputRequest = fillInputRequestSchema.parse({
     value: platform,
     query: querySelectorSchema.parse({
       id: APPLICATION_NAME_INPUT_ID,
     }),
-  });
+  })
 
-  await waitUntilMessageResolved(fillApplicationNameInputRequest);
+  await waitUntilMessageResolved(fillApplicationNameInputRequest)
 
-  const DEVELOPER_NAME_INPUT_ID: string = "developer";
+  const DEVELOPER_NAME_INPUT_ID: string = 'developer'
   const fillDeveloperNameInputRequest = fillInputRequestSchema.parse({
     value: platform,
     query: querySelectorSchema.parse({
       id: DEVELOPER_NAME_INPUT_ID,
     }),
-  });
-  await waitUntilMessageResolved(fillDeveloperNameInputRequest);
+  })
+  await waitUntilMessageResolved(fillDeveloperNameInputRequest)
 
-  const DEVELOPER_URL_INPUT_ID: string = "developerUrl";
+  const DEVELOPER_URL_INPUT_ID: string = 'developerUrl'
   const fillDeveloperUrlInputRequest = fillInputRequestSchema.parse({
     value: javaScriptOriginUri,
     query: querySelectorSchema.parse({
       id: DEVELOPER_URL_INPUT_ID,
     }),
-  });
-  await waitUntilMessageResolved(fillDeveloperUrlInputRequest);
+  })
+  await waitUntilMessageResolved(fillDeveloperUrlInputRequest)
 
-  const REDIRECT_URI_INPUT_ID: string = "redirectUris";
+  const REDIRECT_URI_INPUT_ID: string = 'redirectUris'
   const fillRedirectUriInputRequest = fillInputRequestSchema.parse({
     value: javaScriptRedirectUri,
     query: querySelectorSchema.parse({
       id: REDIRECT_URI_INPUT_ID,
     }),
-  });
-  await waitUntilMessageResolved(fillRedirectUriInputRequest);
+  })
+  await waitUntilMessageResolved(fillRedirectUriInputRequest)
 
   // TODO: temp fix for Linear create button - could not find a way to uniquelyidentify the button
-  const CREATE_APPLICATION_BUTTON_CLASS_QUERY: string =
-    constructClassQuery("sc-blmEgr");
+  const CREATE_APPLICATION_BUTTON_CLASS_QUERY: string
+    = constructClassQuery('sc-blmEgr')
   const clickCreateApplicationButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: CREATE_APPLICATION_BUTTON_CLASS_QUERY,
       index: 2,
     }),
-  });
-  await waitUntilMessageResolved(clickCreateApplicationButtonRequest);
-  updateButtonText("OAuth Application Created!");
-};
+  })
+  await waitUntilMessageResolved(clickCreateApplicationButtonRequest)
+  updateButtonText(navigationStateEnumSchema.Values.end)
+}

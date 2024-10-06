@@ -1,4 +1,4 @@
-import { constructClassQuery } from "@/lib/utils";
+import { constructClassQuery, updateButtonText } from "@/lib/utils";
 import {
   createGoogleOauth2ApplicationPartThree,
   createGoogleOauth2ApplicationPartFive,
@@ -18,6 +18,7 @@ import {
   fillInputRequestSchema,
   InjectButtonRequest,
   injectButtonRequestSchema,
+  navigationStateEnumSchema,
   querySelectorSchema,
   RetrieveRequest,
   retrieveRequestSchema,
@@ -119,6 +120,7 @@ async function waitUntilActionMessageResolved(
       console.log("Waiting for Click Message to be resolved");
       requestInstance = clickRequestSchema.parse(request);
       responseMessageType = messageTypeEnumSchema.Values.clickResponse;
+      updateButtonText(navigationStateEnumSchema.Values.click)
     } else {
       throw new Error("Invalid request type for click");
     }
@@ -127,12 +129,13 @@ async function waitUntilActionMessageResolved(
     if (fillInputRequestSchema.safeParse(request).success) {
       requestInstance = fillInputRequestSchema.parse(request);
       responseMessageType = messageTypeEnumSchema.Values.fillInputResponse;
+      updateButtonText(navigationStateEnumSchema.Values.fill)
     } else {
       throw new Error("Invalid request type for fillInput");
     }
   }
 
-  await new Promise<void | string>((resolve) => {
+  await new Promise<void>((resolve) => {
     const interval = setInterval(() => {
       window.postMessage(requestInstance, "*");
     }, 1000);
@@ -160,6 +163,7 @@ async function waitUntilRetrieveMessageResolved(
   if (retrieveRequestSchema.safeParse(request).success) {
     requestInstance = retrieveRequestSchema.parse(request);
     responseMessageType = messageTypeEnumSchema.Values.retrieveResponse;
+    updateButtonText(navigationStateEnumSchema.Values.retrieve)
   } else {
     throw new Error("Invalid request type");
   }
@@ -182,6 +186,7 @@ async function waitUntilRetrieveMessageResolved(
 }
 
 async function waitUntilPageLoaded() {
+  updateButtonText(navigationStateEnumSchema.Values.wait);
   await new Promise((resolve) => {
     window.addEventListener("load", resolve);
   });
