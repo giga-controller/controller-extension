@@ -65,7 +65,7 @@ export default defineContentScript({
             element = document.querySelector(
               `[data-testid="${query.dataTestId}"]`,
             ) as HTMLElement;
-          }
+          } 
 
           if (element) {
             element.click();
