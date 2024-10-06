@@ -393,7 +393,7 @@ export default defineUnlistedScript(() => {
       console.log("injectPartOneButtonRequest", injectPartOneButtonRequest);
       await injectButton(injectPartOneButtonRequest);
     } else if (
-      window.location.href === SLACK_HOME_PAGE_URL &&
+      window.location.href.includes(SLACK_HOME_PAGE_URL) &&
       platformDetails
     ) {
       // Slack's redirection after logging in is wonky (it redirects to home page instead of developer portal)

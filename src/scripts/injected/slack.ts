@@ -25,7 +25,7 @@ export const createSlackOauth2ApplicationPartOne = async (
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
   const START_CREATE_APP_BUTTON_CLASS_QUERY = constructClassQuery(
-    "btn btn_large create_new_app_button",
+    "create_new_app_button",
   );
   const clickStartCreateAppButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
