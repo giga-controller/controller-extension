@@ -361,10 +361,24 @@ export default defineUnlistedScript(() => {
       await injectButton(injectPartFiveButtonRequest);
     } else if (
       window.location.href.includes(LINEAR_BASE_URL) &&
+      !window.location.href.includes("/new") &&
+      platformDetails
+    ) {
+      const workspaceName =
+        window.location.href.match(/https:\/\/linear\.app\/([^/]+)/)?.[1] || "";
+      console.log("workspaceName", workspaceName);
+
+      const LINEAR_OAUTH_SETTINGS_URL = `${LINEAR_BASE_URL}/${workspaceName}/settings/api/applications/new`;
+
+      window.location.href = LINEAR_OAUTH_SETTINGS_URL;
+    } else if (
+      window.location.href.includes(LINEAR_BASE_URL) &&
+      window.location.href.includes("/new") &&
       platformDetails
     ) {
       const APPLICATION_NAME_INPUT_ID: string = "name";
       const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+        isStartStep: true,
         autoClick: false,
         baseUrl: LINEAR_BASE_URL,
         querySelector: querySelectorSchema.parse({
@@ -380,12 +394,15 @@ export default defineUnlistedScript(() => {
           );
         },
       });
+
+      console.log("injectPartOneButtonRequest", injectPartOneButtonRequest);
       await injectButton(injectPartOneButtonRequest);
     } else if (window.location.href === SLACK_BASE_URL && platformDetails) {
       const CREATE_APP_BUTTON_CLASS_QUERY = constructClassQuery(
         "create_new_app_button",
       );
       const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+        isStartStep: true,
         autoClick: false,
         baseUrl: SLACK_BASE_URL,
         querySelector: querySelectorSchema.parse({
@@ -413,6 +430,7 @@ export default defineUnlistedScript(() => {
         "index__navItemButton--352Fy",
       );
       const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+        isStartStep: true,
         autoClick: false,
         baseUrl: X_DEVELOPER_PAGE_URL,
         querySelector: querySelectorSchema.parse({
@@ -432,6 +450,7 @@ export default defineUnlistedScript(() => {
     } else if (window.location.href === REDDIT_TARGET_URL && platformDetails) {
       const CREATE_APP_BUTTON_ID = "create-app-button";
       const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+        isStartStep: true,
         autoClick: false,
         baseUrl: REDDIT_TARGET_URL,
         querySelector: querySelectorSchema.parse({

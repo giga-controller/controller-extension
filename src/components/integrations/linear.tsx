@@ -6,8 +6,7 @@ interface LinearIntegrationProps {
   updateIntegrationState: (input: IntegrationState) => void;
 }
 
-export const LINEAR_TARGET_URL =
-  "https://linear.app/linear-controller/settings/api/applications/new";
+export const LINEAR_TARGET_URL = "https://linear.app/";
 
 export default function LinearIntegration({
   selected,

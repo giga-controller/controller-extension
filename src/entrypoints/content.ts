@@ -66,6 +66,10 @@ export default defineContentScript({
             element = document.querySelector(
               `[data-testid="${query.dataTestId}"]`,
             ) as HTMLElement;
+          } else if (query.type) {
+            element = document.querySelector(
+              `[type="${query.type}"]`,
+            ) as HTMLElement;
           }
 
           if (element) {
