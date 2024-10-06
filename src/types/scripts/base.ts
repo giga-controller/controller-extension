@@ -89,5 +89,5 @@ export const displayMessageMapping: ButtonTextMapping = {
   fill: "Filling input...",
   retrieve: "Retrieving value...",
   navigate: "Navigating...",
-  end: "Oauth application created!"
+  end: "Oauth application created!",
 };

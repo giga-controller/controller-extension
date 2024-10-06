@@ -120,7 +120,7 @@ async function waitUntilActionMessageResolved(
       console.log("Waiting for Click Message to be resolved");
       requestInstance = clickRequestSchema.parse(request);
       responseMessageType = messageTypeEnumSchema.Values.clickResponse;
-      updateButtonText(navigationStateEnumSchema.Values.click)
+      updateButtonText(navigationStateEnumSchema.Values.click);
     } else {
       throw new Error("Invalid request type for click");
     }
@@ -129,7 +129,7 @@ async function waitUntilActionMessageResolved(
     if (fillInputRequestSchema.safeParse(request).success) {
       requestInstance = fillInputRequestSchema.parse(request);
       responseMessageType = messageTypeEnumSchema.Values.fillInputResponse;
-      updateButtonText(navigationStateEnumSchema.Values.fill)
+      updateButtonText(navigationStateEnumSchema.Values.fill);
     } else {
       throw new Error("Invalid request type for fillInput");
     }
@@ -163,7 +163,7 @@ async function waitUntilRetrieveMessageResolved(
   if (retrieveRequestSchema.safeParse(request).success) {
     requestInstance = retrieveRequestSchema.parse(request);
     responseMessageType = messageTypeEnumSchema.Values.retrieveResponse;
-    updateButtonText(navigationStateEnumSchema.Values.retrieve)
+    updateButtonText(navigationStateEnumSchema.Values.retrieve);
   } else {
     throw new Error("Invalid request type");
   }
