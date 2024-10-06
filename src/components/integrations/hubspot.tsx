@@ -3,7 +3,7 @@ import { integrationEnum, IntegrationState } from "@/types/integrations";
 
 interface HubspotIntegrationProps {
   selected: boolean;
-  updateIntegrationState: (url: IntegrationState) => void;
+  updateIntegrationState: (input: IntegrationState) => void;
 }
 
 export const HUBSPOT_TARGET_URL = "https://app.hubspot.com/developer";

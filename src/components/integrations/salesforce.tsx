@@ -3,7 +3,7 @@ import { integrationEnum, IntegrationState } from "@/types/integrations";
 
 interface SalesforceIntegrationProps {
   selected: boolean;
-  updateIntegrationState: (url: IntegrationState) => void;
+  updateIntegrationState: (input: IntegrationState) => void;
 }
 
 export const SALESFORCE_TARGET_URL = "https://www.salesforce.com";

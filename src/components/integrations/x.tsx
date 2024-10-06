@@ -3,7 +3,7 @@ import { integrationEnum, IntegrationState } from "@/types/integrations";
 
 interface XIntegrationProps {
   selected: boolean;
-  updateIntegrationState: (url: IntegrationState) => void;
+  updateIntegrationState: (input: IntegrationState) => void;
 }
 
 export const X_TARGET_URL = "https://developer.x.com/en/portal/dashboard";

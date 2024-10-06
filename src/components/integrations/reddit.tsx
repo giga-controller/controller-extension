@@ -3,7 +3,7 @@ import { integrationEnum, IntegrationState } from "@/types/integrations";
 
 interface RedditIntegrationProps {
   selected: boolean;
-  updateIntegrationState: (url: IntegrationState) => void;
+  updateIntegrationState: (input: IntegrationState) => void;
 }
 
 export const REDDIT_TARGET_URL = "https://www.reddit.com/prefs/apps";

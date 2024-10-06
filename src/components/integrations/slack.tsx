@@ -3,7 +3,7 @@ import { integrationEnum, IntegrationState } from "@/types/integrations";
 
 interface SlackIntegrationProps {
   selected: boolean;
-  updateIntegrationState: (url: IntegrationState) => void;
+  updateIntegrationState: (input: IntegrationState) => void;
 }
 
 export const SLACK_TARGET_URL = "https://api.slack.com/apps";
