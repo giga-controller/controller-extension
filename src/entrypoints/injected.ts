@@ -1,4 +1,4 @@
-import { constructClassQuery, updateButtonText } from "@/lib/utils";
+import { constructClassQuery } from "@/lib/utils";
 import {
   createGoogleOauth2ApplicationPartThree,
   createGoogleOauth2ApplicationPartFive,
@@ -14,9 +14,7 @@ import { MessageTypeEnum, messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
 import {
   BaseRequest,
-  ClickRequest,
   clickRequestSchema,
-  FillInputRequest,
   fillInputRequestSchema,
   InjectButtonRequest,
   injectButtonRequestSchema,
@@ -58,9 +56,8 @@ const createButton = (
   button.style.justifyContent = "center";
   button.style.alignItems = "center";
   button.style.transition = "background-color 0.3s, transform 0.1s";
-  button.style.animation = "pulsate 1.5s infinite"; // Ensure this line is present
+  button.style.animation = "pulsate 1.5s infinite";
 
-  // Ensure keyframes are added to the document
   const styleElement = document.createElement("style");
   styleElement.textContent = `
     @keyframes pulsate {
@@ -475,24 +472,6 @@ export default defineUnlistedScript(() => {
       const projectName: string =
         window.location.href.match(/developer\/(\d+)/)?.[1] || "";
       window.location.href = `${HUBSPOT_TARGET_BASE_URL}/${projectName}/application/draft`;
-      // const CREATE_APPLICATION_BUTTON_CLASS_QUERY: string = constructClassQuery("uiButton private-button private-button--primary private-button--default private-button--non-link");
-      // const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
-      //   autoClick: false,
-      //   baseUrl: HUBSPOT_TARGET_BASE_URL,
-      //   querySelector: querySelectorSchema.parse({
-      //     class: CREATE_APPLICATION_BUTTON_CLASS_QUERY,
-      //   }),
-      //   injectedScript: async () => {
-      //     if (!platformDetails) return;
-      //     await createHubspotOauth2ApplicationPartOne(
-      //       platformDetails,
-      //       waitUntilPageLoaded,
-      //       waitUntilActionMessageResolved,
-      //       waitUntilRetrieveMessageResolved,
-      //     );
-      //   },
-      // });
-      // await injectButton(injectPartOneButtonRequest);
     } else if (
       window.location.href.includes(HUBSPOT_TARGET_BASE_URL) &&
       !window.location.href.includes("/home") &&
