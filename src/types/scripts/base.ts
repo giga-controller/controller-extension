@@ -8,6 +8,7 @@ export const querySelectorSchema = z.object({
   value: z.string().nullable().optional().default(null),
   ariaLabelledby: z.string().nullable().optional().default(null),
   dataTestId: z.string().nullable().optional().default(null),
+  type: z.string().nullable().optional().default(null),
   index: z.number().nullable().optional().default(0),
 });
 

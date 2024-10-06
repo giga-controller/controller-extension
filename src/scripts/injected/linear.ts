@@ -27,7 +27,7 @@ export const createLinearOauth2ApplicationPartOne = async (
       id: APPLICATION_NAME_INPUT_ID,
     }),
   });
-  updateButtonText("Navigating...");
+
   await waitUntilMessageResolved(fillApplicationNameInputRequest);
 
   const DEVELOPER_NAME_INPUT_ID: string = "developer";
@@ -57,11 +57,13 @@ export const createLinearOauth2ApplicationPartOne = async (
   });
   await waitUntilMessageResolved(fillRedirectUriInputRequest);
 
+  // TODO: temp fix for Linear create button - could not find a way to uniquelyidentify the button
   const CREATE_APPLICATION_BUTTON_CLASS_QUERY: string =
-    constructClassQuery("sc-blmEgr gIiobM");
+    constructClassQuery("sc-blmEgr");
   const clickCreateApplicationButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: CREATE_APPLICATION_BUTTON_CLASS_QUERY,
+      index: 2,
     }),
   });
   await waitUntilMessageResolved(clickCreateApplicationButtonRequest);
