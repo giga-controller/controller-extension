@@ -92,15 +92,18 @@ function App() {
     { component: RedditIntegration, values: [integrationEnum.Values.reddit] },
     {
       component: SalesforceIntegration,
-      value: integrationEnum.Values.salesforce,
+      values: [integrationEnum.Values.salesforce],
     },
   ];
 
-  const filteredIntegrations = integrations.filter((integration) =>
-    integration.values?.some((value) =>
-      value.toLowerCase().includes(searchTerm.toLowerCase()),
-    ),
-  );
+  const filteredIntegrations = integrations
+    .filter((integration) =>
+      integration.values?.some((value) =>
+        value.toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
+    )
+    .sort((a, b) => a.values[0].localeCompare(b.values[0]));
+  console.log(filteredIntegrations);
 
   return (
     <div className="flex min-w-[320px] max-w-[600px] flex-col gap-4 p-2">
