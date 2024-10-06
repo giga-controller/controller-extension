@@ -42,7 +42,7 @@ export const createGoogleOauth2ApplicationPartOne = async (
   await waitUntilMessageResolved(clickProjectDropdownButtonRequest);
 
   const NEW_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
-    "purview-picker-create-project-button mdc-button mat-mdc-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
+    "purview-picker-create-project-button mdc-button mat-mdc-button mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
   );
   const clickNewProjectButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
@@ -140,6 +140,23 @@ export const createGoogleOauth2ApplicationPartTwo = async (
 };
 
 export const createGoogleOauth2ApplicationPartThree = async (
+  platformDetails: PlatformDetails,
+  waitUntilPageLoaded: () => Promise<void>,
+  waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,
+  waitUntilRetrieveMessageResolved: (
+    request: RetrieveRequest,
+  ) => Promise<string>,
+) => {
+  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
+    platformDetails;
+    
+  const OAUTH_CONSENT_SCREEN_LINK: string =
+    "https://console.cloud.google.com/apis/credentials/consent";
+  window.location.href = OAUTH_CONSENT_SCREEN_LINK;
+  await waitUntilPageLoaded();
+};
+
+export const createGoogleOauth2ApplicationPartFour = async (
   platformDetails: PlatformDetails,
   waitUntilPageLoaded: () => Promise<void>,
   waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,
@@ -276,7 +293,7 @@ export const createGoogleOauth2ApplicationPartThree = async (
   await waitUntilPageLoaded();
 };
 
-export const createGoogleOauth2ApplicationPartFour = async (
+export const createGoogleOauth2ApplicationPartFive = async (
   platformDetails: PlatformDetails,
   waitUntilPageLoaded: () => Promise<void>,
   waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,
