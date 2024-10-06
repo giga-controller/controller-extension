@@ -10,7 +10,7 @@ import {
   SiGooglesheets,
   SiGoogledrive,
   SiHubspot,
-  SiSalesforce
+  SiSalesforce,
 } from "react-icons/si";
 import { FaXTwitter } from "react-icons/fa6";
 

@@ -78,7 +78,10 @@ function App() {
     { component: LinearIntegration, value: integrationEnum.Values.linear },
     { component: XIntegration, value: integrationEnum.Values.x },
     { component: RedditIntegration, value: integrationEnum.Values.reddit },
-    { component: SalesforceIntegration, value: integrationEnum.Values.salesforce },
+    {
+      component: SalesforceIntegration,
+      value: integrationEnum.Values.salesforce,
+    },
   ];
 
   const filteredIntegrations = integrations.filter((integration) =>
