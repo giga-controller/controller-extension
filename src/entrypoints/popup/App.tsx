@@ -20,6 +20,7 @@ import {
   GSheetsIntegration,
 } from "@/components/integrations/google";
 import HubspotIntegration from "@/components/integrations/hubspot";
+import SalesforceIntegration from "@/components/integrations/salesforce";
 
 function App() {
   const [integrationState, setIntegrationState] = useState<IntegrationState>(
@@ -77,6 +78,7 @@ function App() {
     { component: LinearIntegration, value: integrationEnum.Values.linear },
     { component: XIntegration, value: integrationEnum.Values.x },
     { component: RedditIntegration, value: integrationEnum.Values.reddit },
+    { component: SalesforceIntegration, value: integrationEnum.Values.salesforce },
   ];
 
   const filteredIntegrations = integrations.filter((integration) =>
