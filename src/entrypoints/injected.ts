@@ -24,6 +24,7 @@ import {
   RetrieveRequest,
   retrieveRequestSchema,
 } from "@/types/scripts/base";
+import { createHubspotOauth2ApplicationPartOne } from "@/scripts/injected/hubspot";
 
 const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
 const LINEAR_BASE_URL = "https://linear.app";
@@ -31,6 +32,9 @@ const SLACK_BASE_URL = "https://api.slack.com/apps";
 const X_HOME_PAGE_URL = "https://x.com/home";
 const X_DEVELOPER_PAGE_URL = "https://developer.x.com/en/portal/dashboard";
 const REDDIT_TARGET_URL = "https://www.reddit.com/prefs/apps";
+const HUBSPOT_TARGET_BASE_URL = "https://app.hubspot.com/developer";
+const HUBSPOT_TARGET_BASE_RESOURCE = "home";
+const HUBSPOT_URL_REGEX = new RegExp(`^${HUBSPOT_TARGET_BASE_URL}/\\d+/${HUBSPOT_TARGET_BASE_RESOURCE}`);
 
 const createButton = (
   autoClick: boolean,
@@ -202,30 +206,23 @@ async function injectButton({
     }
 
     const interval = setInterval(() => {
-      let elementFound = false;
-
+      let element: Element | null = null
       if (querySelector.id) {
-        const element = document.getElementById(querySelector.id);
-        if (element) {
-          elementFound = true;
-        }
+        element = document.getElementById(querySelector.id);
       } else if (querySelector.class) {
-        const element = document.querySelectorAll(querySelector.class)[
+        element = document.querySelectorAll(querySelector.class)[
           querySelector.index || 0
         ];
-        if (element) {
-          elementFound = true;
-        }
       } else if (querySelector.ariaLabel) {
-        const element = document.querySelector(
+        element = document.querySelector(
           `[aria-label="${querySelector.ariaLabel}"]`,
         );
-        if (element) {
-          elementFound = true;
-        }
+      } else if (querySelector.dataTestId) {
+        element = document.querySelector(`[data-testid="${querySelector.dataTestId}"]`);
+        console.log(element);
       }
 
-      if (elementFound) {
+      if (element) {
         clearInterval(interval);
         createButton(
           autoClick,
@@ -297,7 +294,6 @@ export default defineUnlistedScript(() => {
       });
       await injectButton(injectPartTwoButtonRequest);
 
-
       const API_DETAILS_BASE_URL: string =
         "https://console.cloud.google.com/apis/api/";
       const API_TITLE_CLASS_QUERY = constructClassQuery(
@@ -322,7 +318,7 @@ export default defineUnlistedScript(() => {
       await injectButton(injectPartThreeButtonRequest);
 
       const OAUTH_CONSENT_SCREEN_BASE_URL: string =
-      "https://console.cloud.google.com/apis/credentials/consent";
+        "https://console.cloud.google.com/apis/credentials/consent";
       const EXTERNAL_USER_TYPE_INPUT_ID: string = "_0rif_mat-radio-3-input";
       const injectPartFourButtonRequest = injectButtonRequestSchema.parse({
         autoClick: true,
@@ -444,6 +440,25 @@ export default defineUnlistedScript(() => {
         injectedScript: async () => {
           if (!platformDetails) return;
           await createRedditOauth2ApplicationPartOne(
+            platformDetails,
+            waitUntilPageLoaded,
+            waitUntilActionMessageResolved,
+            waitUntilRetrieveMessageResolved,
+          );
+        },
+      });
+      await injectButton(injectPartOneButtonRequest);
+    } else if (HUBSPOT_URL_REGEX.test(window.location.href) && platformDetails) {
+      const CREATE_APPLICATION_BUTTON_CLASS_QUERY: string = constructClassQuery("uiButton private-button private-button--primary private-button--default private-button--non-link");
+      const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+        autoClick: false,
+        baseUrl: HUBSPOT_TARGET_BASE_URL,
+        querySelector: querySelectorSchema.parse({
+          class: CREATE_APPLICATION_BUTTON_CLASS_QUERY,
+        }),
+        injectedScript: async () => {
+          if (!platformDetails) return;
+          await createHubspotOauth2ApplicationPartOne(
             platformDetails,
             waitUntilPageLoaded,
             waitUntilActionMessageResolved,

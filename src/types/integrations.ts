@@ -9,6 +9,7 @@ import {
   SiGoogledocs,
   SiGooglesheets,
   SiGoogledrive,
+  SiHubspot
 } from "react-icons/si";
 import { FaXTwitter } from "react-icons/fa6";
 
@@ -17,6 +18,7 @@ export const integrationEnum = z.enum([
   "gdrive",
   "gdocs",
   "gsheets",
+  "hubspot",
   "slack",
   "linear",
   "x",
@@ -47,6 +49,7 @@ export const integrationIconMapping: IntegrationIconMapping = {
   gdrive: SiGoogledrive,
   gdocs: SiGoogledocs,
   gsheets: SiGooglesheets,
+  hubspot: SiHubspot,
   linear: SiLinear,
   slack: SiSlack,
   reddit: SiReddit,

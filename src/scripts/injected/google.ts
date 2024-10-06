@@ -149,7 +149,7 @@ export const createGoogleOauth2ApplicationPartThree = async (
 ) => {
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
-    
+
   const OAUTH_CONSENT_SCREEN_LINK: string =
     "https://console.cloud.google.com/apis/credentials/consent";
   window.location.href = OAUTH_CONSENT_SCREEN_LINK;

@@ -19,6 +19,7 @@ import {
   GmailIntegration,
   GSheetsIntegration,
 } from "@/components/integrations/google";
+import HubspotIntegration from "@/components/integrations/hubspot";
 
 function App() {
   const [integrationState, setIntegrationState] = useState<IntegrationState>(
@@ -71,6 +72,7 @@ function App() {
     { component: GDriveIntegration, value: integrationEnum.Values.gdrive },
     { component: GDocsIntegration, value: integrationEnum.Values.gdocs },
     { component: GSheetsIntegration, value: integrationEnum.Values.gsheets },
+    { component: HubspotIntegration, value: integrationEnum.Values.hubspot },
     { component: SlackIntegration, value: integrationEnum.Values.slack },
     { component: LinearIntegration, value: integrationEnum.Values.linear },
     { component: XIntegration, value: integrationEnum.Values.x },
