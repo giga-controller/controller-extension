@@ -69,15 +69,15 @@ function App() {
   };
 
   const integrations = [
-    { component: GmailIntegration, value: integrationEnum.Values.gmail },
-    { component: GDriveIntegration, value: integrationEnum.Values.gdrive },
-    { component: GDocsIntegration, value: integrationEnum.Values.gdocs },
-    { component: GSheetsIntegration, value: integrationEnum.Values.gsheets },
-    { component: HubspotIntegration, value: integrationEnum.Values.hubspot },
-    { component: SlackIntegration, value: integrationEnum.Values.slack },
-    { component: LinearIntegration, value: integrationEnum.Values.linear },
-    { component: XIntegration, value: integrationEnum.Values.x },
-    { component: RedditIntegration, value: integrationEnum.Values.reddit },
+    { component: GmailIntegration, values: [integrationEnum.Values.gmail, "google"] },
+    { component: GDriveIntegration, values: [integrationEnum.Values.gdrive, "google"] },
+    { component: GDocsIntegration, values: [integrationEnum.Values.gdocs, "google"] },
+    { component: GSheetsIntegration, values: [integrationEnum.Values.gsheets, "google"] },
+    { component: HubspotIntegration, values: [integrationEnum.Values.hubspot] },
+    { component: SlackIntegration, values: [integrationEnum.Values.slack] },
+    { component: LinearIntegration, values: [integrationEnum.Values.linear] },
+    { component: XIntegration, values: [integrationEnum.Values.x, "twitter"] },
+    { component: RedditIntegration, values: [integrationEnum.Values.reddit] },
     {
       component: SalesforceIntegration,
       value: integrationEnum.Values.salesforce,
@@ -85,7 +85,9 @@ function App() {
   ];
 
   const filteredIntegrations = integrations.filter((integration) =>
-    integration.value.toLowerCase().includes(searchTerm.toLowerCase()),
+    integration.values?.some(value =>
+      value.toLowerCase().includes(searchTerm.toLowerCase())
+    ),
   );
 
   return (
