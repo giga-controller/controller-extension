@@ -111,5 +111,5 @@ export const createXOauth2ApplicationPartOne = async (
     }),
   });
   await waitUntilMessageResolved(clickConfirmChangePermissionButtonRequest);
-  updateButtonText("OAuth Client ID created!");
+  updateButtonText("OAuth Application created!");
 };

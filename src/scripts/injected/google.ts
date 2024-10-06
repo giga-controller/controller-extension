@@ -385,5 +385,5 @@ export const createGoogleOauth2ApplicationPartFive = async (
     }),
   });
   await waitUntilMessageResolved(clickCreateOauthClientButtonRequest);
-  updateButtonText("OAuth Client ID created!");
+  updateButtonText("OAuth Application Created!");
 };

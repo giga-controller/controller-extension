@@ -33,8 +33,7 @@ const X_HOME_PAGE_URL = "https://x.com/home";
 const X_DEVELOPER_PAGE_URL = "https://developer.x.com/en/portal/dashboard";
 const REDDIT_TARGET_URL = "https://www.reddit.com/prefs/apps";
 const HUBSPOT_TARGET_BASE_URL = "https://app.hubspot.com/developer";
-const HUBSPOT_TARGET_BASE_RESOURCE = "home";
-const HUBSPOT_URL_REGEX = new RegExp(`^${HUBSPOT_TARGET_BASE_URL}/\\d+/${HUBSPOT_TARGET_BASE_RESOURCE}`);
+
 
 const createButton = (
   autoClick: boolean,
@@ -467,13 +466,36 @@ export default defineUnlistedScript(() => {
         },
       });
       await injectButton(injectPartOneButtonRequest);
-    } else if (HUBSPOT_URL_REGEX.test(window.location.href) && platformDetails) {
-      const CREATE_APPLICATION_BUTTON_CLASS_QUERY: string = constructClassQuery("uiButton private-button private-button--primary private-button--default private-button--non-link");
+    } else if (window.location.href.includes(HUBSPOT_TARGET_BASE_URL) && window.location.href.includes("/home") && platformDetails) {
+      const projectName: string =
+        window.location.href.match(/developer\/(\d+)/)?.[1] || "";
+      window.location.href = `${HUBSPOT_TARGET_BASE_URL}/${projectName}/application/draft`;
+      // const CREATE_APPLICATION_BUTTON_CLASS_QUERY: string = constructClassQuery("uiButton private-button private-button--primary private-button--default private-button--non-link");
+      // const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+      //   autoClick: false,
+      //   baseUrl: HUBSPOT_TARGET_BASE_URL,
+      //   querySelector: querySelectorSchema.parse({
+      //     class: CREATE_APPLICATION_BUTTON_CLASS_QUERY,
+      //   }),
+      //   injectedScript: async () => {
+      //     if (!platformDetails) return;
+      //     await createHubspotOauth2ApplicationPartOne(
+      //       platformDetails,
+      //       waitUntilPageLoaded,
+      //       waitUntilActionMessageResolved,
+      //       waitUntilRetrieveMessageResolved,
+      //     );
+      //   },
+      // });
+      // await injectButton(injectPartOneButtonRequest);
+    } else if (window.location.href.includes(HUBSPOT_TARGET_BASE_URL) && !window.location.href.includes("/home") && platformDetails) {
+      const AUTH_TAB_CLASS_QUERY: string = constructClassQuery("private-link uiLinkWithoutUnderline UITab__StyledLink-sc-14gzkc-2 glAWjO private-tab private-link--unstyled");
       const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+        isStartStep: true,
         autoClick: false,
         baseUrl: HUBSPOT_TARGET_BASE_URL,
         querySelector: querySelectorSchema.parse({
-          class: CREATE_APPLICATION_BUTTON_CLASS_QUERY,
+          class: AUTH_TAB_CLASS_QUERY,
         }),
         injectedScript: async () => {
           if (!platformDetails) return;
