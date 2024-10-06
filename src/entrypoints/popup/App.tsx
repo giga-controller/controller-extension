@@ -69,10 +69,22 @@ function App() {
   };
 
   const integrations = [
-    { component: GmailIntegration, values: [integrationEnum.Values.gmail, "google"] },
-    { component: GDriveIntegration, values: [integrationEnum.Values.gdrive, "google"] },
-    { component: GDocsIntegration, values: [integrationEnum.Values.gdocs, "google"] },
-    { component: GSheetsIntegration, values: [integrationEnum.Values.gsheets, "google"] },
+    {
+      component: GmailIntegration,
+      values: [integrationEnum.Values.gmail, "google"],
+    },
+    {
+      component: GDriveIntegration,
+      values: [integrationEnum.Values.gdrive, "google"],
+    },
+    {
+      component: GDocsIntegration,
+      values: [integrationEnum.Values.gdocs, "google"],
+    },
+    {
+      component: GSheetsIntegration,
+      values: [integrationEnum.Values.gsheets, "google"],
+    },
     { component: HubspotIntegration, values: [integrationEnum.Values.hubspot] },
     { component: SlackIntegration, values: [integrationEnum.Values.slack] },
     { component: LinearIntegration, values: [integrationEnum.Values.linear] },
@@ -85,8 +97,8 @@ function App() {
   ];
 
   const filteredIntegrations = integrations.filter((integration) =>
-    integration.values?.some(value =>
-      value.toLowerCase().includes(searchTerm.toLowerCase())
+    integration.values?.some((value) =>
+      value.toLowerCase().includes(searchTerm.toLowerCase()),
     ),
   );
 
