@@ -84,7 +84,7 @@ function App() {
   );
 
   return (
-    <ScrollArea className="flex min-w-[320px] max-w-[600px] flex-col gap-4 p-2">
+    <div className="flex min-w-[320px] max-w-[600px] flex-col gap-4 p-2">
       <h1 className="ml-4 py-5 text-left text-lg font-bold">
         Select Integration
       </h1>
@@ -96,24 +96,26 @@ function App() {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="mb-3 max-w-[90%]"
         />
-        <div className="mb-3 grid w-full grid-cols-3 gap-3 p-3">
-          {filteredIntegrations.length > 0 ? (
-            filteredIntegrations.map(
-              ({ component: IntegrationComponent, value }) => (
-                <div key={value}>
-                  <IntegrationComponent
-                    selected={integrationState.integration === value}
-                    updateIntegrationState={updateIntegrationState}
-                  />
-                </div>
-              ),
-            )
-          ) : (
-            <div className="col-span-3 ml-2 text-[15px] text-gray-800">
-              No results found.
-            </div>
-          )}
-        </div>
+        <ScrollArea className="h-64 w-full overflow-y-auto">
+          <div className="mb-3 grid w-full grid-cols-3 gap-3 p-3">
+            {filteredIntegrations.length > 0 ? (
+              filteredIntegrations.map(
+                ({ component: IntegrationComponent, value }) => (
+                  <div key={value}>
+                    <IntegrationComponent
+                      selected={integrationState.integration === value}
+                      updateIntegrationState={updateIntegrationState}
+                    />
+                  </div>
+                ),
+              )
+            ) : (
+              <div className="col-span-3 ml-2 text-[15px] text-gray-800">
+                No results found.
+              </div>
+            )}
+          </div>
+        </ScrollArea>
         <div className="flex w-full justify-center px-4 pb-3">
           <Button
             className="w-full text-lg"
@@ -129,7 +131,7 @@ function App() {
           </Button>
         </div>
       </div>
-    </ScrollArea>
+    </div>
   );
 }
 
