@@ -27,6 +27,7 @@ import { createHubspotOauth2ApplicationPartOne } from "@/scripts/injected/hubspo
 
 const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
 const LINEAR_BASE_URL = "https://linear.app";
+const SLACK_HOME_PAGE_URL = "https://app.slack.com/client"
 const SLACK_BASE_URL = "https://api.slack.com/apps";
 const X_HOME_PAGE_URL = "https://x.com/home";
 const X_DEVELOPER_PAGE_URL = "https://developer.x.com/en/portal/dashboard";
@@ -397,6 +398,9 @@ export default defineUnlistedScript(() => {
 
       console.log("injectPartOneButtonRequest", injectPartOneButtonRequest);
       await injectButton(injectPartOneButtonRequest);
+    } else if (window.location.href === SLACK_HOME_PAGE_URL && platformDetails) {
+      // Slack's redirection after logging in is wonky (it redirects to home page instead of developer portal)
+      window.location.href = SLACK_BASE_URL;
     } else if (window.location.href === SLACK_BASE_URL && platformDetails) {
       const CREATE_APP_BUTTON_CLASS_QUERY = constructClassQuery(
         "create_new_app_button",
