@@ -27,17 +27,14 @@ import { createHubspotOauth2ApplicationPartOne } from "@/scripts/injected/hubspo
 
 const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
 const LINEAR_BASE_URL = "https://linear.app";
-const SLACK_HOME_PAGE_URL = "https://app.slack.com/client"
+const SLACK_HOME_PAGE_URL = "https://app.slack.com/client";
 const SLACK_BASE_URL = "https://api.slack.com/apps";
 const X_HOME_PAGE_URL = "https://x.com/home";
 const X_DEVELOPER_PAGE_URL = "https://developer.x.com/en/portal/dashboard";
 const REDDIT_TARGET_URL = "https://www.reddit.com/prefs/apps";
 const HUBSPOT_TARGET_BASE_URL = "https://app.hubspot.com/developer";
 
-const createButton = (
-  autoClick: boolean,
-  onClick: () => Promise<void>,
-) => {
+const createButton = (autoClick: boolean, onClick: () => Promise<void>) => {
   // This function creates a button and injects it into the client's DOM
 
   const button = document.createElement("button");
@@ -226,12 +223,9 @@ async function injectButton({
 
       if (element) {
         clearInterval(interval);
-        createButton(
-          autoClick,
-          async () => {
-            await injectedScript();
-          },
-        );
+        createButton(autoClick, async () => {
+          await injectedScript();
+        });
         resolve();
       } else {
         location.reload();
@@ -398,7 +392,10 @@ export default defineUnlistedScript(() => {
 
       console.log("injectPartOneButtonRequest", injectPartOneButtonRequest);
       await injectButton(injectPartOneButtonRequest);
-    } else if (window.location.href === SLACK_HOME_PAGE_URL && platformDetails) {
+    } else if (
+      window.location.href === SLACK_HOME_PAGE_URL &&
+      platformDetails
+    ) {
       // Slack's redirection after logging in is wonky (it redirects to home page instead of developer portal)
       window.location.href = SLACK_BASE_URL;
     } else if (window.location.href === SLACK_BASE_URL && platformDetails) {
