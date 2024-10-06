@@ -1,22 +1,22 @@
 import BaseIntegration from "@/components/integrations/base";
 import { integrationEnum, IntegrationState } from "@/types/integrations";
 
-interface HubspotIntegrationProps {
+interface SalesforceIntegrationProps {
   selected: boolean;
   updateIntegrationState: (input: IntegrationState) => void;
 }
 
-export const HUBSPOT_TARGET_URL = "https://app.hubspot.com/developer";
+export const SALESFORCE_TARGET_URL = "https://www.salesforce.com";
 
-export default function HubspotIntegration({
+export default function SalesforceIntegration({
   selected,
   updateIntegrationState,
-}: HubspotIntegrationProps) {
+}: SalesforceIntegrationProps) {
   return (
     <BaseIntegration
       selected={selected}
-      integration={integrationEnum.Values.hubspot}
-      url={HUBSPOT_TARGET_URL}
+      integration={integrationEnum.Values.salesforce}
+      url={SALESFORCE_TARGET_URL}
       updateIntegrationState={updateIntegrationState}
     />
   );

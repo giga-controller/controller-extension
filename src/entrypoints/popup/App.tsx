@@ -20,6 +20,7 @@ import {
   GSheetsIntegration,
 } from "@/components/integrations/google";
 import HubspotIntegration from "@/components/integrations/hubspot";
+import SalesforceIntegration from "@/components/integrations/salesforce";
 
 function App() {
   const [integrationState, setIntegrationState] = useState<IntegrationState>(
@@ -68,23 +69,41 @@ function App() {
   };
 
   const integrations = [
-    { component: GmailIntegration, value: integrationEnum.Values.gmail },
-    { component: GDriveIntegration, value: integrationEnum.Values.gdrive },
-    { component: GDocsIntegration, value: integrationEnum.Values.gdocs },
-    { component: GSheetsIntegration, value: integrationEnum.Values.gsheets },
-    { component: HubspotIntegration, value: integrationEnum.Values.hubspot },
-    { component: SlackIntegration, value: integrationEnum.Values.slack },
-    { component: LinearIntegration, value: integrationEnum.Values.linear },
-    { component: XIntegration, value: integrationEnum.Values.x },
-    { component: RedditIntegration, value: integrationEnum.Values.reddit },
+    {
+      component: GmailIntegration,
+      values: [integrationEnum.Values.gmail, "google"],
+    },
+    {
+      component: GDriveIntegration,
+      values: [integrationEnum.Values.gdrive, "google"],
+    },
+    {
+      component: GDocsIntegration,
+      values: [integrationEnum.Values.gdocs, "google"],
+    },
+    {
+      component: GSheetsIntegration,
+      values: [integrationEnum.Values.gsheets, "google"],
+    },
+    { component: HubspotIntegration, values: [integrationEnum.Values.hubspot] },
+    { component: SlackIntegration, values: [integrationEnum.Values.slack] },
+    { component: LinearIntegration, values: [integrationEnum.Values.linear] },
+    { component: XIntegration, values: [integrationEnum.Values.x, "twitter"] },
+    { component: RedditIntegration, values: [integrationEnum.Values.reddit] },
+    {
+      component: SalesforceIntegration,
+      value: integrationEnum.Values.salesforce,
+    },
   ];
 
   const filteredIntegrations = integrations.filter((integration) =>
-    integration.value.toLowerCase().includes(searchTerm.toLowerCase()),
+    integration.values?.some((value) =>
+      value.toLowerCase().includes(searchTerm.toLowerCase()),
+    ),
   );
 
   return (
-    <ScrollArea className="flex min-w-[320px] max-w-[600px] flex-col gap-4 p-2">
+    <div className="flex min-w-[320px] max-w-[600px] flex-col gap-4 p-2">
       <h1 className="ml-4 py-5 text-left text-lg font-bold">
         Select Integration
       </h1>
@@ -96,24 +115,26 @@ function App() {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="mb-3 max-w-[90%]"
         />
-        <div className="mb-3 grid w-full grid-cols-3 gap-3 p-3">
-          {filteredIntegrations.length > 0 ? (
-            filteredIntegrations.map(
-              ({ component: IntegrationComponent, value }) => (
-                <div key={value}>
-                  <IntegrationComponent
-                    selected={integrationState.integration === value}
-                    updateIntegrationState={updateIntegrationState}
-                  />
-                </div>
-              ),
-            )
-          ) : (
-            <div className="col-span-3 ml-2 text-[15px] text-gray-800">
-              No results found.
-            </div>
-          )}
-        </div>
+        <ScrollArea className="h-64 w-full overflow-y-auto">
+          <div className="mb-3 grid w-full grid-cols-3 gap-3 p-3">
+            {filteredIntegrations.length > 0 ? (
+              filteredIntegrations.map(
+                ({ component: IntegrationComponent, value }) => (
+                  <div key={value}>
+                    <IntegrationComponent
+                      selected={integrationState.integration === value}
+                      updateIntegrationState={updateIntegrationState}
+                    />
+                  </div>
+                ),
+              )
+            ) : (
+              <div className="col-span-3 ml-2 text-[15px] text-gray-800">
+                No results found.
+              </div>
+            )}
+          </div>
+        </ScrollArea>
         <div className="flex w-full justify-center px-4 pb-3">
           <Button
             className="w-full text-lg"
@@ -129,7 +150,7 @@ function App() {
           </Button>
         </div>
       </div>
-    </ScrollArea>
+    </div>
   );
 }
 
