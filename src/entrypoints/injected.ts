@@ -36,7 +36,6 @@ const HUBSPOT_TARGET_BASE_URL = "https://app.hubspot.com/developer";
 const createButton = (
   autoClick: boolean,
   onClick: () => Promise<void>,
-  buttonText: string,
 ) => {
   // This function creates a button and injects it into the client's DOM
 
@@ -77,7 +76,6 @@ const createButton = (
   img.style.marginRight = "10px";
 
   const span = document.createElement("span");
-  span.textContent = buttonText;
 
   button.appendChild(img);
   button.appendChild(span);
@@ -103,6 +101,7 @@ const createButton = (
   });
 
   document.body.appendChild(button);
+  updateButtonText(navigationStateEnumSchema.Values.start);
   if (autoClick) {
     button.click();
   }
@@ -231,7 +230,6 @@ async function injectButton({
           async () => {
             await injectedScript();
           },
-          isStartStep ? "Start Auth Maven" : "Navigating...",
         );
         resolve();
       } else {
