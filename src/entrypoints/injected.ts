@@ -34,7 +34,6 @@ const X_DEVELOPER_PAGE_URL = "https://developer.x.com/en/portal/dashboard";
 const REDDIT_TARGET_URL = "https://www.reddit.com/prefs/apps";
 const HUBSPOT_TARGET_BASE_URL = "https://app.hubspot.com/developer";
 
-
 const createButton = (
   autoClick: boolean,
   onClick: () => Promise<void>,
@@ -205,7 +204,7 @@ async function injectButton({
     }
 
     const interval = setInterval(() => {
-      let element: Element | null = null
+      let element: Element | null = null;
       if (querySelector.id) {
         element = document.getElementById(querySelector.id);
       } else if (querySelector.class) {
@@ -217,7 +216,9 @@ async function injectButton({
           `[aria-label="${querySelector.ariaLabel}"]`,
         );
       } else if (querySelector.dataTestId) {
-        element = document.querySelector(`[data-testid="${querySelector.dataTestId}"]`);
+        element = document.querySelector(
+          `[data-testid="${querySelector.dataTestId}"]`,
+        );
         console.log(element);
       }
 
@@ -466,7 +467,11 @@ export default defineUnlistedScript(() => {
         },
       });
       await injectButton(injectPartOneButtonRequest);
-    } else if (window.location.href.includes(HUBSPOT_TARGET_BASE_URL) && window.location.href.includes("/home") && platformDetails) {
+    } else if (
+      window.location.href.includes(HUBSPOT_TARGET_BASE_URL) &&
+      window.location.href.includes("/home") &&
+      platformDetails
+    ) {
       const projectName: string =
         window.location.href.match(/developer\/(\d+)/)?.[1] || "";
       window.location.href = `${HUBSPOT_TARGET_BASE_URL}/${projectName}/application/draft`;
@@ -488,8 +493,14 @@ export default defineUnlistedScript(() => {
       //   },
       // });
       // await injectButton(injectPartOneButtonRequest);
-    } else if (window.location.href.includes(HUBSPOT_TARGET_BASE_URL) && !window.location.href.includes("/home") && platformDetails) {
-      const AUTH_TAB_CLASS_QUERY: string = constructClassQuery("private-link uiLinkWithoutUnderline UITab__StyledLink-sc-14gzkc-2 glAWjO private-tab private-link--unstyled");
+    } else if (
+      window.location.href.includes(HUBSPOT_TARGET_BASE_URL) &&
+      !window.location.href.includes("/home") &&
+      platformDetails
+    ) {
+      const AUTH_TAB_CLASS_QUERY: string = constructClassQuery(
+        "private-link uiLinkWithoutUnderline UITab__StyledLink-sc-14gzkc-2 glAWjO private-tab private-link--unstyled",
+      );
       const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
         isStartStep: true,
         autoClick: false,
