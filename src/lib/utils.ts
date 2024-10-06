@@ -1,3 +1,7 @@
+import {
+  NavigationStateEnum,
+  displayMessageMapping,
+} from "@/types/scripts/base";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { v4 as uuidv4 } from "uuid";
@@ -55,9 +59,9 @@ export function getProjectId(projectName: string): string {
   return `${projectNameLower}${separator}${uuid.slice(0, uuidLength)}`;
 }
 
-export const updateButtonText = (text: string) => {
+export const updateButtonText = (navigationState: NavigationStateEnum) => {
   const button = document.getElementById("auth-maven-button");
   if (button) {
-    button.innerText = text;
+    button.innerText = displayMessageMapping[navigationState] || "";
   }
 };

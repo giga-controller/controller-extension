@@ -5,6 +5,7 @@ import {
   BaseRequest,
   clickRequestSchema,
   fillInputRequestSchema,
+  navigationStateEnumSchema,
   querySelectorSchema,
   RetrieveRequest,
 } from "@/types/scripts/base";
@@ -67,5 +68,5 @@ export const createLinearOauth2ApplicationPartOne = async (
     }),
   });
   await waitUntilMessageResolved(clickCreateApplicationButtonRequest);
-  updateButtonText("OAuth Application Created!");
+  updateButtonText(navigationStateEnumSchema.Values.end);
 };

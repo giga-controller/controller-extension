@@ -8,6 +8,7 @@ import {
   clickRequestSchema,
   FillInputRequest,
   fillInputRequestSchema,
+  navigationStateEnumSchema,
   querySelectorSchema,
   RetrieveRequest,
   retrieveRequestSchema,
@@ -34,7 +35,6 @@ export const createXOauth2ApplicationPartOne = async (
     }),
   });
 
-  updateButtonText("Navigating...");
   await waitUntilMessageResolved(clickProjectAndAppDropdownRequest);
 
   const PROJECT_BUTTON_CLASS_QUERY = constructClassQuery(
@@ -111,5 +111,5 @@ export const createXOauth2ApplicationPartOne = async (
     }),
   });
   await waitUntilMessageResolved(clickConfirmChangePermissionButtonRequest);
-  updateButtonText("OAuth Application created!");
+  updateButtonText(navigationStateEnumSchema.Values.end);
 };

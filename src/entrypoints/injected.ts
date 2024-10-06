@@ -1,4 +1,4 @@
-import { constructClassQuery } from "@/lib/utils";
+import { constructClassQuery, updateButtonText } from "@/lib/utils";
 import {
   createGoogleOauth2ApplicationPartThree,
   createGoogleOauth2ApplicationPartFive,
@@ -18,6 +18,7 @@ import {
   fillInputRequestSchema,
   InjectButtonRequest,
   injectButtonRequestSchema,
+  navigationStateEnumSchema,
   querySelectorSchema,
   RetrieveRequest,
   retrieveRequestSchema,
@@ -26,17 +27,14 @@ import { createHubspotOauth2ApplicationPartOne } from "@/scripts/injected/hubspo
 
 const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
 const LINEAR_BASE_URL = "https://linear.app";
+const SLACK_HOME_PAGE_URL = "https://app.slack.com/client";
 const SLACK_BASE_URL = "https://api.slack.com/apps";
 const X_HOME_PAGE_URL = "https://x.com/home";
 const X_DEVELOPER_PAGE_URL = "https://developer.x.com/en/portal/dashboard";
 const REDDIT_TARGET_URL = "https://www.reddit.com/prefs/apps";
 const HUBSPOT_TARGET_BASE_URL = "https://app.hubspot.com/developer";
 
-const createButton = (
-  autoClick: boolean,
-  onClick: () => Promise<void>,
-  buttonText: string,
-) => {
+const createButton = (autoClick: boolean, onClick: () => Promise<void>) => {
   // This function creates a button and injects it into the client's DOM
 
   const button = document.createElement("button");
@@ -76,7 +74,6 @@ const createButton = (
   img.style.marginRight = "10px";
 
   const span = document.createElement("span");
-  span.textContent = buttonText;
 
   button.appendChild(img);
   button.appendChild(span);
@@ -102,6 +99,7 @@ const createButton = (
   });
 
   document.body.appendChild(button);
+  updateButtonText(navigationStateEnumSchema.Values.start);
   if (autoClick) {
     button.click();
   }
@@ -119,6 +117,7 @@ async function waitUntilActionMessageResolved(
       console.log("Waiting for Click Message to be resolved");
       requestInstance = clickRequestSchema.parse(request);
       responseMessageType = messageTypeEnumSchema.Values.clickResponse;
+      updateButtonText(navigationStateEnumSchema.Values.click);
     } else {
       throw new Error("Invalid request type for click");
     }
@@ -127,12 +126,13 @@ async function waitUntilActionMessageResolved(
     if (fillInputRequestSchema.safeParse(request).success) {
       requestInstance = fillInputRequestSchema.parse(request);
       responseMessageType = messageTypeEnumSchema.Values.fillInputResponse;
+      updateButtonText(navigationStateEnumSchema.Values.fill);
     } else {
       throw new Error("Invalid request type for fillInput");
     }
   }
 
-  await new Promise<void | string>((resolve) => {
+  await new Promise<void>((resolve) => {
     const interval = setInterval(() => {
       window.postMessage(requestInstance, "*");
     }, 1000);
@@ -160,6 +160,7 @@ async function waitUntilRetrieveMessageResolved(
   if (retrieveRequestSchema.safeParse(request).success) {
     requestInstance = retrieveRequestSchema.parse(request);
     responseMessageType = messageTypeEnumSchema.Values.retrieveResponse;
+    updateButtonText(navigationStateEnumSchema.Values.retrieve);
   } else {
     throw new Error("Invalid request type");
   }
@@ -182,6 +183,7 @@ async function waitUntilRetrieveMessageResolved(
 }
 
 async function waitUntilPageLoaded() {
+  updateButtonText(navigationStateEnumSchema.Values.wait);
   await new Promise((resolve) => {
     window.addEventListener("load", resolve);
   });
@@ -221,13 +223,9 @@ async function injectButton({
 
       if (element) {
         clearInterval(interval);
-        createButton(
-          autoClick,
-          async () => {
-            await injectedScript();
-          },
-          isStartStep ? "Start Auth Maven" : "Navigating...",
-        );
+        createButton(autoClick, async () => {
+          await injectedScript();
+        });
         resolve();
       } else {
         location.reload();
@@ -394,6 +392,12 @@ export default defineUnlistedScript(() => {
 
       console.log("injectPartOneButtonRequest", injectPartOneButtonRequest);
       await injectButton(injectPartOneButtonRequest);
+    } else if (
+      window.location.href.includes(SLACK_HOME_PAGE_URL) &&
+      platformDetails
+    ) {
+      // Slack's redirection after logging in is wonky (it redirects to home page instead of developer portal)
+      window.location.href = SLACK_BASE_URL;
     } else if (window.location.href === SLACK_BASE_URL && platformDetails) {
       const CREATE_APP_BUTTON_CLASS_QUERY = constructClassQuery(
         "create_new_app_button",

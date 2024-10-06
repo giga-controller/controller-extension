@@ -8,6 +8,7 @@ import {
   clickRequestSchema,
   FillInputRequest,
   fillInputRequestSchema,
+  navigationStateEnumSchema,
   querySelectorSchema,
   RetrieveRequest,
   retrieveRequestSchema,
@@ -31,7 +32,6 @@ export const createRedditOauth2ApplicationPartOne = async (
     }),
   });
   await waitUntilMessageResolved(clickCreateAppButtonRequest);
-  updateButtonText("Navigatin...");
 
   const INPUT_CLASS_QUERY = constructClassQuery("text");
   const fillNameInputRequest = fillInputRequestSchema.parse({
@@ -60,5 +60,5 @@ export const createRedditOauth2ApplicationPartOne = async (
     }),
   });
   await waitUntilMessageResolved(fillRedirectUriInputRequest);
-  updateButtonText("OAuth Application Created!");
+  updateButtonText(navigationStateEnumSchema.Values.end);
 };

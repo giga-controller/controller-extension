@@ -122,10 +122,10 @@ function App() {
           <div className="mb-3 grid w-full grid-cols-3 gap-3 p-3">
             {filteredIntegrations.length > 0 ? (
               filteredIntegrations.map(
-                ({ component: IntegrationComponent, value }) => (
-                  <div key={value}>
+                ({ component: IntegrationComponent, values }) => (
+                  <div key={values[0]}>
                     <IntegrationComponent
-                      selected={integrationState.integration === value}
+                      selected={integrationState.integration === values[0]}
                       updateIntegrationState={updateIntegrationState}
                     />
                   </div>

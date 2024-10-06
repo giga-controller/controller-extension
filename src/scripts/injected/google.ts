@@ -9,6 +9,7 @@ import {
   clickRequestSchema,
   FillInputRequest,
   fillInputRequestSchema,
+  navigationStateEnumSchema,
   querySelectorSchema,
   RetrieveRequest,
   retrieveRequestSchema,
@@ -38,7 +39,6 @@ export const createGoogleOauth2ApplicationPartOne = async (
       class: PROJECT_DROPDOWN_BUTTON_CLASS_QUERY,
     }),
   });
-  updateButtonText("Navigating...");
   await waitUntilMessageResolved(clickProjectDropdownButtonRequest);
 
   const NEW_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
@@ -175,7 +175,6 @@ export const createGoogleOauth2ApplicationPartFour = async (
     }),
   });
 
-  updateButtonText("Navigating...");
   await waitUntilMessageResolved(clickExternalUserTypeInputRequest);
 
   const CREATE_OAUTH_CONSENT_SCREEN_BUTTON_CLASS_QUERY: string =
@@ -313,7 +312,6 @@ export const createGoogleOauth2ApplicationPartFive = async (
     }),
   });
 
-  updateButtonText("Navigating...");
   await waitUntilMessageResolved(clickApplicationTypeDropdownRequest);
 
   const WEB_APPLICATION_SELECTION_CLASS_QUERY: string = constructClassQuery(
@@ -385,5 +383,5 @@ export const createGoogleOauth2ApplicationPartFive = async (
     }),
   });
   await waitUntilMessageResolved(clickCreateOauthClientButtonRequest);
-  updateButtonText("OAuth Application Created!");
+  updateButtonText(navigationStateEnumSchema.Values.end);
 };

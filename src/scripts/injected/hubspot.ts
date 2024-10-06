@@ -5,6 +5,7 @@ import {
   BaseRequest,
   clickRequestSchema,
   fillInputRequestSchema,
+  navigationStateEnumSchema,
   querySelectorSchema,
   RetrieveRequest,
 } from "@/types/scripts/base";
@@ -29,7 +30,6 @@ export const createHubspotOauth2ApplicationPartOne = async (
     }),
   });
   await waitUntilMessageResolved(clickAuthTabRequest);
-  updateButtonText("Navigating...");
 
   const REDIRECT_URI_ID: string = "UIFormControl-26";
   const fillRedirectUriInputRequest = fillInputRequestSchema.parse({
@@ -188,5 +188,5 @@ export const createHubspotOauth2ApplicationPartOne = async (
   await waitUntilMessageResolved(clickUpdateButtonRequest);
 
   await waitUntilMessageResolved(clickAuthTabRequest);
-  updateButtonText("OAuth Application Created!");
+  updateButtonText(navigationStateEnumSchema.Values.end);
 };

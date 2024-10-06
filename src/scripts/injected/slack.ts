@@ -8,6 +8,7 @@ import {
   clickRequestSchema,
   FillInputRequest,
   fillInputRequestSchema,
+  navigationStateEnumSchema,
   querySelectorSchema,
   RetrieveRequest,
   retrieveRequestSchema,
@@ -24,7 +25,7 @@ export const createSlackOauth2ApplicationPartOne = async (
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
   const START_CREATE_APP_BUTTON_CLASS_QUERY = constructClassQuery(
-    "btn btn_large create_new_app_button",
+    "create_new_app_button",
   );
   const clickStartCreateAppButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
@@ -32,7 +33,6 @@ export const createSlackOauth2ApplicationPartOne = async (
     }),
   });
 
-  updateButtonText("Navigating...");
   await waitUntilMessageResolved(clickStartCreateAppButtonRequest);
 
   const FROM_SCRATCH_BUTTON_CLASS_QUERY = constructClassQuery(
@@ -83,5 +83,5 @@ export const createSlackOauth2ApplicationPartOne = async (
     }),
   });
   await waitUntilMessageResolved(clickCreateAppButtonRequest);
-  updateButtonText("OAuth Application created!");
+  updateButtonText(navigationStateEnumSchema.Values.end);
 };
