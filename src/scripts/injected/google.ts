@@ -2,6 +2,7 @@
 import { constructClassQuery, updateButtonText } from "@/lib/utils";
 import { messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
+import { integrationEnum } from "@/types/integrations";
 import {
   BaseRequest,
   ClickRequest,
@@ -21,8 +22,13 @@ export const createGoogleOauth2ApplicationPartOne = async (
     request: RetrieveRequest,
   ) => Promise<string>,
 ) => {
-  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
-    platformDetails;
+  const {
+    platform,
+    javaScriptOriginUri,
+    javaScriptRedirectUri,
+    projectId,
+    integration,
+  } = platformDetails;
 
   const PROJECT_DROPDOWN_BUTTON_CLASS_QUERY: string = constructClassQuery(
     "mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button",
@@ -36,7 +42,7 @@ export const createGoogleOauth2ApplicationPartOne = async (
   await waitUntilMessageResolved(clickProjectDropdownButtonRequest);
 
   const NEW_PROJECT_BUTTON_CLASS_QUERY: string = constructClassQuery(
-    "purview-picker-create-project-button mdc-button mat-mdc-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
+    "purview-picker-create-project-button mdc-button mat-mdc-button mat-mdc-button-base gmat-mdc-button cm-button ng-star-inserted",
   );
   const clickNewProjectButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
@@ -89,12 +95,68 @@ export const createGoogleOauth2ApplicationPartOne = async (
   });
   await waitUntilMessageResolved(clickCreateProjectButtonRequest);
 
-  const OAUTH_CONSENT_SCREEN_LINK: string = `https://console.cloud.google.com/apis/credentials/consent?project=${projectId}`;
-  window.location.href = OAUTH_CONSENT_SCREEN_LINK;
+  let ENABLE_INTEGRATION_API_LINK: string;
+  if (integration === integrationEnum.Values.gmail) {
+    ENABLE_INTEGRATION_API_LINK = `https://console.cloud.google.com/marketplace/product/google/gmail.googleapis.com?q=search&referrer=search&project=${projectId}`;
+  } else if (integration === integrationEnum.Values.gsheets) {
+    ENABLE_INTEGRATION_API_LINK = `https://console.cloud.google.com/marketplace/product/google/sheets.googleapis.com?q=search&referrer=search&project=${projectId}`;
+  } else if (integration === integrationEnum.Values.gdocs) {
+    ENABLE_INTEGRATION_API_LINK = `https://console.cloud.google.com/marketplace/product/google/docs.googleapis.com?q=search&referrer=search&project=${projectId}`;
+  } else if (integration === integrationEnum.Values.gdrive) {
+    ENABLE_INTEGRATION_API_LINK = `https://console.cloud.google.com/marketplace/product/google/drive.googleapis.com?q=search&referrer=search&project=${projectId}`;
+  } else {
+    throw new Error("Unsupported integration for google platform");
+  }
+
+  window.location.href = ENABLE_INTEGRATION_API_LINK;
   await waitUntilPageLoaded();
 };
 
 export const createGoogleOauth2ApplicationPartTwo = async (
+  platformDetails: PlatformDetails,
+  waitUntilPageLoaded: () => Promise<void>,
+  waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,
+  waitUntilRetrieveMessageResolved: (
+    request: RetrieveRequest,
+  ) => Promise<string>,
+) => {
+  const {
+    platform,
+    javaScriptOriginUri,
+    javaScriptRedirectUri,
+    projectId,
+    integration,
+  } = platformDetails;
+
+  const ENABLE_INTEGRATION_API_CLASS_QUERY: string = constructClassQuery(
+    "mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button cfc-tooltip cfc-tooltip-disable-user-select-on-touch-device ng-star-inserted",
+  );
+  const clickEnableIntegrationApiButtonRequest = clickRequestSchema.parse({
+    query: querySelectorSchema.parse({
+      class: ENABLE_INTEGRATION_API_CLASS_QUERY,
+    }),
+  });
+  await waitUntilMessageResolved(clickEnableIntegrationApiButtonRequest);
+};
+
+export const createGoogleOauth2ApplicationPartThree = async (
+  platformDetails: PlatformDetails,
+  waitUntilPageLoaded: () => Promise<void>,
+  waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,
+  waitUntilRetrieveMessageResolved: (
+    request: RetrieveRequest,
+  ) => Promise<string>,
+) => {
+  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
+    platformDetails;
+    
+  const OAUTH_CONSENT_SCREEN_LINK: string =
+    "https://console.cloud.google.com/apis/credentials/consent";
+  window.location.href = OAUTH_CONSENT_SCREEN_LINK;
+  await waitUntilPageLoaded();
+};
+
+export const createGoogleOauth2ApplicationPartFour = async (
   platformDetails: PlatformDetails,
   waitUntilPageLoaded: () => Promise<void>,
   waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,
@@ -231,7 +293,7 @@ export const createGoogleOauth2ApplicationPartTwo = async (
   await waitUntilPageLoaded();
 };
 
-export const createGoogleOauth2ApplicationPartThree = async (
+export const createGoogleOauth2ApplicationPartFive = async (
   platformDetails: PlatformDetails,
   waitUntilPageLoaded: () => Promise<void>,
   waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,

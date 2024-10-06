@@ -16,6 +16,7 @@ export default defineContentScript({
         "javaScriptOriginUri",
         "javaScriptRedirectUri",
         "projectId",
+        "integration",
       ])
       .then(async (data) => {
         // IMPORTANT: Uncomment this line while testing parts of the integration flow so that the id is always updated for testing. BUT this line should never be commented out in production

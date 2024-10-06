@@ -38,6 +38,7 @@ function App() {
       javaScriptOriginUri: platformDetails.javaScriptOriginUri,
       javaScriptRedirectUri: platformDetails.javaScriptRedirectUri,
       projectId: platformDetails.projectId,
+      integration: platformDetails.integration,
     });
 
     browser.tabs

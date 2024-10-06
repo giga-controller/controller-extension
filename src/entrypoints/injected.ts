@@ -1,8 +1,10 @@
 import { constructClassQuery, updateButtonText } from "@/lib/utils";
 import {
-  createGoogleOauth2ApplicationPartOne,
   createGoogleOauth2ApplicationPartThree,
+  createGoogleOauth2ApplicationPartFive,
+  createGoogleOauth2ApplicationPartFour,
   createGoogleOauth2ApplicationPartTwo,
+  createGoogleOauth2ApplicationPartOne,
 } from "@/scripts/injected/google";
 import { createLinearOauth2ApplicationPartOne } from "@/scripts/injected/linear";
 import { createSlackOauth2ApplicationPartOne } from "@/scripts/injected/slack";
@@ -40,7 +42,7 @@ const createButton = (
   const button = document.createElement("button");
   button.id = "auth-maven-button";
   button.style.position = "fixed";
-  button.style.top = "10px";
+  button.style.top = "50px";
   button.style.right = "10px";
   button.style.zIndex = "10000";
   button.style.width = "200px";
@@ -54,6 +56,18 @@ const createButton = (
   button.style.justifyContent = "center";
   button.style.alignItems = "center";
   button.style.transition = "background-color 0.3s, transform 0.1s";
+  button.style.animation = "pulsate 1.5s infinite"; // Ensure this line is present
+
+  // Ensure keyframes are added to the document
+  const styleElement = document.createElement("style");
+  styleElement.textContent = `
+    @keyframes pulsate {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  `;
+  document.head.appendChild(styleElement);
 
   const img = document.createElement("img");
   img.src = "https://pngimg.com/d/google_PNG19635.png";
@@ -260,14 +274,16 @@ export default defineUnlistedScript(() => {
       });
       await injectButton(injectPartOneButtonRequest);
 
-      const OAUTH_CONSENT_SCREEN_BASE_URL: string =
-        "https://console.cloud.google.com/apis/credentials/consent";
-      const EXTERNAL_USER_TYPE_INPUT_ID: string = "_0rif_mat-radio-3-input";
+      const GOOGLE_CLOUD_ENABLE_INTEGRATION_API_BASE_URL: string =
+        "https://console.cloud.google.com/marketplace/product/google";
+      const ENABLE_INTEGRATION_API_CLASS_QUERY: string = constructClassQuery(
+        "mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button cfc-tooltip cfc-tooltip-disable-user-select-on-touch-device ng-star-inserted",
+      );
       const injectPartTwoButtonRequest = injectButtonRequestSchema.parse({
         autoClick: true,
-        baseUrl: OAUTH_CONSENT_SCREEN_BASE_URL,
+        baseUrl: GOOGLE_CLOUD_ENABLE_INTEGRATION_API_BASE_URL,
         querySelector: querySelectorSchema.parse({
-          id: EXTERNAL_USER_TYPE_INPUT_ID,
+          class: ENABLE_INTEGRATION_API_CLASS_QUERY,
         }),
         injectedScript: async () => {
           if (!platformDetails) return;
@@ -281,15 +297,17 @@ export default defineUnlistedScript(() => {
       });
       await injectButton(injectPartTwoButtonRequest);
 
-      const OAUTH_CLIENT_ID_BASE_URL: string = `https://console.cloud.google.com/apis/credentials/oauthclient`;
-      const APPLICATION_TYPE_DROPDOWN_CLASS_QUERY: string = constructClassQuery(
-        "mdc-floating-label mat-mdc-floating-label ng-star-inserted",
+
+      const API_DETAILS_BASE_URL: string =
+        "https://console.cloud.google.com/apis/api/";
+      const API_TITLE_CLASS_QUERY = constructClassQuery(
+        "ct-title cfc-font-weight-bold cfc-space-above-minus-6",
       );
       const injectPartThreeButtonRequest = injectButtonRequestSchema.parse({
         autoClick: true,
-        baseUrl: OAUTH_CLIENT_ID_BASE_URL,
+        baseUrl: API_DETAILS_BASE_URL,
         querySelector: querySelectorSchema.parse({
-          class: APPLICATION_TYPE_DROPDOWN_CLASS_QUERY,
+          class: API_TITLE_CLASS_QUERY,
         }),
         injectedScript: async () => {
           if (!platformDetails) return;
@@ -302,6 +320,49 @@ export default defineUnlistedScript(() => {
         },
       });
       await injectButton(injectPartThreeButtonRequest);
+
+      const OAUTH_CONSENT_SCREEN_BASE_URL: string =
+      "https://console.cloud.google.com/apis/credentials/consent";
+      const EXTERNAL_USER_TYPE_INPUT_ID: string = "_0rif_mat-radio-3-input";
+      const injectPartFourButtonRequest = injectButtonRequestSchema.parse({
+        autoClick: true,
+        baseUrl: OAUTH_CONSENT_SCREEN_BASE_URL,
+        querySelector: querySelectorSchema.parse({
+          id: EXTERNAL_USER_TYPE_INPUT_ID,
+        }),
+        injectedScript: async () => {
+          if (!platformDetails) return;
+          await createGoogleOauth2ApplicationPartFour(
+            platformDetails,
+            waitUntilPageLoaded,
+            waitUntilActionMessageResolved,
+            waitUntilRetrieveMessageResolved,
+          );
+        },
+      });
+      await injectButton(injectPartFourButtonRequest);
+
+      const OAUTH_CLIENT_ID_BASE_URL: string = `https://console.cloud.google.com/apis/credentials/oauthclient`;
+      const APPLICATION_TYPE_DROPDOWN_CLASS_QUERY: string = constructClassQuery(
+        "mdc-floating-label mat-mdc-floating-label ng-star-inserted",
+      );
+      const injectPartFiveButtonRequest = injectButtonRequestSchema.parse({
+        autoClick: true,
+        baseUrl: OAUTH_CLIENT_ID_BASE_URL,
+        querySelector: querySelectorSchema.parse({
+          class: APPLICATION_TYPE_DROPDOWN_CLASS_QUERY,
+        }),
+        injectedScript: async () => {
+          if (!platformDetails) return;
+          await createGoogleOauth2ApplicationPartFive(
+            platformDetails,
+            waitUntilPageLoaded,
+            waitUntilActionMessageResolved,
+            waitUntilRetrieveMessageResolved,
+          );
+        },
+      });
+      await injectButton(injectPartFiveButtonRequest);
     } else if (
       window.location.href.includes(LINEAR_BASE_URL) &&
       platformDetails
