@@ -26,7 +26,6 @@ import {
 import { createHubspotOauth2ApplicationPartOne } from "@/scripts/injected/hubspot";
 import { logoBase64 } from "@/constants/logoBase64";
 
-
 const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
 const LINEAR_BASE_URL = "https://linear.app";
 const SLACK_HOME_PAGE_URL = "https://app.slack.com/client";
