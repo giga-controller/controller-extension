@@ -1,6 +1,6 @@
 # Controller Extension
 
-Build upon amazing [wxt](wxt.dev) framework
+We help you set up OAuth2.0 applications with a single click.
 
 ## Requirements
 
