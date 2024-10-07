@@ -203,7 +203,6 @@ async function waitUntilPageLoaded() {
 async function injectButton({
   autoClick,
   baseUrl,
-  isStartStep,
   querySelector,
   injectedScript,
 }: InjectButtonRequest) {
@@ -259,7 +258,6 @@ export default defineUnlistedScript(() => {
         "mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button",
       );
       const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
-        isStartStep: true,
         autoClick: false,
         baseUrl: GOOGLE_CLOUD_START_PAGE_BASE_URL,
         querySelector: querySelectorSchema.parse({
@@ -384,7 +382,6 @@ export default defineUnlistedScript(() => {
     ) {
       const APPLICATION_NAME_INPUT_ID: string = "name";
       const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
-        isStartStep: true,
         autoClick: false,
         baseUrl: LINEAR_BASE_URL,
         querySelector: querySelectorSchema.parse({
@@ -414,7 +411,6 @@ export default defineUnlistedScript(() => {
         "create_new_app_button",
       );
       const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
-        isStartStep: true,
         autoClick: false,
         baseUrl: SLACK_BASE_URL,
         querySelector: querySelectorSchema.parse({
@@ -442,7 +438,6 @@ export default defineUnlistedScript(() => {
         "index__navItemButton--352Fy",
       );
       const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
-        isStartStep: true,
         autoClick: false,
         baseUrl: X_DEVELOPER_PAGE_URL,
         querySelector: querySelectorSchema.parse({
@@ -462,7 +457,6 @@ export default defineUnlistedScript(() => {
     } else if (window.location.href === REDDIT_TARGET_URL && platformDetails) {
       const CREATE_APP_BUTTON_ID = "create-app-button";
       const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
-        isStartStep: true,
         autoClick: false,
         baseUrl: REDDIT_TARGET_URL,
         querySelector: querySelectorSchema.parse({
@@ -496,7 +490,6 @@ export default defineUnlistedScript(() => {
         "private-link uiLinkWithoutUnderline UITab__StyledLink-sc-14gzkc-2 glAWjO private-tab private-link--unstyled",
       );
       const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
-        isStartStep: true,
         autoClick: false,
         baseUrl: HUBSPOT_TARGET_BASE_URL,
         querySelector: querySelectorSchema.parse({
