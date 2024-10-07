@@ -1,6 +1,5 @@
 import z from "zod";
 import { messageTypeEnumSchema } from "@/types/message";
-import { platformEnum } from "@/types/platform";
 
 export const querySelectorSchema = z.object({
   id: z.string().nullable().optional().default(null),

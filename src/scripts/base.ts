@@ -2,7 +2,7 @@ import { getProjectId } from "@/lib/utils";
 import {
   PlatformDetails,
   platformDetailsMapping,
-  PlatformEnum,
+  Platform,
   platformEnum,
 } from "@/types/platform";
 import { Integration, integrationEnum } from "@/types/integrations";
@@ -23,7 +23,7 @@ const REDDIT_INTEGRATION_PATH_POSSIBILITIES = ["reddit"];
 
 export async function getPlatformDetails(): Promise<PlatformDetails> {
   const currentUrl = await getCurrentTabUrl();
-  const platform: PlatformEnum = getPlatform(currentUrl);
+  const platform: Platform = getPlatform(currentUrl);
 
   const platformDetails: PlatformDetails | undefined =
     platformDetailsMapping[platform];
@@ -41,7 +41,7 @@ async function getCurrentTabUrl(): Promise<string> {
   return tabs[0]?.url || "";
 }
 
-function getPlatform(url: string): PlatformEnum {
+function getPlatform(url: string): Platform {
   if (url.startsWith(NANGO_BASE_URL)) {
     return platformEnum.Values.nango;
   } else if (url.startsWith(N8N_BASE_URL)) {

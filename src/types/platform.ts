@@ -1,8 +1,12 @@
 import { integrationEnum } from "@/types/integrations";
 import z from "zod";
 
-export const platformEnum = z.enum(["nango", "gumloop", "n8nio"]); // at least 5 characters long
-export type PlatformEnum = z.infer<typeof platformEnum>;
+/**
+ * Platform Enum must be at least 5 characters long
+ * Platform Enum must be exactly the same as the names in the platform table
+ */
+export const platformEnum = z.enum(["nango", "gumloop", "n8nio"]);
+export type Platform = z.infer<typeof platformEnum>;
 
 export const platformDetailsSchema = z.object({
   platform: platformEnum,
