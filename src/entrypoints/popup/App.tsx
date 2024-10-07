@@ -78,12 +78,16 @@ function App() {
     }
     const platformDetails: PlatformDetails = await getPlatformDetails();
 
-    const integrationId: number = await getIntegrationIdByName(
-      integrationEnum.Values[integrationState.integration],
-    );
-    const platformId: number = await getPlatformIdByName(
-      platformEnum.Values[platformDetails.platform],
-    );
+    // const integrationId: number = await getIntegrationIdByName(
+    //   integrationEnum.Values[integrationState.integration],
+    // );
+    // const platformId: number = await getPlatformIdByName(
+    //   platformEnum.Values[platformDetails.platform],
+    // );
+    const [integrationId, platformId] = await Promise.all([
+      getIntegrationIdByName(integrationEnum.Values[integrationState.integration]),
+      getPlatformIdByName(platformEnum.Values[platformDetails.platform]),
+    ]);
     const workflowEntry: Workflow = {
       integration_id: integrationId,
       platform_id: platformId,
