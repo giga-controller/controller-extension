@@ -21,7 +21,7 @@ import {
 } from '@/components/integrations/google'
 import HubspotIntegration from '@/components/integrations/hubspot'
 import SalesforceIntegration from '@/components/integrations/salesforce'
-import { getIntegrationIdByName, getPlatformIdByName, Workflow } from '@/database/supabase'
+import { getIntegrationIdByName, getPlatformIdByName, insertWorkflow, Workflow } from '@/database/supabase'
 
 function App() {
   const [integrationState, setIntegrationState] = useState<IntegrationState>(
@@ -33,7 +33,7 @@ function App() {
     setIntegrationState(input)
   }
 
-  const confirmNavigation = async (url: string, platformDetails: PlatformDetails) => {
+  const navigate = async (url: string, platformDetails: PlatformDetails) => {
     browser.storage.local.set({
       platform: platformDetails.platform,
       javaScriptOriginUri: platformDetails.javaScriptOriginUri,
@@ -66,6 +66,23 @@ function App() {
         console.error('Error invoking navigateToUrl:', error)
         throw new Error('Error invoking navigateToUrl')
       })
+  }
+
+  const confirmNavigation = async () => {
+    if (!integrationState.targetUrl || !integrationState.integration) {
+      return
+    }
+    const platformDetails: PlatformDetails = await getPlatformDetails()
+
+    const integrationId: number = await getIntegrationIdByName(integrationEnum.Values[integrationState.integration])
+    const platformId: number = await getPlatformIdByName(platformEnum.Values[platformDetails.platform])
+    const workflowEntry: Workflow = {
+      integration_id: integrationId,
+      platform_id: platformId,
+      is_successful: false,
+    }
+    insertWorkflow(workflowEntry)
+    await navigate(integrationState.targetUrl, platformDetails);
   }
 
   const integrations = [
@@ -144,22 +161,7 @@ function App() {
           <Button
             className="w-full text-lg"
             disabled={!integrationState.targetUrl}
-            onClick={async () => {
-              if (!integrationState.targetUrl || !integrationState.integration) {
-                return
-              }
-              const platformDetails: PlatformDetails = await getPlatformDetails()
-
-              const integrationId: number = await getIntegrationIdByName(integrationEnum.Values[integrationState.integration])
-              const platformId: number = await getPlatformIdByName(platformEnum.Values[platformDetails.platform])
-              const workflowEntry: Workflow = {
-                integration_id: integrationId,
-                platform_id: platformId,
-                is_successful: false,
-              }
-              insertWorkflow(workflowEntry)
-              // confirmNavigation(integrationState.targetUrl);
-            }}
+            onClick={confirmNavigation}
           >
             Confirm
           </Button>

@@ -15,6 +15,7 @@ export default antfu(
       "perfectionist/sort-named-imports": "off",
       "object-shorthand": "off",
       "no-console": "off",
+      "ts/consistent-type-definitions": "off",
     },
   },
   ...compat.config({

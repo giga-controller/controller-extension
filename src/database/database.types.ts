@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       integration: {
@@ -47,28 +47,28 @@ export interface Database {
       }
       workflow: {
         Row: {
-          created_at: string
+          created_at: string | null
           id: number
           integration_id: number
           is_successful: boolean
           platform_id: number
-          updated_at: string
+          updated_at: string | null
         }
         Insert: {
-          created_at?: string
+          created_at?: string | null
           id?: number
           integration_id: number
           is_successful?: boolean
           platform_id: number
-          updated_at?: string
+          updated_at?: string | null
         }
         Update: {
-          created_at?: string
+          created_at?: string | null
           id?: number
           integration_id?: number
           is_successful?: boolean
           platform_id?: number
-          updated_at?: string
+          updated_at?: string | null
         }
         Relationships: [
           {

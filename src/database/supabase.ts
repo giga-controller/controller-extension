@@ -8,7 +8,8 @@ export const supabase = createClient<Database>(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9rZGdmcXF1eGp6cnJ6a2Z1cG1qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgyNTk0MjcsImV4cCI6MjA0MzgzNTQyN30.5h93YXKjpJoWF9f3SIJvzWEtE4FgsddynbJKCdVnIds',
 )
 
-export type Workflow = Tables<'workflow'>
+export type _Workflow = Tables<'workflow'>
+export type Workflow = Omit<_Workflow, 'id' | 'created_at' | 'updated_at'>
 
 export async function getIntegrationIdByName(integration: Integration): Promise<number> {
     const { data, error } = await supabase
