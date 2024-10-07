@@ -1,47 +1,46 @@
-import { useState } from "react";
-import LinearIntegration from "@/components/integrations/linear";
-import RedditIntegration from "@/components/integrations/reddit";
-import SlackIntegration from "@/components/integrations/slack";
-import XIntegration from "@/components/integrations/x";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { getPlatformDetails } from "@/scripts/base";
+import { useState } from 'react'
+import LinearIntegration from '@/components/integrations/linear'
+import RedditIntegration from '@/components/integrations/reddit'
+import SlackIntegration from '@/components/integrations/slack'
+import XIntegration from '@/components/integrations/x'
+import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { getPlatformDetails } from '@/scripts/base'
 import {
   defaultIntegrationState,
   integrationEnum,
   IntegrationState,
-} from "@/types/integrations";
-import { PlatformDetails } from "@/types/platform";
-import { Input } from "@/components/ui/input";
+} from '@/types/integrations'
+import { PlatformDetails, platformEnum } from '@/types/platform'
+import { Input } from '@/components/ui/input'
 import {
   GDocsIntegration,
   GDriveIntegration,
   GmailIntegration,
   GSheetsIntegration,
-} from "@/components/integrations/google";
-import HubspotIntegration from "@/components/integrations/hubspot";
-import SalesforceIntegration from "@/components/integrations/salesforce";
+} from '@/components/integrations/google'
+import HubspotIntegration from '@/components/integrations/hubspot'
+import SalesforceIntegration from '@/components/integrations/salesforce'
+import { getIntegrationIdByName, getPlatformIdByName } from '@/database/supabase'
 
 function App() {
   const [integrationState, setIntegrationState] = useState<IntegrationState>(
     defaultIntegrationState,
-  );
-  const [searchTerm, setSearchTerm] = useState("");
+  )
+  const [searchTerm, setSearchTerm] = useState('')
 
   const updateIntegrationState = (input: IntegrationState) => {
-    setIntegrationState(input);
-  };
+    setIntegrationState(input)
+  }
 
-  const confirmNavigation = async (url: string) => {
-    const platformDetails: PlatformDetails = await getPlatformDetails();
-
+  const confirmNavigation = async (url: string, platformDetails: PlatformDetails) => {
     browser.storage.local.set({
       platform: platformDetails.platform,
       javaScriptOriginUri: platformDetails.javaScriptOriginUri,
       javaScriptRedirectUri: platformDetails.javaScriptRedirectUri,
       projectId: platformDetails.projectId,
       integration: platformDetails.integration,
-    });
+    })
 
     browser.tabs
       .query({ active: true, currentWindow: true })
@@ -50,60 +49,61 @@ function App() {
           return browser.tabs
             .update(tabs[0].id!, { url: url })
             .then((response) => {
-              console.log("Navigate to URL response:", response);
-              return browser.tabs.sendMessage(tabs[0].id!, { input: url });
+              console.log('Navigate to URL response:', response)
+              return browser.tabs.sendMessage(tabs[0].id!, { input: url })
             })
             .catch((error) => {
-              console.error("Error navigating to URL:", error);
-              throw new Error("Error navigating to URL");
-            });
-        } else {
-          console.error("No active tab found");
-          throw new Error("No active tab found");
+              console.error('Error navigating to URL:', error)
+              throw new Error('Error navigating to URL')
+            })
+        }
+        else {
+          console.error('No active tab found')
+          throw new Error('No active tab found')
         }
       })
       .catch((error) => {
-        console.error("Error invoking navigateToUrl:", error);
-        throw new Error("Error invoking navigateToUrl");
-      });
-  };
+        console.error('Error invoking navigateToUrl:', error)
+        throw new Error('Error invoking navigateToUrl')
+      })
+  }
 
   const integrations = [
     {
       component: GmailIntegration,
-      values: [integrationEnum.Values.gmail, "google"],
+      values: [integrationEnum.Values.gmail, 'google'],
     },
     {
       component: GDriveIntegration,
-      values: [integrationEnum.Values.gdrive, "google"],
+      values: [integrationEnum.Values.gdrive, 'google'],
     },
     {
       component: GDocsIntegration,
-      values: [integrationEnum.Values.gdocs, "google"],
+      values: [integrationEnum.Values.gdocs, 'google'],
     },
     {
       component: GSheetsIntegration,
-      values: [integrationEnum.Values.gsheets, "google"],
+      values: [integrationEnum.Values.gsheets, 'google'],
     },
     { component: HubspotIntegration, values: [integrationEnum.Values.hubspot] },
     { component: SlackIntegration, values: [integrationEnum.Values.slack] },
     { component: LinearIntegration, values: [integrationEnum.Values.linear] },
-    { component: XIntegration, values: [integrationEnum.Values.x, "twitter"] },
+    { component: XIntegration, values: [integrationEnum.Values.x, 'twitter'] },
     { component: RedditIntegration, values: [integrationEnum.Values.reddit] },
     {
       component: SalesforceIntegration,
       values: [integrationEnum.Values.salesforce],
     },
-  ];
+  ]
 
   const filteredIntegrations = integrations
-    .filter((integration) =>
-      integration.values?.some((value) =>
+    .filter(integration =>
+      integration.values?.some(value =>
         value.toLowerCase().includes(searchTerm.toLowerCase()),
       ),
     )
-    .sort((a, b) => a.values[0].localeCompare(b.values[0]));
-  console.log(filteredIntegrations);
+    .sort((a, b) => a.values[0].localeCompare(b.values[0]))
+  console.log(filteredIntegrations)
 
   return (
     <div className="flex min-w-[320px] max-w-[600px] flex-col gap-4 p-2">
@@ -115,38 +115,42 @@ function App() {
           type="text"
           placeholder="Search integrations..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={e => setSearchTerm(e.target.value)}
           className="mb-3 max-w-[90%]"
         />
         <ScrollArea className="h-64 w-full overflow-y-auto">
           <div className="mb-3 grid w-full grid-cols-3 gap-3 p-3">
-            {filteredIntegrations.length > 0 ? (
-              filteredIntegrations.map(
-                ({ component: IntegrationComponent, values }) => (
-                  <div key={values[0]}>
-                    <IntegrationComponent
-                      selected={integrationState.integration === values[0]}
-                      updateIntegrationState={updateIntegrationState}
-                    />
+            {filteredIntegrations.length > 0
+              ? (
+                  filteredIntegrations.map(
+                    ({ component: IntegrationComponent, values }) => (
+                      <div key={values[0]}>
+                        <IntegrationComponent
+                          selected={integrationState.integration === values[0]}
+                          updateIntegrationState={updateIntegrationState}
+                        />
+                      </div>
+                    ),
+                  )
+                )
+              : (
+                  <div className="col-span-3 ml-2 text-[15px] text-gray-800">
+                    No results found.
                   </div>
-                ),
-              )
-            ) : (
-              <div className="col-span-3 ml-2 text-[15px] text-gray-800">
-                No results found.
-              </div>
-            )}
+                )}
           </div>
         </ScrollArea>
         <div className="flex w-full justify-center px-4 pb-3">
           <Button
             className="w-full text-lg"
             disabled={!integrationState.targetUrl}
-            onClick={() => {
-              if (!integrationState.targetUrl) {
-                return;
+            onClick={async () => {
+              if (!integrationState.targetUrl || !integrationState.integration) {
+                return
               }
-              confirmNavigation(integrationState.targetUrl);
+              const platformDetails: PlatformDetails = await getPlatformDetails()
+              getPlatformIdByName(platformEnum.Values[platformDetails.platform])
+              // confirmNavigation(integrationState.targetUrl);
             }}
           >
             Confirm
@@ -154,7 +158,7 @@ function App() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

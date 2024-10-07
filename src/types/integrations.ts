@@ -14,6 +14,9 @@ import {
 } from "react-icons/si";
 import { FaXTwitter } from "react-icons/fa6";
 
+/**
+ * IntegrationEnum must be exactly the same as the names in the integration table
+ */
 export const integrationEnum = z.enum([
   "gmail",
   "gdrive",
