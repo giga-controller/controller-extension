@@ -78,7 +78,9 @@ function App() {
     }
     const platformDetails: PlatformDetails = await getPlatformDetails();
     const [integrationId, platformId] = await Promise.all([
-      getIntegrationIdByName(integrationEnum.Values[integrationState.integration]),
+      getIntegrationIdByName(
+        integrationEnum.Values[integrationState.integration],
+      ),
       getPlatformIdByName(platformEnum.Values[platformDetails.platform]),
     ]);
     const workflowEntry: Workflow = {
