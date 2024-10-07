@@ -1,12 +1,12 @@
-import { integrationEnum } from '@/types/integrations'
-import z from 'zod'
+import { integrationEnum } from "@/types/integrations";
+import z from "zod";
 
 /**
  * Platform Enum must be at least 5 characters long
  * Platform Enum must be exactly the same as the names in the platform table
  */
-export const platformEnum = z.enum(['nango', 'gumloop', 'n8nio']) 
-export type Platform = z.infer<typeof platformEnum>
+export const platformEnum = z.enum(["nango", "gumloop", "n8nio"]);
+export type Platform = z.infer<typeof platformEnum>;
 
 export const platformDetailsSchema = z.object({
   platform: platformEnum,
@@ -14,35 +14,35 @@ export const platformDetailsSchema = z.object({
   javaScriptOriginUri: z.string(),
   javaScriptRedirectUri: z.string(),
   projectId: z.string().nullable(),
-})
-export type PlatformDetails = z.infer<typeof platformDetailsSchema>
+});
+export type PlatformDetails = z.infer<typeof platformDetailsSchema>;
 
 const _platformDetailsMappingSchema = z.record(
   platformEnum,
   platformDetailsSchema,
-)
-type PlatformDetailsMapping = z.infer<typeof _platformDetailsMappingSchema>
+);
+type PlatformDetailsMapping = z.infer<typeof _platformDetailsMappingSchema>;
 
 export const platformDetailsMapping: PlatformDetailsMapping = {
   nango: {
     platform: platformEnum.Values.nango,
     integration: null,
-    javaScriptOriginUri: 'https://app.nango.dev',
-    javaScriptRedirectUri: 'https://api.nango.dev/oauth/callback',
+    javaScriptOriginUri: "https://app.nango.dev",
+    javaScriptRedirectUri: "https://api.nango.dev/oauth/callback",
     projectId: null,
   },
   gumloop: {
     platform: platformEnum.Values.gumloop,
     integration: null,
-    javaScriptOriginUri: 'https://app.gumloop.com',
-    javaScriptRedirectUri: 'https://api.gumloop.com/oauth/callback',
+    javaScriptOriginUri: "https://app.gumloop.com",
+    javaScriptRedirectUri: "https://api.gumloop.com/oauth/callback",
     projectId: null,
   },
   n8nio: {
     platform: platformEnum.Values.n8nio,
     integration: null,
-    javaScriptOriginUri: 'https://app.n8n.io',
-    javaScriptRedirectUri: 'https://api.n8n.io/oauth/callback',
+    javaScriptOriginUri: "https://app.n8n.io",
+    javaScriptRedirectUri: "https://api.n8n.io/oauth/callback",
     projectId: null,
   },
-}
+};
