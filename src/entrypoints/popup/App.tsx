@@ -21,7 +21,7 @@ import {
 } from '@/components/integrations/google'
 import HubspotIntegration from '@/components/integrations/hubspot'
 import SalesforceIntegration from '@/components/integrations/salesforce'
-import { getIntegrationIdByName, getPlatformIdByName } from '@/database/supabase'
+import { getIntegrationIdByName, getPlatformIdByName, Workflow } from '@/database/supabase'
 
 function App() {
   const [integrationState, setIntegrationState] = useState<IntegrationState>(
@@ -149,7 +149,15 @@ function App() {
                 return
               }
               const platformDetails: PlatformDetails = await getPlatformDetails()
-              getPlatformIdByName(platformEnum.Values[platformDetails.platform])
+
+              const integrationId: number = await getIntegrationIdByName(integrationEnum.Values[integrationState.integration])
+              const platformId: number = await getPlatformIdByName(platformEnum.Values[platformDetails.platform])
+              const workflowEntry: Workflow = {
+                integration_id: integrationId,
+                platform_id: platformId,
+                is_successful: false,
+              }
+              insertWorkflow(workflowEntry)
               // confirmNavigation(integrationState.targetUrl);
             }}
           >
