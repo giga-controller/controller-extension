@@ -27,12 +27,15 @@ import {
   insertWorkflow,
   Workflow,
 } from "@/database/supabase";
+import usePlatforms from "@/lib/hooks/use-platforms";
 
 function App() {
   const [integrationState, setIntegrationState] = useState<IntegrationState>(
     defaultIntegrationState,
   );
   const [searchTerm, setSearchTerm] = useState("");
+  const [isInWhitelistedPage, setIsInWhitelistedPage] = useState(true);
+  const { whitelistedUrls: whitelistedUrls } = usePlatforms();
 
   const updateIntegrationState = (input: IntegrationState) => {
     setIntegrationState(input);
@@ -89,7 +92,20 @@ function App() {
       is_successful: false,
     };
     insertWorkflow(workflowEntry);
-    await navigate(integrationState.targetUrl, platformDetails);
+    if (
+      //This supports only the exact whitelisted urls.
+      whitelistedUrls.includes(platformDetails.javaScriptOriginUri)
+
+      // Uncomment this to support partial whitelisted urls.
+      // whitelistedUrls.some(url => platformDetails?.javaScriptOriginUri?.includes(url))
+    ) {
+      setIsInWhitelistedPage(true);
+      await navigate(integrationState.targetUrl, platformDetails);
+
+    } else {
+      setIsInWhitelistedPage(false);
+      console.error("JavaScript Origin URI is not whitelisted");
+    }
   };
 
   const integrations = [
@@ -171,6 +187,11 @@ function App() {
             Confirm
           </Button>
         </div>
+        {!isInWhitelistedPage && (
+          <p className="text-xs text-red-500 italic py-2 px-1 text-center">
+            The current page is not supported. Please navigate to a valid provider page to use this integration.
+          </p>
+        )} 
       </div>
     </div>
   );
