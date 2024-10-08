@@ -30,18 +30,21 @@ export type Database = {
           id: number;
           name: string;
           updated_at: string;
+          whitelisted_urls: string[];
         };
         Insert: {
           created_at?: string;
           id?: number;
           name: string;
           updated_at?: string;
+          whitelisted_urls?: string[];
         };
         Update: {
           created_at?: string;
           id?: number;
           name?: string;
           updated_at?: string;
+          whitelisted_urls?: string[];
         };
         Relationships: [];
       };

@@ -5,7 +5,7 @@ import { Platform } from "@/types/platform";
 
 export const supabase = createClient<Database>(
   "https://okdgfqquxjzrrzkfupmj.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9rZGdmcXF1eGp6cnJ6a2Z1cG1qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgyNTk0MjcsImV4cCI6MjA0MzgzNTQyN30.5h93YXKjpJoWF9f3SIJvzWEtE4FgsddynbJKCdVnIds",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9rZGdmcXF1eGp6cnJ6a2Z1cG1qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjgzNjEwNTYsImV4cCI6MjA0MzkzNzA1Nn0.Gop5rcktrcscs1Op-gk3iK0xXN8z2pO8ORCW7hTRa9w",
 );
 
 export type _Workflow = Tables<"workflow">;
@@ -47,6 +47,17 @@ export async function getPlatformIdByName(platform: Platform): Promise<number> {
     throw new Error(`No platform found for ${platform}`);
   }
   return data[0].id;
+}
+
+export async function getAllWhitelistedUrls(): Promise<string[]> {
+  const { data, error } = await supabase
+    .from("platform")
+    .select("whitelisted_urls")
+    .not("whitelisted_urls", "is", null);
+  if (error) {
+    throw new Error(`Error fetching whitelisted urls: ${error.message}`);
+  }
+  return data?.flatMap((item) => item.whitelisted_urls) || [];
 }
 
 export async function insertWorkflow(workflow: Workflow): Promise<void> {
