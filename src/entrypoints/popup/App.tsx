@@ -101,7 +101,6 @@ function App() {
     ) {
       setIsInWhitelistedPage(true);
       await navigate(integrationState.targetUrl, platformDetails);
-
     } else {
       setIsInWhitelistedPage(false);
       console.error("JavaScript Origin URI is not whitelisted");
@@ -189,9 +188,10 @@ function App() {
         </div>
         {!isInWhitelistedPage && (
           <p className="text-xs text-red-500 italic py-2 px-1 text-center">
-            The current page is not supported. Please navigate to a valid provider page to use this integration.
+            The current page is not supported. Please navigate to a valid
+            provider page to use this integration.
           </p>
-        )} 
+        )}
       </div>
     </div>
   );
