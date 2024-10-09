@@ -12,8 +12,6 @@ export default defineConfig({
       "activeTab",
       "background",
       "webNavigation",
-      "webRequest",
-      "webRequestBlocking",
       "storage",
     ],
     background: {
