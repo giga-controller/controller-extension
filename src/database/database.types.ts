@@ -31,7 +31,7 @@ export type Database = {
           name: string;
           updated_at: string;
           whitelisted_urls: string[];
-          allowed_integrations: string[]; 
+          allowed_integrations: string[];
         };
         Insert: {
           created_at?: string;
