@@ -31,6 +31,7 @@ export type Database = {
           name: string;
           updated_at: string;
           whitelisted_urls: string[];
+          allowed_integrations: string[]; 
         };
         Insert: {
           created_at?: string;
@@ -38,6 +39,7 @@ export type Database = {
           name: string;
           updated_at?: string;
           whitelisted_urls?: string[];
+          allowed_integrations?: string[];
         };
         Update: {
           created_at?: string;
@@ -45,6 +47,7 @@ export type Database = {
           name?: string;
           updated_at?: string;
           whitelisted_urls?: string[];
+          allowed_integrations?: string[];
         };
         Relationships: [];
       };

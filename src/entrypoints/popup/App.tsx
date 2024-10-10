@@ -22,6 +22,7 @@ import {
 import HubspotIntegration from "@/components/integrations/hubspot";
 import SalesforceIntegration from "@/components/integrations/salesforce";
 import {
+  getAllowedIntegrationsByPlatformName,
   getIntegrationIdByName,
   getPlatformIdByName,
   insertWorkflow,
@@ -36,6 +37,24 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isInWhitelistedPage, setIsInWhitelistedPage] = useState(true);
   const { whitelistedUrls: whitelistedUrls } = usePlatforms();
+  const [allowedIntegrations, setAllowedIntegrations] = useState<string[]>([]);
+  const [platformName, setPlatformName] = useState<string>("");
+
+  useEffect(() => {
+    const fetchAllowedIntegrations = async () => {
+      try {
+        const platformDetails: PlatformDetails = await getPlatformDetails();
+        setPlatformName(platformDetails.platform);
+        const allowed = await getAllowedIntegrationsByPlatformName(platformDetails.platform);
+        setAllowedIntegrations(allowed);
+      } catch (error) {
+        console.error("Error fetching allowed integrations:", error);
+      }
+    };
+
+    fetchAllowedIntegrations();
+  }, []);
+
 
   const updateIntegrationState = (input: IntegrationState) => {
     setIntegrationState(input);
@@ -136,17 +155,18 @@ function App() {
   ];
 
   const filteredIntegrations = integrations
-    .filter((integration) =>
-      integration.values?.some((value) =>
-        value.toLowerCase().includes(searchTerm.toLowerCase()),
-      ),
-    )
-    .sort((a, b) => a.values[0].localeCompare(b.values[0]));
-  console.log(filteredIntegrations);
+  .filter((integration) =>
+    integration.values?.some((value) =>
+      value.toLowerCase().includes(searchTerm.toLowerCase())
+    ) &&
+    allowedIntegrations.includes(integration.values[0] as keyof typeof integrationEnum.Values)
+  )
+  .sort((a, b) => a.values[0].localeCompare(b.values[0]));
 
   return (
     <div className="flex min-w-[320px] max-w-[600px] flex-col gap-4 p-2">
-      <h1 className="ml-4 py-5 text-left text-lg font-bold">
+      <h1 className="ml-4 pt-5 text-center text-2xl font-bold">{platformName}</h1>
+      <h1 className="ml-4 pb-2 text-left text-lg font-semibold">
         Select Integration
       </h1>
       <div className="flex w-full flex-col items-center justify-center">
