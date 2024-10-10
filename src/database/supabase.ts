@@ -60,6 +60,22 @@ export async function getAllWhitelistedUrls(): Promise<string[]> {
   return data?.flatMap((item) => item.whitelisted_urls) || [];
 }
 
+export async function getAllowedIntegrationsByPlatformName(
+  platformName: string,
+): Promise<string[]> {
+  const { data, error } = await supabase
+    .from("platform")
+    .select("allowed_integrations")
+    .eq("name", platformName)
+    .single();
+
+  if (error) {
+    throw new Error(`Error fetching allowed integrations: ${error.message}`);
+  }
+
+  return data?.allowed_integrations || [];
+}
+
 export async function insertWorkflow(workflow: Workflow): Promise<void> {
   const { data, error } = await supabase.from("workflow").insert(workflow);
   if (error) {
