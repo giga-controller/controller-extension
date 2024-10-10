@@ -491,42 +491,44 @@ export default defineUnlistedScript(() => {
       }
     })());
 
-    await Promise.all(tasks);
+    tasks.push((async () => {
+      if (window.location.href.includes(HUBSPOT_TARGET_BASE_URL) && window.location.href.includes("/home")) {
+        const projectName: string =
+        window.location.href.match(/developer\/(\d+)/)?.[1] || "";
+        window.location.href = `${HUBSPOT_TARGET_BASE_URL}/${projectName}/application/draft`;
+      }
+    })());
 
-    // else if (
-    //   window.location.href.includes(HUBSPOT_TARGET_BASE_URL) &&
-    //   window.location.href.includes("/home") &&
-    //   platformDetails
-    // ) {
-    //   const projectName: string =
-    //     window.location.href.match(/developer\/(\d+)/)?.[1] || "";
-    //   window.location.href = `${HUBSPOT_TARGET_BASE_URL}/${projectName}/application/draft`;
-    // } else if (
-    //   window.location.href.includes(HUBSPOT_TARGET_BASE_URL) &&
-    //   !window.location.href.includes("/home") &&
-    //   platformDetails
-    // ) {
-    //   const AUTH_TAB_CLASS_QUERY: string = constructClassQuery(
-    //     "private-link uiLinkWithoutUnderline UITab__StyledLink-sc-14gzkc-2 glAWjO private-tab private-link--unstyled",
-    //   );
-    //   const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
-    //     autoClick: false,
-    //     baseUrl: HUBSPOT_TARGET_BASE_URL,
-    //     querySelector: querySelectorSchema.parse({
-    //       class: AUTH_TAB_CLASS_QUERY,
-    //     }),
-    //     injectedScript: async () => {
-    //       if (!platformDetails) return;
-    //       await createHubspotOauth2ApplicationPartOne(
-    //         platformDetails,
-    //         waitUntilPageLoaded,
-    //         waitUntilActionMessageResolved,
-    //         waitUntilRetrieveMessageResolved,
-    //       );
-    //     },
-    //   });
-    //   await injectButton(injectPartOneButtonRequest);
-    // }
+    tasks.push((async () => {
+      if (
+        window.location.href.includes(HUBSPOT_TARGET_BASE_URL) &&
+        !window.location.href.includes("/home") &&
+        platformDetails
+      ) {
+        const AUTH_TAB_CLASS_QUERY: string = constructClassQuery(
+          "private-link uiLinkWithoutUnderline UITab__StyledLink-sc-14gzkc-2 glAWjO private-tab private-link--unstyled",
+        );
+        const injectPartOneButtonRequest = injectButtonRequestSchema.parse({
+          autoClick: false,
+          baseUrl: HUBSPOT_TARGET_BASE_URL,
+          querySelector: querySelectorSchema.parse({
+            class: AUTH_TAB_CLASS_QUERY,
+          }),
+          injectedScript: async () => {
+            if (!platformDetails) return;
+            await createHubspotOauth2ApplicationPartOne(
+              platformDetails,
+              waitUntilPageLoaded,
+              waitUntilActionMessageResolved,
+              waitUntilRetrieveMessageResolved,
+            );
+          },
+        });
+        await injectButton(injectPartOneButtonRequest);
+      }
+    })());
+
+    await Promise.all(tasks);    
   };
 
   window.addEventListener("message", async (event) => {
