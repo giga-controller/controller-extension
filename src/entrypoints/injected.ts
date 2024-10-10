@@ -212,7 +212,6 @@ async function injectButton({
   injectedScript,
 }: InjectButtonRequest) {
   await new Promise<void>((resolve) => {
-    // TODO: Remove this
     if (!window.location.href.includes(baseUrl)) {
       resolve();
       return;
