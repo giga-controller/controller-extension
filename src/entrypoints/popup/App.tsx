@@ -162,7 +162,7 @@ function App() {
           className="mb-3 max-w-[90%]"
         />
         <ScrollArea className="h-64 w-full overflow-y-auto">
-          <div className=" grid w-full grid-cols-3 gap-3 p-3">
+          <div className="grid w-full grid-cols-3 gap-3 p-3">
             {filteredIntegrations.length > 0 ? (
               filteredIntegrations.map(
                 ({ component: IntegrationComponent, values }) => (
