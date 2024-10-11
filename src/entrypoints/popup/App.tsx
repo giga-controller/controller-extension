@@ -150,11 +150,9 @@ function App() {
         <img src="/nango_logo.jpeg" alt="Nango Logo" className="w-8 h-8" />
         <p className="ml-4 pt-5 pb-4 text-center text-lg font-semibold">
           Connect to Nango
-      </p>
+        </p>
       </div>
-      <p className="ml-4 pb-2 text-left text-base">
-        Select Integration:
-      </p>
+      <p className="ml-4 pb-2 text-left text-base">Select Integration:</p>
       <div className="flex w-full flex-col items-center justify-center">
         <Input
           type="text"
