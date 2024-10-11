@@ -33,9 +33,9 @@ function App() {
   const [integrationState, setIntegrationState] = useState<IntegrationState>(
     defaultIntegrationState,
   );
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isInWhitelistedPage, setIsInWhitelistedPage] = useState(true);
-  const { whitelistedUrls: whitelistedUrls } = usePlatforms();
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [isInWhitelistedPage, setIsInWhitelistedPage] = useState<boolean>(true);
+  const { whitelistedUrls } = usePlatforms();
 
   const updateIntegrationState = (input: IntegrationState) => {
     setIntegrationState(input);
@@ -79,7 +79,13 @@ function App() {
     if (!integrationState.targetUrl || !integrationState.integration) {
       return;
     }
-    const platformDetails: PlatformDetails = await getPlatformDetails();
+    const platformDetails: PlatformDetails = await getPlatformDetails(
+      {
+        integration: integrationState.integration, 
+        whitelistedUrls: whitelistedUrls
+      }
+    );
+
     const [integrationId, platformId] = await Promise.all([
       getIntegrationIdByName(
         integrationEnum.Values[integrationState.integration],
@@ -91,20 +97,10 @@ function App() {
       platform_id: platformId,
       is_successful: false,
     };
-    insertWorkflow(workflowEntry);
-    if (
-      //This supports only the exact whitelisted urls.
-      whitelistedUrls.includes(platformDetails.javaScriptOriginUri)
+    await insertWorkflow(workflowEntry);
 
-      // Uncomment this to support partial whitelisted urls.
-      // whitelistedUrls.some(url => platformDetails?.javaScriptOriginUri?.includes(url))
-    ) {
-      setIsInWhitelistedPage(true);
-      await navigate(integrationState.targetUrl, platformDetails);
-    } else {
-      setIsInWhitelistedPage(false);
-      console.error("JavaScript Origin URI is not whitelisted");
-    }
+    setIsInWhitelistedPage(true);
+    await navigate(integrationState.targetUrl, platformDetails);
   };
 
   const integrations = [
@@ -142,7 +138,6 @@ function App() {
       ),
     )
     .sort((a, b) => a.values[0].localeCompare(b.values[0]));
-  console.log(filteredIntegrations);
 
   return (
     <div className="flex min-w-[320px] max-w-[600px] flex-col gap-4 p-2">

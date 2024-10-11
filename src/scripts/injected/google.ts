@@ -5,9 +5,7 @@ import { PlatformDetails } from "@/types/platform";
 import { integrationEnum } from "@/types/integrations";
 import {
   BaseRequest,
-  ClickRequest,
   clickRequestSchema,
-  FillInputRequest,
   fillInputRequestSchema,
   navigationStateEnumSchema,
   querySelectorSchema,
@@ -107,7 +105,6 @@ export const createGoogleOauth2ApplicationPartOne = async (
   } else {
     throw new Error("Unsupported integration for google platform");
   }
-
   window.location.href = ENABLE_INTEGRATION_API_LINK;
   await waitUntilPageLoaded();
 };

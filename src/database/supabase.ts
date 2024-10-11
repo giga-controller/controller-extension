@@ -49,15 +49,23 @@ export async function getPlatformIdByName(platform: Platform): Promise<number> {
   return data[0].id;
 }
 
-export async function getAllWhitelistedUrls(): Promise<string[]> {
+export async function getAllWhitelistedUrls(): Promise<Record<Platform, string[]>> {
+  // Returns a record of platforms and their whitelisted urls
+
   const { data, error } = await supabase
     .from("platform")
-    .select("whitelisted_urls")
+    .select("name, whitelisted_urls")
     .not("whitelisted_urls", "is", null);
+
   if (error) {
     throw new Error(`Error fetching whitelisted urls: ${error.message}`);
   }
-  return data?.flatMap((item) => item.whitelisted_urls) || [];
+
+  const result: Record<string, string[]> = {};
+  data.forEach((row) => {
+    result[row.name] = row.whitelisted_urls;
+  });
+  return result;
 }
 
 export async function insertWorkflow(workflow: Workflow): Promise<void> {
