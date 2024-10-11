@@ -145,10 +145,16 @@ function App() {
   console.log(filteredIntegrations);
 
   return (
-    <div className="flex min-w-[320px] max-w-[600px] flex-col gap-4 p-2">
-      <h1 className="ml-4 py-5 text-left text-lg font-bold">
-        Select Integration
-      </h1>
+    <div className="flex min-w-[320px] max-w-[600px] flex-col gap-4 p-1 rounded-lg">
+      <div className="flex flex-row items-center justify-center">
+        <img src="/nango_logo.jpeg" alt="Nango Logo" className="w-8 h-8" />
+        <p className="ml-4 pt-5 pb-4 text-center text-lg font-semibold">
+          Connect to Nango
+      </p>
+      </div>
+      <p className="ml-4 pb-2 text-left text-base">
+        Select Integration:
+      </p>
       <div className="flex w-full flex-col items-center justify-center">
         <Input
           type="text"
@@ -158,7 +164,7 @@ function App() {
           className="mb-3 max-w-[90%]"
         />
         <ScrollArea className="h-64 w-full overflow-y-auto">
-          <div className="mb-3 grid w-full grid-cols-3 gap-3 p-3">
+          <div className=" grid w-full grid-cols-3 gap-3 p-3">
             {filteredIntegrations.length > 0 ? (
               filteredIntegrations.map(
                 ({ component: IntegrationComponent, values }) => (
@@ -177,7 +183,7 @@ function App() {
             )}
           </div>
         </ScrollArea>
-        <div className="flex w-full justify-center px-4 pb-3">
+        <div className="flex w-full justify-center px-4 pb-3 mt-5 cursor-pointer">
           <Button
             className="w-full text-lg"
             disabled={!integrationState.targetUrl}
