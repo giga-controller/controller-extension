@@ -79,12 +79,10 @@ function App() {
     if (!integrationState.targetUrl || !integrationState.integration) {
       return;
     }
-    const platformDetails: PlatformDetails = await getPlatformDetails(
-      {
-        integration: integrationState.integration, 
-        whitelistedUrls: whitelistedUrls
-      }
-    );
+    const platformDetails: PlatformDetails = await getPlatformDetails({
+      integration: integrationState.integration,
+      whitelistedUrls: whitelistedUrls,
+    });
 
     const [integrationId, platformId] = await Promise.all([
       getIntegrationIdByName(

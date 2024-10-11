@@ -49,7 +49,9 @@ export async function getPlatformIdByName(platform: Platform): Promise<number> {
   return data[0].id;
 }
 
-export async function getAllWhitelistedUrls(): Promise<Record<Platform, string[]>> {
+export async function getAllWhitelistedUrls(): Promise<
+  Record<Platform, string[]>
+> {
   // Returns a record of platforms and their whitelisted urls
 
   const { data, error } = await supabase

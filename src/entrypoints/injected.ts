@@ -26,8 +26,7 @@ import {
 import { createHubspotOauth2ApplicationPartOne } from "@/scripts/injected/hubspot";
 import { logoBase64 } from "@/constants/logoBase64";
 
-const GOOGLE_CLOUD_BASE_URL =
-  "https://console.cloud.google.com";
+const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
 // const GOOGLE_CLOUD_MARKETPLACE_BASE_URL =
 //   "https://console.cloud.google.com/marketplace/product/google";
 // const GOOGLE_CLOUD_API_BASE_URL: string = `https://console.cloud.google.com/apis/api`;
@@ -253,9 +252,7 @@ export default defineUnlistedScript(() => {
       return;
     }
 
-    if (
-      window.location.href.includes(GOOGLE_CLOUD_BASE_URL)
-    ) {
+    if (window.location.href.includes(GOOGLE_CLOUD_BASE_URL)) {
       const GOOGLE_CLOUD_START_PAGE_BASE_URL: string =
         "https://console.cloud.google.com/welcome";
       const PROJECT_DROPDOWN_BUTTON_CLASS_QUERY: string = constructClassQuery(
@@ -402,9 +399,7 @@ export default defineUnlistedScript(() => {
 
       console.log("injectPartOneButtonRequest", injectPartOneButtonRequest);
       await injectButton(injectPartOneButtonRequest);
-    } else if (
-      window.location.href.includes(SLACK_HOME_PAGE_URL)
-    ) {
+    } else if (window.location.href.includes(SLACK_HOME_PAGE_URL)) {
       // Slack's redirection after logging in is wonky (it redirects to home page instead of developer portal)
       window.location.href = SLACK_BASE_URL;
     } else if (window.location.href === SLACK_BASE_URL) {
@@ -431,9 +426,7 @@ export default defineUnlistedScript(() => {
     } else if (window.location.href === X_HOME_PAGE_URL) {
       // X's redirection after logging in is wonky (it redirects to home page instead of developer portal)
       window.location.href = X_DEVELOPER_PAGE_URL;
-    } else if (
-      window.location.href === X_DEVELOPER_PAGE_URL
-    ) {
+    } else if (window.location.href === X_DEVELOPER_PAGE_URL) {
       const PROJECT_AND_APPS_DROPDOWN_CLASS_QUERY = constructClassQuery(
         "index__navItemButton--352Fy",
       );

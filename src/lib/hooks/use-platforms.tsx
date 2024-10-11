@@ -14,7 +14,7 @@ export default function usePlatforms(): UsePlatformsOptions {
   });
 
   const baseCase = Object.fromEntries(
-    Object.values(platformEnum).map((platform) => [platform, []])
-  ); 
+    Object.values(platformEnum).map((platform) => [platform, []]),
+  );
   return { whitelistedUrls: data ?? baseCase };
 }
