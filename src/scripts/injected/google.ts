@@ -124,7 +124,6 @@ export const createGoogleOauth2ApplicationPartTwo = async (
     projectId,
     integration,
   } = platformDetails;
-
   const ENABLE_INTEGRATION_API_CLASS_QUERY: string = constructClassQuery(
     "mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button cfc-tooltip cfc-tooltip-disable-user-select-on-touch-device ng-star-inserted",
   );
@@ -134,6 +133,11 @@ export const createGoogleOauth2ApplicationPartTwo = async (
     }),
   });
   await waitUntilMessageResolved(clickEnableIntegrationApiButtonRequest);
+
+  const OAUTH_CONSENT_SCREEN_LINK: string =
+    "https://console.cloud.google.com/apis/credentials/consent";
+  window.location.href = OAUTH_CONSENT_SCREEN_LINK;
+  await waitUntilPageLoaded();
 };
 
 export const createGoogleOauth2ApplicationPartThree = async (
@@ -146,11 +150,6 @@ export const createGoogleOauth2ApplicationPartThree = async (
 ) => {
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
-
-  const OAUTH_CONSENT_SCREEN_LINK: string =
-    "https://console.cloud.google.com/apis/credentials/consent";
-  window.location.href = OAUTH_CONSENT_SCREEN_LINK;
-  await waitUntilPageLoaded();
 };
 
 export const createGoogleOauth2ApplicationPartFour = async (

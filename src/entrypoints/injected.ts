@@ -27,12 +27,14 @@ import { createHubspotOauth2ApplicationPartOne } from "@/scripts/injected/hubspo
 import { logoBase64 } from "@/constants/logoBase64";
 
 const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
-// const GOOGLE_CLOUD_MARKETPLACE_BASE_URL =
-//   "https://console.cloud.google.com/marketplace/product/google";
-// const GOOGLE_CLOUD_API_BASE_URL: string = `https://console.cloud.google.com/apis/api`;
-// const GOOGLE_CLOUD_OAUTH_CONSENT_BASE_URL =
-//   "https://console.cloud.google.com/apis/credentials/consent";
-// const GOOGLE_CLOUD_OAUTH_CLIENT_BASE_URL: string = `https://console.cloud.google.com/apis/credentials/oauthclient`;
+const GOOGLE_CLOUD_START_PAGE_BASE_URL: string =
+  "https://console.cloud.google.com/welcome";
+const GOOGLE_CLOUD_MARKETPLACE_BASE_URL =
+  "https://console.cloud.google.com/marketplace/product/google";
+const GOOGLE_CLOUD_API_BASE_URL: string = `https://console.cloud.google.com/apis/api`;
+const GOOGLE_CLOUD_OAUTH_CONSENT_BASE_URL =
+  "https://console.cloud.google.com/apis/credentials/consent";
+const GOOGLE_CLOUD_OAUTH_CLIENT_BASE_URL: string = `https://console.cloud.google.com/apis/credentials/oauthclient`;
 const LINEAR_BASE_URL = "https://linear.app";
 const SLACK_HOME_PAGE_URL = "https://app.slack.com/client";
 const SLACK_BASE_URL = "https://api.slack.com/apps";
@@ -210,9 +212,9 @@ async function injectButton({
   querySelector,
   injectedScript,
 }: InjectButtonRequest) {
-  await new Promise<boolean>((resolve) => {
+  await new Promise<void>((resolve) => {
     if (!window.location.href.includes(baseUrl)) {
-      resolve(false);
+      resolve();
     }
 
     const interval = setInterval(() => {
@@ -220,6 +222,7 @@ async function injectButton({
       if (querySelector.id) {
         element = document.getElementById(querySelector.id);
       } else if (querySelector.class) {
+        console.log("querySelector.class", querySelector.class);
         element = document.querySelectorAll(querySelector.class)[
           querySelector.index || 0
         ];
@@ -238,7 +241,9 @@ async function injectButton({
         createButton(autoClick, async () => {
           await injectedScript();
         });
-        resolve(true);
+        resolve();
+      } else {
+        location.reload();
       }
     }, 3000);
   });
@@ -252,9 +257,7 @@ export default defineUnlistedScript(() => {
       return;
     }
 
-    if (window.location.href.includes(GOOGLE_CLOUD_BASE_URL)) {
-      const GOOGLE_CLOUD_START_PAGE_BASE_URL: string =
-        "https://console.cloud.google.com/welcome";
+    if (window.location.href.includes(GOOGLE_CLOUD_START_PAGE_BASE_URL)) {
       const PROJECT_DROPDOWN_BUTTON_CLASS_QUERY: string = constructClassQuery(
         "mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button",
       );
@@ -275,15 +278,15 @@ export default defineUnlistedScript(() => {
         },
       });
       await injectButton(injectPartOneButtonRequest);
-
-      const GOOGLE_CLOUD_ENABLE_INTEGRATION_API_BASE_URL: string =
-        "https://console.cloud.google.com/marketplace/product/google";
+    } else if (
+      window.location.href.includes(GOOGLE_CLOUD_MARKETPLACE_BASE_URL)
+    ) {
       const ENABLE_INTEGRATION_API_CLASS_QUERY: string = constructClassQuery(
         "mdc-button mdc-button--raised mat-mdc-raised-button mat-primary mat-mdc-button-base gmat-mdc-button cm-button cfc-tooltip cfc-tooltip-disable-user-select-on-touch-device ng-star-inserted",
       );
       const injectPartTwoButtonRequest = injectButtonRequestSchema.parse({
         autoClick: true,
-        baseUrl: GOOGLE_CLOUD_ENABLE_INTEGRATION_API_BASE_URL,
+        baseUrl: GOOGLE_CLOUD_MARKETPLACE_BASE_URL,
         querySelector: querySelectorSchema.parse({
           class: ENABLE_INTEGRATION_API_CLASS_QUERY,
         }),
@@ -298,36 +301,13 @@ export default defineUnlistedScript(() => {
         },
       });
       await injectButton(injectPartTwoButtonRequest);
-
-      const API_DETAILS_BASE_URL: string =
-        "https://console.cloud.google.com/apis/api/";
-      const API_TITLE_CLASS_QUERY = constructClassQuery(
-        "ct-title cfc-font-weight-bold cfc-space-above-minus-6",
-      );
-      const injectPartThreeButtonRequest = injectButtonRequestSchema.parse({
-        autoClick: true,
-        baseUrl: API_DETAILS_BASE_URL,
-        querySelector: querySelectorSchema.parse({
-          class: API_TITLE_CLASS_QUERY,
-        }),
-        injectedScript: async () => {
-          if (!platformDetails) return;
-          await createGoogleOauth2ApplicationPartThree(
-            platformDetails,
-            waitUntilPageLoaded,
-            waitUntilActionMessageResolved,
-            waitUntilRetrieveMessageResolved,
-          );
-        },
-      });
-      await injectButton(injectPartThreeButtonRequest);
-
-      const OAUTH_CONSENT_SCREEN_BASE_URL: string =
-        "https://console.cloud.google.com/apis/credentials/consent";
+    } else if (
+      window.location.href.includes(GOOGLE_CLOUD_OAUTH_CONSENT_BASE_URL)
+    ) {
       const EXTERNAL_USER_TYPE_INPUT_ID: string = "_0rif_mat-radio-3-input";
       const injectPartFourButtonRequest = injectButtonRequestSchema.parse({
         autoClick: true,
-        baseUrl: OAUTH_CONSENT_SCREEN_BASE_URL,
+        baseUrl: GOOGLE_CLOUD_OAUTH_CONSENT_BASE_URL,
         querySelector: querySelectorSchema.parse({
           id: EXTERNAL_USER_TYPE_INPUT_ID,
         }),
@@ -342,14 +322,15 @@ export default defineUnlistedScript(() => {
         },
       });
       await injectButton(injectPartFourButtonRequest);
-
-      const OAUTH_CLIENT_ID_BASE_URL: string = `https://console.cloud.google.com/apis/credentials/oauthclient`;
+    } else if (
+      window.location.href.includes(GOOGLE_CLOUD_OAUTH_CLIENT_BASE_URL)
+    ) {
       const APPLICATION_TYPE_DROPDOWN_CLASS_QUERY: string = constructClassQuery(
         "mdc-floating-label mat-mdc-floating-label ng-star-inserted",
       );
       const injectPartFiveButtonRequest = injectButtonRequestSchema.parse({
         autoClick: true,
-        baseUrl: OAUTH_CLIENT_ID_BASE_URL,
+        baseUrl: GOOGLE_CLOUD_OAUTH_CLIENT_BASE_URL,
         querySelector: querySelectorSchema.parse({
           class: APPLICATION_TYPE_DROPDOWN_CLASS_QUERY,
         }),
