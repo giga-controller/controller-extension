@@ -134,8 +134,19 @@ export const createGoogleOauth2ApplicationPartTwo = async (
   });
   await waitUntilMessageResolved(clickEnableIntegrationApiButtonRequest);
 
+  const API_TITLE_CLASS_QUERY: string = constructClassQuery(
+    "ct-title cfc-font-weight-bold cfc-space-above-minus-6",
+  );
+  const retrieveApiTitleRequest = retrieveRequestSchema.parse({
+    query: querySelectorSchema.parse({
+      class: API_TITLE_CLASS_QUERY,
+    }),
+  });
+  const apiTitle: string = await waitUntilRetrieveMessageResolved(retrieveApiTitleRequest);
+  console.log(apiTitle);
+
   const OAUTH_CONSENT_SCREEN_LINK: string =
-    "https://console.cloud.google.com/apis/credentials/consent";
+  "https://console.cloud.google.com/apis/credentials/consent";
   window.location.href = OAUTH_CONSENT_SCREEN_LINK;
   await waitUntilPageLoaded();
 };
@@ -150,6 +161,13 @@ export const createGoogleOauth2ApplicationPartThree = async (
 ) => {
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
+  
+  console.log("ARRIVED AT PART 3")
+
+  const OAUTH_CONSENT_SCREEN_LINK: string =
+  "https://console.cloud.google.com/apis/credentials/consent";
+  window.location.href = OAUTH_CONSENT_SCREEN_LINK;
+  await waitUntilPageLoaded();
 };
 
 export const createGoogleOauth2ApplicationPartFour = async (
