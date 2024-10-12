@@ -59,12 +59,10 @@ export const createLinearOauth2ApplicationPartOne = async (
   await waitUntilMessageResolved(fillRedirectUriInputRequest);
 
   // TODO: temp fix for Linear create button - could not find a way to uniquelyidentify the button
-  const CREATE_APPLICATION_BUTTON_CLASS_QUERY: string =
-    constructClassQuery("sc-blmEgr");
+  const CREATE_APPLICATION_BUTTON_TYPE: string = "submit";
   const clickCreateApplicationButtonRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
-      class: CREATE_APPLICATION_BUTTON_CLASS_QUERY,
-      index: 2,
+      type: CREATE_APPLICATION_BUTTON_TYPE,
     }),
   });
   await waitUntilMessageResolved(clickCreateApplicationButtonRequest);

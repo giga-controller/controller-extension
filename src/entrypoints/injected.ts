@@ -307,9 +307,7 @@ export default defineUnlistedScript(() => {
         },
       });
       await injectButton(injectPartTwoButtonRequest);
-    } else if (
-      window.location.href.includes(GOOGLE_CLOUD_API_BASE_URL)
-    ) {
+    } else if (window.location.href.includes(GOOGLE_CLOUD_API_BASE_URL)) {
       console.log("GOOGLE_CLOUD_API_BASE_URL");
       const API_TITLE_CLASS_QUERY: string = constructClassQuery(
         "ct-title cfc-font-weight-bold cfc-space-above-minus-6",

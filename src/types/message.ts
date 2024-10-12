@@ -11,7 +11,7 @@ export const messageTypeEnumSchema = z.enum([
   "getProjectName",
   "platformDetails",
   "platformDetailsResponse",
-  "error"
+  "error",
 ]);
 
 export type MessageTypeEnum = z.infer<typeof messageTypeEnumSchema>;

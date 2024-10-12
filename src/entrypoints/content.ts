@@ -22,7 +22,10 @@ export default defineContentScript({
         // IMPORTANT: Uncomment this line while testing parts of the integration flow so that the id is always updated for testing. BUT this line should never be commented out in production
         // platformDetails.projectId = getProjectId(platformDetails.platform);
 
-        // Inject main script
+        if (!data) {
+          return;
+        }
+
         await injectCustomScript("/injected.js", { keepInDom: true });
         setTimeout(() => {
           window.postMessage(
@@ -82,8 +85,8 @@ export default defineContentScript({
           } else {
             window.postMessage(
               { type: messageTypeEnumSchema.Values.error },
-              "*"
-            )
+              "*",
+            );
           }
         } catch (error) {
           console.error(`Error clicking: ${(error as Error).message}`);
@@ -156,8 +159,8 @@ export default defineContentScript({
           } else {
             window.postMessage(
               { type: messageTypeEnumSchema.Values.error },
-              "*"
-            )
+              "*",
+            );
           }
         } catch (error) {
           console.error(`Error filling input: ${(error as Error).message}`);
@@ -198,8 +201,8 @@ export default defineContentScript({
           } else {
             window.postMessage(
               { type: messageTypeEnumSchema.Values.error },
-              "*"
-            )
+              "*",
+            );
           }
         } catch (error) {
           console.error(`Error retrieving value: ${(error as Error).message}`);
