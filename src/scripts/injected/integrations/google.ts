@@ -153,21 +153,6 @@ export const createGoogleOauth2ApplicationPartTwo = async (
   }
 };
 
-export const createGoogleOauth2ApplicationPartThree = async (
-  platformDetails: PlatformDetails,
-  waitUntilPageLoaded: () => Promise<void>,
-  waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,
-  waitUntilRetrieveMessageResolved: (
-    request: RetrieveRequest,
-  ) => Promise<string>,
-) => {
-  const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
-    platformDetails;
-
-  console.log("ARRIVED AT PART 3");
-  // cant be used because url is not a fresh refresh
-};
-
 export const createGoogleOauth2ApplicationPartFour = async (
   platformDetails: PlatformDetails,
   waitUntilPageLoaded: () => Promise<void>,

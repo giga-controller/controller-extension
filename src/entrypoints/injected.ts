@@ -93,28 +93,6 @@ export default defineUnlistedScript(() => {
         },
       });
       await injectButton(injectPartTwoButtonRequest);
-    } else if (window.location.href.includes(GOOGLE_CLOUD_API_BASE_URL)) {
-      console.log("GOOGLE_CLOUD_API_BASE_URL");
-      const API_TITLE_CLASS_QUERY: string = constructClassQuery(
-        "ct-title cfc-font-weight-bold cfc-space-above-minus-6",
-      );
-      const injectPartThreButtonRequest = injectButtonRequestSchema.parse({
-        autoClick: true,
-        baseUrl: GOOGLE_CLOUD_API_BASE_URL,
-        querySelector: querySelectorSchema.parse({
-          class: API_TITLE_CLASS_QUERY,
-        }),
-        injectedScript: async () => {
-          if (!platformDetails) return;
-          await createGoogleOauth2ApplicationPartThree(
-            platformDetails,
-            waitUntilPageLoaded,
-            waitUntilActionMessageResolved,
-            waitUntilRetrieveMessageResolved,
-          );
-        },
-      });
-      await injectButton(injectPartThreButtonRequest);
     } else if (
       window.location.href.includes(GOOGLE_CLOUD_OAUTH_CONSENT_BASE_URL)
     ) {
