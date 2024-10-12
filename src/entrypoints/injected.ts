@@ -243,7 +243,9 @@ async function injectButton({
         });
         resolve();
       } else {
-        location.reload();
+        if (document.readyState === "complete") {
+          location.reload();
+        }
       }
     }, 3000);
   });
