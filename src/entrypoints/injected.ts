@@ -161,6 +161,8 @@ async function waitUntilActionMessageResolved(
         window.removeEventListener("message", listener);
         console.log("Message received:", event.data);
         resolve(event.data.value);
+      } else if (event.data.type === messageTypeEnumSchema.Values.error) {
+        location.reload();
       }
     };
     window.addEventListener("message", listener);
@@ -193,6 +195,8 @@ async function waitUntilRetrieveMessageResolved(
         clearInterval(interval);
         window.removeEventListener("message", listener);
         resolve(event.data.value);
+      } else if (event.data.type === messageTypeEnumSchema.Values.error) {
+        location.reload();
       }
     };
     window.addEventListener("message", listener);

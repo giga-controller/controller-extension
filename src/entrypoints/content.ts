@@ -79,6 +79,11 @@ export default defineContentScript({
               { type: messageTypeEnumSchema.Values.clickResponse },
               "*",
             );
+          } else {
+            window.postMessage(
+              { type: messageTypeEnumSchema.Values.error },
+              "*"
+            )
           }
         } catch (error) {
           console.error(`Error clicking: ${(error as Error).message}`);
@@ -149,8 +154,10 @@ export default defineContentScript({
               "*",
             );
           } else {
-            console.error("No matching input field found");
-            throw new Error("No matching input field found");
+            window.postMessage(
+              { type: messageTypeEnumSchema.Values.error },
+              "*"
+            )
           }
         } catch (error) {
           console.error(`Error filling input: ${(error as Error).message}`);
@@ -189,7 +196,10 @@ export default defineContentScript({
               "*",
             );
           } else {
-            console.error("Failed to retrieve value");
+            window.postMessage(
+              { type: messageTypeEnumSchema.Values.error },
+              "*"
+            )
           }
         } catch (error) {
           console.error(`Error retrieving value: ${(error as Error).message}`);
