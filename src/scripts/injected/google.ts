@@ -143,12 +143,12 @@ export const createGoogleOauth2ApplicationPartTwo = async (
     }),
   });
   const apiTitle: string = await waitUntilRetrieveMessageResolved(retrieveApiTitleRequest);
-  console.log(apiTitle);
-
-  const OAUTH_CONSENT_SCREEN_LINK: string =
-  "https://console.cloud.google.com/apis/credentials/consent";
-  window.location.href = OAUTH_CONSENT_SCREEN_LINK;
-  await waitUntilPageLoaded();
+  if (apiTitle) {
+    const OAUTH_CONSENT_SCREEN_LINK: string =
+    "https://console.cloud.google.com/apis/credentials/consent";
+    window.location.href = OAUTH_CONSENT_SCREEN_LINK;
+    await waitUntilPageLoaded();
+  }
 };
 
 export const createGoogleOauth2ApplicationPartThree = async (
@@ -163,11 +163,8 @@ export const createGoogleOauth2ApplicationPartThree = async (
     platformDetails;
   
   console.log("ARRIVED AT PART 3")
-
-  const OAUTH_CONSENT_SCREEN_LINK: string =
-  "https://console.cloud.google.com/apis/credentials/consent";
-  window.location.href = OAUTH_CONSENT_SCREEN_LINK;
-  await waitUntilPageLoaded();
+// cant be used because url is not a fresh refresh
+  
 };
 
 export const createGoogleOauth2ApplicationPartFour = async (
