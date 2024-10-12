@@ -25,7 +25,6 @@ export async function waitUntilActionMessageResolved(
       throw new Error("Invalid request type for click");
     }
   } else if (request.type === messageTypeEnumSchema.Values.fillInput) {
-    console.log("Waiting for Fill Input Message to be resolved");
     if (fillInputRequestSchema.safeParse(request).success) {
       requestInstance = fillInputRequestSchema.parse(request);
       responseMessageType = messageTypeEnumSchema.Values.fillInputResponse;
@@ -90,4 +89,8 @@ export async function waitUntilPageLoaded() {
   await new Promise((resolve) => {
     window.addEventListener("load", resolve);
   });
+}
+
+export async function resetBrowserStorage() {
+  // browser.storage.local.clear();
 }

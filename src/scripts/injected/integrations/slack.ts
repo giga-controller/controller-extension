@@ -1,27 +1,20 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import { constructClassQuery, updateButtonText } from "@/lib/utils";
-import { messageTypeEnumSchema } from "@/types/message";
-import { PlatformDetails } from "@/types/platform";
 import {
-  BaseRequest,
-  ClickRequest,
   clickRequestSchema,
-  FillInputRequest,
   fillInputRequestSchema,
+  InjectedScriptProps,
   navigationStateEnumSchema,
   querySelectorSchema,
-  RetrieveRequest,
-  retrieveRequestSchema,
 } from "@/types/scripts/base";
 
-export const createSlackOauth2ApplicationPartOne = async (
-  platformDetails: PlatformDetails,
-  waitUntilPageLoaded: () => Promise<void>,
-  waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,
-  waitUntilRetrieveMessageResolved: (
-    request: RetrieveRequest,
-  ) => Promise<string>,
-) => {
+export async function createSlackOauth2ApplicationPartOne({
+  platformDetails,
+  waitUntilPageLoaded,
+  waitUntilActionMessageResolved,
+  waitUntilRetrieveMessageResolved,
+  resetBrowserStorage,
+}: InjectedScriptProps) {
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
   const START_CREATE_APP_BUTTON_CLASS_QUERY = constructClassQuery(
@@ -33,7 +26,7 @@ export const createSlackOauth2ApplicationPartOne = async (
     }),
   });
 
-  await waitUntilMessageResolved(clickStartCreateAppButtonRequest);
+  await waitUntilActionMessageResolved(clickStartCreateAppButtonRequest);
 
   const FROM_SCRATCH_BUTTON_CLASS_QUERY = constructClassQuery(
     "c-button-unstyled p-new_app_modal__initial_button p-new_app_modal__initial_button--bordered",
@@ -43,7 +36,7 @@ export const createSlackOauth2ApplicationPartOne = async (
       class: FROM_SCRATCH_BUTTON_CLASS_QUERY,
     }),
   });
-  await waitUntilMessageResolved(clickFromScratchButtonRequest);
+  await waitUntilActionMessageResolved(clickFromScratchButtonRequest);
 
   const APP_NAME_INPUT_ID = "app_name";
   const fillAppNameInputRequest = fillInputRequestSchema.parse({
@@ -52,7 +45,7 @@ export const createSlackOauth2ApplicationPartOne = async (
       id: APP_NAME_INPUT_ID,
     }),
   });
-  await waitUntilMessageResolved(fillAppNameInputRequest);
+  await waitUntilActionMessageResolved(fillAppNameInputRequest);
 
   const SELECT_WORKPLACE_LISTBOX_CLASS_QUERY = constructClassQuery(
     "c-select_button c-select_button--medium",
@@ -62,7 +55,7 @@ export const createSlackOauth2ApplicationPartOne = async (
       class: SELECT_WORKPLACE_LISTBOX_CLASS_QUERY,
     }),
   });
-  await waitUntilMessageResolved(clickSelectWorkplaceListboxRequest);
+  await waitUntilActionMessageResolved(clickSelectWorkplaceListboxRequest);
 
   const WORKPLACE_OPTION_CLASS_QUERY = constructClassQuery(
     "c-select_options_list__option_label",
@@ -72,7 +65,7 @@ export const createSlackOauth2ApplicationPartOne = async (
       class: WORKPLACE_OPTION_CLASS_QUERY,
     }),
   });
-  await waitUntilMessageResolved(clickWorkplaceOptionRequest);
+  await waitUntilActionMessageResolved(clickWorkplaceOptionRequest);
 
   const CREATE_APP_BUTTON_CLASS_QUERY = constructClassQuery(
     "c-button c-button--primary c-button--medium",
@@ -82,6 +75,6 @@ export const createSlackOauth2ApplicationPartOne = async (
       class: CREATE_APP_BUTTON_CLASS_QUERY,
     }),
   });
-  await waitUntilMessageResolved(clickCreateAppButtonRequest);
+  await waitUntilActionMessageResolved(clickCreateAppButtonRequest);
   updateButtonText(navigationStateEnumSchema.Values.end);
-};
+}

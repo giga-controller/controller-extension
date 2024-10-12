@@ -1,6 +1,5 @@
 import { constructClassQuery } from "@/lib/utils";
 import {
-  createGoogleOauth2ApplicationPartThree,
   createGoogleOauth2ApplicationPartFive,
   createGoogleOauth2ApplicationPartFour,
   createGoogleOauth2ApplicationPartTwo,
@@ -14,22 +13,22 @@ import { messageTypeEnumSchema } from "@/types/message";
 import { PlatformDetails } from "@/types/platform";
 import {
   injectButtonRequestSchema,
+  injectedScriptPropsSchema,
   querySelectorSchema,
 } from "@/types/scripts/base";
 import { createHubspotOauth2ApplicationPartOne } from "@/scripts/injected/integrations/hubspot";
 import {
+  resetBrowserStorage,
   waitUntilActionMessageResolved,
   waitUntilPageLoaded,
   waitUntilRetrieveMessageResolved,
 } from "@/scripts/injected/utils";
 import { injectButton } from "@/scripts/injected/button";
 
-const GOOGLE_CLOUD_BASE_URL = "https://console.cloud.google.com";
 const GOOGLE_CLOUD_START_PAGE_BASE_URL: string =
   "https://console.cloud.google.com/welcome";
 const GOOGLE_CLOUD_MARKETPLACE_BASE_URL =
   "https://console.cloud.google.com/marketplace/product/google";
-const GOOGLE_CLOUD_API_BASE_URL: string = `https://console.cloud.google.com/apis/api`;
 const GOOGLE_CLOUD_OAUTH_CONSENT_BASE_URL =
   "https://console.cloud.google.com/apis/credentials/consent";
 const GOOGLE_CLOUD_OAUTH_CLIENT_BASE_URL: string = `https://console.cloud.google.com/apis/credentials/oauthclient`;
@@ -49,6 +48,14 @@ export default defineUnlistedScript(() => {
       return;
     }
 
+    const injectedScriptProps = injectedScriptPropsSchema.parse({
+      platformDetails,
+      waitUntilPageLoaded,
+      waitUntilActionMessageResolved,
+      waitUntilRetrieveMessageResolved,
+      resetBrowserStorage,
+    });
+
     if (window.location.href.includes(GOOGLE_CLOUD_START_PAGE_BASE_URL)) {
       const PROJECT_DROPDOWN_BUTTON_CLASS_QUERY: string = constructClassQuery(
         "mdc-button mat-mdc-button cfc-switcher-button gm2-switcher-button mat-unthemed mat-mdc-button-base gmat-mdc-button cm-button",
@@ -60,13 +67,7 @@ export default defineUnlistedScript(() => {
           class: PROJECT_DROPDOWN_BUTTON_CLASS_QUERY,
         }),
         injectedScript: async () => {
-          if (!platformDetails) return;
-          await createGoogleOauth2ApplicationPartOne(
-            platformDetails,
-            waitUntilPageLoaded,
-            waitUntilActionMessageResolved,
-            waitUntilRetrieveMessageResolved,
-          );
+          await createGoogleOauth2ApplicationPartOne(injectedScriptProps);
         },
       });
       await injectButton(injectPartOneButtonRequest);
@@ -83,13 +84,7 @@ export default defineUnlistedScript(() => {
           class: ENABLE_INTEGRATION_API_CLASS_QUERY,
         }),
         injectedScript: async () => {
-          if (!platformDetails) return;
-          await createGoogleOauth2ApplicationPartTwo(
-            platformDetails,
-            waitUntilPageLoaded,
-            waitUntilActionMessageResolved,
-            waitUntilRetrieveMessageResolved,
-          );
+          await createGoogleOauth2ApplicationPartTwo(injectedScriptProps);
         },
       });
       await injectButton(injectPartTwoButtonRequest);
@@ -104,13 +99,7 @@ export default defineUnlistedScript(() => {
           id: EXTERNAL_USER_TYPE_INPUT_ID,
         }),
         injectedScript: async () => {
-          if (!platformDetails) return;
-          await createGoogleOauth2ApplicationPartFour(
-            platformDetails,
-            waitUntilPageLoaded,
-            waitUntilActionMessageResolved,
-            waitUntilRetrieveMessageResolved,
-          );
+          await createGoogleOauth2ApplicationPartFour(injectedScriptProps);
         },
       });
       await injectButton(injectPartFourButtonRequest);
@@ -127,13 +116,7 @@ export default defineUnlistedScript(() => {
           class: APPLICATION_TYPE_DROPDOWN_CLASS_QUERY,
         }),
         injectedScript: async () => {
-          if (!platformDetails) return;
-          await createGoogleOauth2ApplicationPartFive(
-            platformDetails,
-            waitUntilPageLoaded,
-            waitUntilActionMessageResolved,
-            waitUntilRetrieveMessageResolved,
-          );
+          await createGoogleOauth2ApplicationPartFive(injectedScriptProps);
         },
       });
       await injectButton(injectPartFiveButtonRequest);
@@ -143,7 +126,6 @@ export default defineUnlistedScript(() => {
     ) {
       const workspaceName =
         window.location.href.match(/https:\/\/linear\.app\/([^/]+)/)?.[1] || "";
-      console.log("workspaceName", workspaceName);
 
       const LINEAR_OAUTH_SETTINGS_URL = `${LINEAR_BASE_URL}/${workspaceName}/settings/api/applications/new`;
 
@@ -160,17 +142,10 @@ export default defineUnlistedScript(() => {
           id: APPLICATION_NAME_INPUT_ID,
         }),
         injectedScript: async () => {
-          if (!platformDetails) return;
-          await createLinearOauth2ApplicationPartOne(
-            platformDetails,
-            waitUntilPageLoaded,
-            waitUntilActionMessageResolved,
-            waitUntilRetrieveMessageResolved,
-          );
+          await createLinearOauth2ApplicationPartOne(injectedScriptProps);
         },
       });
 
-      console.log("injectPartOneButtonRequest", injectPartOneButtonRequest);
       await injectButton(injectPartOneButtonRequest);
     } else if (window.location.href.includes(SLACK_HOME_PAGE_URL)) {
       // Slack's redirection after logging in is wonky (it redirects to home page instead of developer portal)
@@ -186,13 +161,7 @@ export default defineUnlistedScript(() => {
           class: CREATE_APP_BUTTON_CLASS_QUERY,
         }),
         injectedScript: async () => {
-          if (!platformDetails) return;
-          await createSlackOauth2ApplicationPartOne(
-            platformDetails,
-            waitUntilPageLoaded,
-            waitUntilActionMessageResolved,
-            waitUntilRetrieveMessageResolved,
-          );
+          await createSlackOauth2ApplicationPartOne(injectedScriptProps);
         },
       });
       await injectButton(injectPartOneButtonRequest);
@@ -210,13 +179,7 @@ export default defineUnlistedScript(() => {
           class: PROJECT_AND_APPS_DROPDOWN_CLASS_QUERY,
         }),
         injectedScript: async () => {
-          if (!platformDetails) return;
-          await createXOauth2ApplicationPartOne(
-            platformDetails,
-            waitUntilPageLoaded,
-            waitUntilActionMessageResolved,
-            waitUntilRetrieveMessageResolved,
-          );
+          await createXOauth2ApplicationPartOne(injectedScriptProps);
         },
       });
       await injectButton(injectPartOneButtonRequest);
@@ -229,13 +192,7 @@ export default defineUnlistedScript(() => {
           id: CREATE_APP_BUTTON_ID,
         }),
         injectedScript: async () => {
-          if (!platformDetails) return;
-          await createRedditOauth2ApplicationPartOne(
-            platformDetails,
-            waitUntilPageLoaded,
-            waitUntilActionMessageResolved,
-            waitUntilRetrieveMessageResolved,
-          );
+          await createRedditOauth2ApplicationPartOne(injectedScriptProps);
         },
       });
       await injectButton(injectPartOneButtonRequest);
@@ -260,13 +217,7 @@ export default defineUnlistedScript(() => {
           class: AUTH_TAB_CLASS_QUERY,
         }),
         injectedScript: async () => {
-          if (!platformDetails) return;
-          await createHubspotOauth2ApplicationPartOne(
-            platformDetails,
-            waitUntilPageLoaded,
-            waitUntilActionMessageResolved,
-            waitUntilRetrieveMessageResolved,
-          );
+          await createHubspotOauth2ApplicationPartOne(injectedScriptProps);
         },
       });
       await injectButton(injectPartOneButtonRequest);

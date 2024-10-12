@@ -1,23 +1,20 @@
 /* eslint-disable unused-imports/no-unused-vars */
-import { constructClassQuery, updateButtonText } from "@/lib/utils";
-import { PlatformDetails } from "@/types/platform";
+import { updateButtonText } from "@/lib/utils";
 import {
-  BaseRequest,
   clickRequestSchema,
   fillInputRequestSchema,
+  InjectedScriptProps,
   navigationStateEnumSchema,
   querySelectorSchema,
-  RetrieveRequest,
 } from "@/types/scripts/base";
 
-export const createLinearOauth2ApplicationPartOne = async (
-  platformDetails: PlatformDetails,
-  waitUntilPageLoaded: () => Promise<void>,
-  waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,
-  waitUntilRetrieveMessageResolved: (
-    request: RetrieveRequest,
-  ) => Promise<string>,
-) => {
+export async function createLinearOauth2ApplicationPartOne({
+  platformDetails,
+  waitUntilPageLoaded,
+  waitUntilActionMessageResolved,
+  waitUntilRetrieveMessageResolved,
+  resetBrowserStorage,
+}: InjectedScriptProps) {
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
 
@@ -28,8 +25,7 @@ export const createLinearOauth2ApplicationPartOne = async (
       id: APPLICATION_NAME_INPUT_ID,
     }),
   });
-
-  await waitUntilMessageResolved(fillApplicationNameInputRequest);
+  await waitUntilActionMessageResolved(fillApplicationNameInputRequest);
 
   const DEVELOPER_NAME_INPUT_ID: string = "developer";
   const fillDeveloperNameInputRequest = fillInputRequestSchema.parse({
@@ -38,7 +34,7 @@ export const createLinearOauth2ApplicationPartOne = async (
       id: DEVELOPER_NAME_INPUT_ID,
     }),
   });
-  await waitUntilMessageResolved(fillDeveloperNameInputRequest);
+  await waitUntilActionMessageResolved(fillDeveloperNameInputRequest);
 
   const DEVELOPER_URL_INPUT_ID: string = "developerUrl";
   const fillDeveloperUrlInputRequest = fillInputRequestSchema.parse({
@@ -47,7 +43,7 @@ export const createLinearOauth2ApplicationPartOne = async (
       id: DEVELOPER_URL_INPUT_ID,
     }),
   });
-  await waitUntilMessageResolved(fillDeveloperUrlInputRequest);
+  await waitUntilActionMessageResolved(fillDeveloperUrlInputRequest);
 
   const REDIRECT_URI_INPUT_ID: string = "redirectUris";
   const fillRedirectUriInputRequest = fillInputRequestSchema.parse({
@@ -56,7 +52,7 @@ export const createLinearOauth2ApplicationPartOne = async (
       id: REDIRECT_URI_INPUT_ID,
     }),
   });
-  await waitUntilMessageResolved(fillRedirectUriInputRequest);
+  await waitUntilActionMessageResolved(fillRedirectUriInputRequest);
 
   // TODO: temp fix for Linear create button - could not find a way to uniquelyidentify the button
   const CREATE_APPLICATION_BUTTON_TYPE: string = "submit";
@@ -65,6 +61,6 @@ export const createLinearOauth2ApplicationPartOne = async (
       type: CREATE_APPLICATION_BUTTON_TYPE,
     }),
   });
-  await waitUntilMessageResolved(clickCreateApplicationButtonRequest);
+  await waitUntilActionMessageResolved(clickCreateApplicationButtonRequest);
   updateButtonText(navigationStateEnumSchema.Values.end);
-};
+}

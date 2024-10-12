@@ -1,23 +1,20 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import { constructClassQuery, updateButtonText } from "@/lib/utils";
-import { PlatformDetails } from "@/types/platform";
 import {
-  BaseRequest,
   clickRequestSchema,
   fillInputRequestSchema,
+  InjectedScriptProps,
   navigationStateEnumSchema,
   querySelectorSchema,
-  RetrieveRequest,
 } from "@/types/scripts/base";
 
-export const createHubspotOauth2ApplicationPartOne = async (
-  platformDetails: PlatformDetails,
-  waitUntilPageLoaded: () => Promise<void>,
-  waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,
-  waitUntilRetrieveMessageResolved: (
-    request: RetrieveRequest,
-  ) => Promise<string>,
-) => {
+export async function createHubspotOauth2ApplicationPartOne({
+  platformDetails,
+  waitUntilPageLoaded,
+  waitUntilActionMessageResolved,
+  waitUntilRetrieveMessageResolved,
+  resetBrowserStorage,
+}: InjectedScriptProps) {
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
 
@@ -29,7 +26,7 @@ export const createHubspotOauth2ApplicationPartOne = async (
       class: AUTH_TAB_CLASS_QUERY,
     }),
   });
-  await waitUntilMessageResolved(clickAuthTabRequest);
+  await waitUntilActionMessageResolved(clickAuthTabRequest);
 
   const REDIRECT_URI_ID: string = "UIFormControl-26";
   const fillRedirectUriInputRequest = fillInputRequestSchema.parse({
@@ -38,7 +35,7 @@ export const createHubspotOauth2ApplicationPartOne = async (
       id: REDIRECT_URI_ID,
     }),
   });
-  await waitUntilMessageResolved(fillRedirectUriInputRequest);
+  await waitUntilActionMessageResolved(fillRedirectUriInputRequest);
 
   const CREATE_BUTTON_CLASS_QUERY: string = constructClassQuery(
     "uiButton private-button private-button--tertiary private-button--default private-button--non-link",
@@ -48,7 +45,7 @@ export const createHubspotOauth2ApplicationPartOne = async (
       class: CREATE_BUTTON_CLASS_QUERY,
     }),
   });
-  await waitUntilMessageResolved(clickAddNewScopeButtonRequest);
+  await waitUntilActionMessageResolved(clickAddNewScopeButtonRequest);
 
   const CHECK_BOX_CLASS_QUERY: string = constructClassQuery(
     "ToggleInputWrapper__CheckboxLabel-lh3p2c-1 ijEpno",
@@ -68,14 +65,14 @@ export const createHubspotOauth2ApplicationPartOne = async (
       class: SEARCH_INPUT_CLASS_QUERY,
     }),
   });
-  await waitUntilMessageResolved(fillSearchInputRequestOne);
+  await waitUntilActionMessageResolved(fillSearchInputRequestOne);
   const clickFormsScopeCheckBoxRequestIndex1 = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
       class: CHECK_BOX_CLASS_QUERY,
       index: 1,
     }),
   });
-  await waitUntilMessageResolved(clickFormsScopeCheckBoxRequestIndex1);
+  await waitUntilActionMessageResolved(clickFormsScopeCheckBoxRequestIndex1);
 
   const fillSearchInputRequestTwo = fillInputRequestSchema.parse({
     value: "tickets",
@@ -84,8 +81,8 @@ export const createHubspotOauth2ApplicationPartOne = async (
       index: 1,
     }),
   });
-  await waitUntilMessageResolved(fillSearchInputRequestTwo);
-  await waitUntilMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
+  await waitUntilActionMessageResolved(fillSearchInputRequestTwo);
+  await waitUntilActionMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
 
   const fillSearchInputRequestThree = fillInputRequestSchema.parse({
     value: "crm.objects.companies.read",
@@ -94,8 +91,8 @@ export const createHubspotOauth2ApplicationPartOne = async (
       index: 1,
     }),
   });
-  await waitUntilMessageResolved(fillSearchInputRequestThree);
-  await waitUntilMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
+  await waitUntilActionMessageResolved(fillSearchInputRequestThree);
+  await waitUntilActionMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
 
   const fillSearchInputRequestFour = fillInputRequestSchema.parse({
     value: "crm.objects.companies.write",
@@ -104,8 +101,8 @@ export const createHubspotOauth2ApplicationPartOne = async (
       index: 1,
     }),
   });
-  await waitUntilMessageResolved(fillSearchInputRequestFour);
-  await waitUntilMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
+  await waitUntilActionMessageResolved(fillSearchInputRequestFour);
+  await waitUntilActionMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
 
   const fillSearchInputRequestFive = fillInputRequestSchema.parse({
     value: "crm.schemas.companies.read",
@@ -114,8 +111,8 @@ export const createHubspotOauth2ApplicationPartOne = async (
       index: 1,
     }),
   });
-  await waitUntilMessageResolved(fillSearchInputRequestFive);
-  await waitUntilMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
+  await waitUntilActionMessageResolved(fillSearchInputRequestFive);
+  await waitUntilActionMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
 
   const fillSearchInputRequestSix = fillInputRequestSchema.parse({
     value: "crm.schemas.contacts.read",
@@ -124,8 +121,8 @@ export const createHubspotOauth2ApplicationPartOne = async (
       index: 1,
     }),
   });
-  await waitUntilMessageResolved(fillSearchInputRequestSix);
-  await waitUntilMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
+  await waitUntilActionMessageResolved(fillSearchInputRequestSix);
+  await waitUntilActionMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
 
   const fillSearchInputRequestSeven = fillInputRequestSchema.parse({
     value: "crm.objects.contacts.write",
@@ -134,8 +131,8 @@ export const createHubspotOauth2ApplicationPartOne = async (
       index: 1,
     }),
   });
-  await waitUntilMessageResolved(fillSearchInputRequestSeven);
-  await waitUntilMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
+  await waitUntilActionMessageResolved(fillSearchInputRequestSeven);
+  await waitUntilActionMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
 
   const fillSearchInputRequestEight = fillInputRequestSchema.parse({
     value: "crm.objects.deals.read",
@@ -144,8 +141,8 @@ export const createHubspotOauth2ApplicationPartOne = async (
       index: 1,
     }),
   });
-  await waitUntilMessageResolved(fillSearchInputRequestEight);
-  await waitUntilMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
+  await waitUntilActionMessageResolved(fillSearchInputRequestEight);
+  await waitUntilActionMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
 
   const fillSearchInputRequestNine = fillInputRequestSchema.parse({
     value: "crm.objects.deals.write",
@@ -154,8 +151,8 @@ export const createHubspotOauth2ApplicationPartOne = async (
       index: 1,
     }),
   });
-  await waitUntilMessageResolved(fillSearchInputRequestNine);
-  await waitUntilMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
+  await waitUntilActionMessageResolved(fillSearchInputRequestNine);
+  await waitUntilActionMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
 
   const fillSearchInputRequestEleven = fillInputRequestSchema.parse({
     value: "crm.schemas.deals.read",
@@ -164,8 +161,8 @@ export const createHubspotOauth2ApplicationPartOne = async (
       index: 1,
     }),
   });
-  await waitUntilMessageResolved(fillSearchInputRequestEleven);
-  await waitUntilMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
+  await waitUntilActionMessageResolved(fillSearchInputRequestEleven);
+  await waitUntilActionMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
 
   const fillSearchInputRequestTwelve = fillInputRequestSchema.parse({
     value: "crm.objects.owners.read",
@@ -174,8 +171,8 @@ export const createHubspotOauth2ApplicationPartOne = async (
       index: 1,
     }),
   });
-  await waitUntilMessageResolved(fillSearchInputRequestTwelve);
-  await waitUntilMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
+  await waitUntilActionMessageResolved(fillSearchInputRequestTwelve);
+  await waitUntilActionMessageResolved(clickFormsScopeCheckBoxRequestIndex0);
 
   const UPDATE_BUTTON_CLASS_QUERY: string = constructClassQuery(
     "uiButton private-button private-button--primary private-button--default private-button--non-link",
@@ -185,8 +182,8 @@ export const createHubspotOauth2ApplicationPartOne = async (
       class: UPDATE_BUTTON_CLASS_QUERY,
     }),
   });
-  await waitUntilMessageResolved(clickUpdateButtonRequest);
+  await waitUntilActionMessageResolved(clickUpdateButtonRequest);
 
-  await waitUntilMessageResolved(clickAuthTabRequest);
+  await waitUntilActionMessageResolved(clickAuthTabRequest);
   updateButtonText(navigationStateEnumSchema.Values.end);
-};
+}
