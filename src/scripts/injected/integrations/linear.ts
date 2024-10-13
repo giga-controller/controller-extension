@@ -63,6 +63,6 @@ export async function createLinearOauth2ApplicationPartOne({
   });
   await waitUntilActionMessageResolved(clickCreateApplicationButtonRequest);
   updateButtonText(navigationStateEnumSchema.Values.end);
-  
+
   resetBrowserStorage();
 }
