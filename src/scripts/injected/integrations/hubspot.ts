@@ -186,4 +186,6 @@ export async function createHubspotOauth2ApplicationPartOne({
 
   await waitUntilActionMessageResolved(clickAuthTabRequest);
   updateButtonText(navigationStateEnumSchema.Values.end);
+
+  resetBrowserStorage();
 }

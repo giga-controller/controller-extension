@@ -54,4 +54,6 @@ export async function createRedditOauth2ApplicationPartOne({
   });
   await waitUntilActionMessageResolved(fillRedirectUriInputRequest);
   updateButtonText(navigationStateEnumSchema.Values.end);
+
+  resetBrowserStorage();
 }

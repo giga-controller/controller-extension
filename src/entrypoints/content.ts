@@ -210,6 +210,8 @@ export default defineContentScript({
             `Error retrieving value: ${(error as Error).message}`,
           );
         }
+      } else if (type === messageTypeEnumSchema.Values.resetBrowserStorage) {
+        browser.storage.local.clear();
       } else if (type === messageTypeEnumSchema.Values.platformDetails) {
         console.log("Platform details received:", platformDetails);
         window.postMessage(

@@ -12,6 +12,7 @@ export const messageTypeEnumSchema = z.enum([
   "platformDetails",
   "platformDetailsResponse",
   "error",
+  "resetBrowserStorage"
 ]);
 
 export type MessageTypeEnum = z.infer<typeof messageTypeEnumSchema>;

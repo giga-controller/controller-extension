@@ -77,4 +77,6 @@ export async function createSlackOauth2ApplicationPartOne({
   });
   await waitUntilActionMessageResolved(clickCreateAppButtonRequest);
   updateButtonText(navigationStateEnumSchema.Values.end);
+
+  resetBrowserStorage();
 }

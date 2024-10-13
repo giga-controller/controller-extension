@@ -107,4 +107,6 @@ export async function createXOauth2ApplicationPartOne({
     clickConfirmChangePermissionButtonRequest,
   );
   updateButtonText(navigationStateEnumSchema.Values.end);
+
+  resetBrowserStorage();
 }

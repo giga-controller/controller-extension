@@ -379,4 +379,6 @@ export async function createGoogleOauth2ApplicationPartFive({
   });
   await waitUntilActionMessageResolved(clickCreateOauthClientButtonRequest);
   updateButtonText(navigationStateEnumSchema.Values.end);
+
+  resetBrowserStorage();
 }

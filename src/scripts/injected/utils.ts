@@ -92,5 +92,6 @@ export async function waitUntilPageLoaded() {
 }
 
 export async function resetBrowserStorage() {
-  // browser.storage.local.clear();
+  window.postMessage({ type: messageTypeEnumSchema.Values.resetBrowserStorage }, "*");
+
 }
