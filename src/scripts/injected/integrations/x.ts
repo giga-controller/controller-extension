@@ -1,27 +1,20 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import { constructClassQuery, updateButtonText } from "@/lib/utils";
-import { messageTypeEnumSchema } from "@/types/message";
-import { PlatformDetails } from "@/types/platform";
 import {
-  BaseRequest,
-  ClickRequest,
   clickRequestSchema,
-  FillInputRequest,
   fillInputRequestSchema,
+  InjectedScriptProps,
   navigationStateEnumSchema,
   querySelectorSchema,
-  RetrieveRequest,
-  retrieveRequestSchema,
 } from "@/types/scripts/base";
 
-export const createXOauth2ApplicationPartOne = async (
-  platformDetails: PlatformDetails,
-  waitUntilPageLoaded: () => Promise<void>,
-  waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,
-  waitUntilRetrieveMessageResolved: (
-    request: RetrieveRequest,
-  ) => Promise<string>,
-) => {
+export async function createXOauth2ApplicationPartOne({
+  platformDetails,
+  waitUntilPageLoaded,
+  waitUntilActionMessageResolved,
+  waitUntilRetrieveMessageResolved,
+  resetBrowserStorage,
+}: InjectedScriptProps) {
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
 
@@ -35,7 +28,7 @@ export const createXOauth2ApplicationPartOne = async (
     }),
   });
 
-  await waitUntilMessageResolved(clickProjectAndAppDropdownRequest);
+  await waitUntilActionMessageResolved(clickProjectAndAppDropdownRequest);
 
   const PROJECT_BUTTON_CLASS_QUERY = constructClassQuery(
     "index__navItemButton--17Psw",
@@ -46,7 +39,7 @@ export const createXOauth2ApplicationPartOne = async (
       index: 2,
     }),
   });
-  await waitUntilMessageResolved(clickProjectButtonRequest);
+  await waitUntilActionMessageResolved(clickProjectButtonRequest);
 
   const SET_UP_USER_AUTH_BUTTON_CLASS_QUERY = constructClassQuery(
     "Button Button--primary index__setUpButton--1Icpv",
@@ -56,7 +49,7 @@ export const createXOauth2ApplicationPartOne = async (
       class: SET_UP_USER_AUTH_BUTTON_CLASS_QUERY,
     }),
   });
-  await waitUntilMessageResolved(clickSetUpUserAuthButtonRequest);
+  await waitUntilActionMessageResolved(clickSetUpUserAuthButtonRequest);
 
   const APP_PERMISSIONS_RADIO_INPUT_CLASS_QUERY =
     constructClassQuery("RadioButton-input");
@@ -66,7 +59,7 @@ export const createXOauth2ApplicationPartOne = async (
       index: 2,
     }),
   });
-  await waitUntilMessageResolved(clickAppPermissionsRadioInputRequest);
+  await waitUntilActionMessageResolved(clickAppPermissionsRadioInputRequest);
 
   const clickAppTypeRadioInputRequest = clickRequestSchema.parse({
     query: querySelectorSchema.parse({
@@ -74,7 +67,7 @@ export const createXOauth2ApplicationPartOne = async (
       index: 4,
     }),
   });
-  await waitUntilMessageResolved(clickAppTypeRadioInputRequest);
+  await waitUntilActionMessageResolved(clickAppTypeRadioInputRequest);
 
   const REDIRECT_URI_INPUT_CLASS_QUERY = constructClassQuery(
     "index__callbackUrlInput--1N_ld FormInput",
@@ -85,7 +78,7 @@ export const createXOauth2ApplicationPartOne = async (
       class: REDIRECT_URI_INPUT_CLASS_QUERY,
     }),
   });
-  await waitUntilMessageResolved(fillRedirectUriInputRequest);
+  await waitUntilActionMessageResolved(fillRedirectUriInputRequest);
 
   const WEBSITE_URL_INPUT_DATA_TEST_ID = "website-url-input";
   const fillWebsiteUrlInputRequest = fillInputRequestSchema.parse({
@@ -94,7 +87,7 @@ export const createXOauth2ApplicationPartOne = async (
       dataTestId: WEBSITE_URL_INPUT_DATA_TEST_ID,
     }),
   });
-  await waitUntilMessageResolved(fillWebsiteUrlInputRequest);
+  await waitUntilActionMessageResolved(fillWebsiteUrlInputRequest);
 
   const SAVE_BUTTON_DATA_TEST_ID = "save-auth-setting-button";
   const clickSaveButtonRequest = clickRequestSchema.parse({
@@ -102,7 +95,7 @@ export const createXOauth2ApplicationPartOne = async (
       dataTestId: SAVE_BUTTON_DATA_TEST_ID,
     }),
   });
-  await waitUntilMessageResolved(clickSaveButtonRequest);
+  await waitUntilActionMessageResolved(clickSaveButtonRequest);
 
   const CONFIRM_CHANGE_PERMISSION_BUTTON_DATA_TEST_ID = "action-button";
   const clickConfirmChangePermissionButtonRequest = clickRequestSchema.parse({
@@ -110,6 +103,10 @@ export const createXOauth2ApplicationPartOne = async (
       dataTestId: CONFIRM_CHANGE_PERMISSION_BUTTON_DATA_TEST_ID,
     }),
   });
-  await waitUntilMessageResolved(clickConfirmChangePermissionButtonRequest);
+  await waitUntilActionMessageResolved(
+    clickConfirmChangePermissionButtonRequest,
+  );
   updateButtonText(navigationStateEnumSchema.Values.end);
-};
+
+  resetBrowserStorage();
+}

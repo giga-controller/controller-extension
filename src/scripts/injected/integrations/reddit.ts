@@ -1,27 +1,20 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import { constructClassQuery, updateButtonText } from "@/lib/utils";
-import { messageTypeEnumSchema } from "@/types/message";
-import { PlatformDetails } from "@/types/platform";
 import {
-  BaseRequest,
-  ClickRequest,
   clickRequestSchema,
-  FillInputRequest,
   fillInputRequestSchema,
+  InjectedScriptProps,
   navigationStateEnumSchema,
   querySelectorSchema,
-  RetrieveRequest,
-  retrieveRequestSchema,
 } from "@/types/scripts/base";
 
-export const createRedditOauth2ApplicationPartOne = async (
-  platformDetails: PlatformDetails,
-  waitUntilPageLoaded: () => Promise<void>,
-  waitUntilMessageResolved: (request: BaseRequest) => Promise<void>,
-  waitUntilRetrieveMessageResolved: (
-    request: RetrieveRequest,
-  ) => Promise<string>,
-) => {
+export async function createRedditOauth2ApplicationPartOne({
+  platformDetails,
+  waitUntilPageLoaded,
+  waitUntilActionMessageResolved,
+  waitUntilRetrieveMessageResolved,
+  resetBrowserStorage,
+}: InjectedScriptProps) {
   const { platform, javaScriptOriginUri, javaScriptRedirectUri, projectId } =
     platformDetails;
 
@@ -31,7 +24,7 @@ export const createRedditOauth2ApplicationPartOne = async (
       id: CREATE_APP_BUTTON_ID,
     }),
   });
-  await waitUntilMessageResolved(clickCreateAppButtonRequest);
+  await waitUntilActionMessageResolved(clickCreateAppButtonRequest);
 
   const INPUT_CLASS_QUERY = constructClassQuery("text");
   const fillNameInputRequest = fillInputRequestSchema.parse({
@@ -41,7 +34,7 @@ export const createRedditOauth2ApplicationPartOne = async (
       index: 0,
     }),
   });
-  await waitUntilMessageResolved(fillNameInputRequest);
+  await waitUntilActionMessageResolved(fillNameInputRequest);
 
   const fillAboutUrlInputRequest = fillInputRequestSchema.parse({
     value: javaScriptOriginUri,
@@ -50,7 +43,7 @@ export const createRedditOauth2ApplicationPartOne = async (
       index: 1,
     }),
   });
-  await waitUntilMessageResolved(fillAboutUrlInputRequest);
+  await waitUntilActionMessageResolved(fillAboutUrlInputRequest);
 
   const fillRedirectUriInputRequest = fillInputRequestSchema.parse({
     value: javaScriptRedirectUri,
@@ -59,6 +52,8 @@ export const createRedditOauth2ApplicationPartOne = async (
       index: 2,
     }),
   });
-  await waitUntilMessageResolved(fillRedirectUriInputRequest);
+  await waitUntilActionMessageResolved(fillRedirectUriInputRequest);
   updateButtonText(navigationStateEnumSchema.Values.end);
-};
+
+  resetBrowserStorage();
+}

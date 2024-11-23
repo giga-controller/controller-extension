@@ -22,7 +22,10 @@ export default defineContentScript({
         // IMPORTANT: Uncomment this line while testing parts of the integration flow so that the id is always updated for testing. BUT this line should never be commented out in production
         // platformDetails.projectId = getProjectId(platformDetails.platform);
 
-        // Inject main script
+        if (!data) {
+          return;
+        }
+
         await injectCustomScript("/injected.js", { keepInDom: true });
         setTimeout(() => {
           window.postMessage(
@@ -77,6 +80,11 @@ export default defineContentScript({
             console.log("Element successfully clicked");
             window.postMessage(
               { type: messageTypeEnumSchema.Values.clickResponse },
+              "*",
+            );
+          } else {
+            window.postMessage(
+              { type: messageTypeEnumSchema.Values.error },
               "*",
             );
           }
@@ -149,8 +157,10 @@ export default defineContentScript({
               "*",
             );
           } else {
-            console.error("No matching input field found");
-            throw new Error("No matching input field found");
+            window.postMessage(
+              { type: messageTypeEnumSchema.Values.error },
+              "*",
+            );
           }
         } catch (error) {
           console.error(`Error filling input: ${(error as Error).message}`);
@@ -189,7 +199,10 @@ export default defineContentScript({
               "*",
             );
           } else {
-            console.error("Failed to retrieve value");
+            window.postMessage(
+              { type: messageTypeEnumSchema.Values.error },
+              "*",
+            );
           }
         } catch (error) {
           console.error(`Error retrieving value: ${(error as Error).message}`);
@@ -197,6 +210,8 @@ export default defineContentScript({
             `Error retrieving value: ${(error as Error).message}`,
           );
         }
+      } else if (type === messageTypeEnumSchema.Values.resetBrowserStorage) {
+        browser.storage.local.clear();
       } else if (type === messageTypeEnumSchema.Values.platformDetails) {
         console.log("Platform details received:", platformDetails);
         window.postMessage(

@@ -1,5 +1,6 @@
 import z from "zod";
 import { messageTypeEnumSchema } from "@/types/message";
+import { platformDetailsSchema } from "@/types/platform";
 
 export const querySelectorSchema = z.object({
   id: z.string().nullable().optional().default(null),
@@ -89,3 +90,19 @@ export const displayMessageMapping: ButtonTextMapping = {
   navigate: "Navigating...",
   end: "Oauth application created!",
 };
+
+export const injectedScriptPropsSchema = z.object({
+  platformDetails: platformDetailsSchema,
+  waitUntilPageLoaded: z.function().returns(z.promise(z.void())),
+  waitUntilActionMessageResolved: z
+    .function()
+    .args(z.union([fillInputRequestSchema, clickRequestSchema]))
+    .returns(z.promise(z.void())),
+  waitUntilRetrieveMessageResolved: z
+    .function()
+    .args(retrieveRequestSchema)
+    .returns(z.promise(z.string())),
+  resetBrowserStorage: z.function().returns(z.promise(z.void())),
+});
+
+export type InjectedScriptProps = z.infer<typeof injectedScriptPropsSchema>;

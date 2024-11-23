@@ -1,18 +1,20 @@
 import { getAllWhitelistedUrls } from "@/database/supabase";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Platform, platformEnum } from "@/types/platform";
+import { useQuery } from "@tanstack/react-query";
 
 interface UsePlatformsOptions {
-  whitelistedUrls: string[];
+  whitelistedUrls: Record<Platform, string[]>;
 }
 
 export default function usePlatforms(): UsePlatformsOptions {
-  const { data, error, isLoading } = useQuery<string[]>({
+  const { data, error, isLoading } = useQuery<Record<Platform, string[]>>({
     queryKey: ["getWhitelistedUrls"],
     queryFn: getAllWhitelistedUrls,
     refetchOnWindowFocus: false,
   });
 
-  return {
-    whitelistedUrls: data ?? [""],
-  };
+  const baseCase = Object.fromEntries(
+    Object.values(platformEnum).map((platform) => [platform, []]),
+  );
+  return { whitelistedUrls: data ?? baseCase };
 }

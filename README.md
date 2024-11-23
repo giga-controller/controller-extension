@@ -2,6 +2,12 @@
 
 We help you set up OAuth2.0 applications with a single click.
 
+Demo with Google:
+
+https://github.com/user-attachments/assets/10fed0e0-23c9-46a3-805c-5a6987214c10
+
+
+
 ## Requirements
 
 - [pnpm](https://pnpm.io)
